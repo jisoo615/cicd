@@ -2,6 +2,7 @@ package com.haru.doyak.harudoyak.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
@@ -40,6 +41,12 @@ public class Member {
         if (emailSt == null) {
             emailSt = false;
         }
+    }
+
+    @Builder
+    public Member(String email, String pwd, String nickName, String aiNickName, String goalName, String kakaoId, String googleId) {
+        this.email = email;
+        this.pwd = pwd;
     }
 
 }
