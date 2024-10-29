@@ -1,4 +1,4 @@
-package com.haru.doyak.harudoyak.domain;
+package com.haru.doyak.harudoyak.entitys;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -18,8 +18,15 @@ public class Comments {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long cmtsId;        // 댓글 아이디
-                                // 서로도약 아이디(외래키)
-                                // 회원 아이디(외래키)
+
+    @ManyToOne
+    @JoinColumn(name = "shDyId")
+    private ShareDoyak shareDoyak;// 서로도약 아이디(외래키)
+
+    @ManyToOne
+    @JoinColumn(name = "memId")
+    private Member member;// 회원 아이디(외래키)
+
     @NotNull
     private Long prtCmtsId;     // 상위댓글 아이디
 
@@ -39,8 +46,8 @@ public class Comments {
      * */
     @PrePersist
     public void prePersist() {
-        if (isRemoved == null) {
-            isRemoved = false;
+        if (this.isRemoved == null) {
+            this.isRemoved = false;
         }
     }
 

@@ -1,9 +1,6 @@
-package com.haru.doyak.harudoyak.domain;
+package com.haru.doyak.harudoyak.entitys;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +19,9 @@ public class ShareDoyak {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long shDyId;    // 서로도약pk
 
-                            // 회원 아이디(외래키)
+    @ManyToOne
+    @JoinColumn(name = "memId")
+    private Member member;// 회원 아이디(외래키)
 
     @NotNull
     private String title;   // 서로도약 제목

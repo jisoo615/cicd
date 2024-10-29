@@ -1,7 +1,8 @@
-package com.haru.doyak.harudoyak.domain;
+package com.haru.doyak.harudoyak.entitys;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
@@ -37,9 +38,15 @@ public class Member {
      * */
     @PrePersist
     public void prePersist() {
-        if (emailSt == null) {
-            emailSt = false;
+        if (this.emailSt == null) {
+            this.emailSt = false;
         }
+    }
+
+    @Builder
+    public Member(String email, String pwd, String nickName, String aiNickName, String goalName, String kakaoId, String googleId) {
+        this.email = email;
+        this.pwd = pwd;
     }
 
 }

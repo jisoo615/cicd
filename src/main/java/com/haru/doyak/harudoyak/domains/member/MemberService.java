@@ -1,4 +1,4 @@
-package com.haru.doyak.harudoyak.service;
+package com.haru.doyak.harudoyak.domains.member;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
