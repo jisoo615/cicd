@@ -11,7 +11,12 @@ import lombok.NoArgsConstructor;
 public class LogFile {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long logId;
+    private Long photoId;
+
+    @ManyToOne
+    @JoinColumn(name = "logId")
+    private Log log;
+
     private String fileName;
     private String originFileName;
 }

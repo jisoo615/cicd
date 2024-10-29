@@ -1,9 +1,6 @@
 package com.haru.doyak.harudoyak.entitys;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +16,9 @@ public class LeapFile {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long fileId;     // 서로도약 파일아이디
 
-                             // 서로도약 아이디(외래키)
+    @ManyToOne
+    @JoinColumn(name = "shDyId")
+    private ShareDoyak shareDoyak; // 서로도약 아이디(외래키)
 
     @NotNull
     private String fileName; // 저장된 파일명

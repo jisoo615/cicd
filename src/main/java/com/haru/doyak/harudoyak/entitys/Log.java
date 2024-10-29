@@ -14,6 +14,11 @@ public class Log {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long logId;
+
+    @ManyToOne
+    @JoinColumn(name = "memId")
+    private Member member; // 회원 (외래키)
+
     private String content;
     private String emotion;
     private LocalDateTime regDt;// registration date time

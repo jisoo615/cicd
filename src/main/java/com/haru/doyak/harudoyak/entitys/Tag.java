@@ -14,6 +14,6 @@ import lombok.NoArgsConstructor;
 public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long logId;
+    private Long tagId;
     private String tagName;
 }

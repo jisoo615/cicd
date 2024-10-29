@@ -14,6 +14,7 @@ public class Letter {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long letterId;
+
     private String content;
     private LocalDateTime regDt;// registration date time
 
