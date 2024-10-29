@@ -1,10 +1,10 @@
 package com.haru.doyak.harudoyak.entitys;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.antlr.v4.runtime.misc.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
@@ -16,7 +16,7 @@ public class Comments {
     // 댓글 엔티티
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cmtsId;        // 댓글 아이디
 
     @ManyToOne

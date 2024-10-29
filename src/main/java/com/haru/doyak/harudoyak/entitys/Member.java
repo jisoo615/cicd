@@ -5,7 +5,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.antlr.v4.runtime.misc.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 //@Setter  예시에는 세터를 안쓰는데 그 이유는..?
 @Getter
@@ -16,7 +16,7 @@ public class Member {
     // 회원 엔티티
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memId;         // 회원아이디
     @Column(unique = true)
     private String email;      // 이메일 주소

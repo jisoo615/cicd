@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 public class Goal {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long goalId; // 목표 아이디
 
     @OneToOne

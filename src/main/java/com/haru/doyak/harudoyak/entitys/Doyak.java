@@ -12,7 +12,7 @@ public class Doyak {
     // 도약 엔티티
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long doyakId;
 
     @ManyToOne
