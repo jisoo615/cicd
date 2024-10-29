@@ -38,8 +38,8 @@ public class Member {
      * */
     @PrePersist
     public void prePersist() {
-        if (emailSt == null) {
-            emailSt = false;
+        if (this.emailSt == null) {
+            this.emailSt = false;
         }
     }
 

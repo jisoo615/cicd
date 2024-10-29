@@ -4,8 +4,10 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Entity
@@ -16,11 +18,14 @@ public class Letter {
     private Long letterId;
 
     private String content;
-    private LocalDateTime regDt;// registration date time
+
+    @CreationTimestamp
+    private Date regDt;
+    private LocalDateTime arrivedDt;// registration date time
 
     @PrePersist
     private void prePersist() {
-        this.regDt = LocalDateTime.now().plusHours(10);
+        this.arrivedDt = LocalDateTime.now().plusHours(10);
     }
 
 }

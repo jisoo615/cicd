@@ -1,15 +1,18 @@
 package com.haru.doyak.harudoyak.entitys;
 
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-//@Entity
+@Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class LogTag {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long logTagId;
 
     @ManyToOne
     @JoinColumn(name = "logId")

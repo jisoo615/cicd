@@ -46,8 +46,8 @@ public class Comments {
      * */
     @PrePersist
     public void prePersist() {
-        if (isRemoved == null) {
-            isRemoved = false;
+        if (this.isRemoved == null) {
+            this.isRemoved = false;
         }
     }
 
