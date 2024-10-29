@@ -1,6 +1,5 @@
-package com.haru.doyak.harudoyak.controller;
+package com.haru.doyak.harudoyak.domains.member;
 
-import com.haru.doyak.harudoyak.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

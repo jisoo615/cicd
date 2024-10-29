@@ -1,4 +1,4 @@
-package com.haru.doyak.harudoyak.domain;
+package com.haru.doyak.harudoyak.entitys;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -10,16 +10,18 @@ import java.time.LocalDateTime;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Letter {
+public class Log {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long letterId;
+    private Long logId;
     private String content;
+    private String emotion;
     private LocalDateTime regDt;// registration date time
+    private Boolean readSt;// read state
 
     @PrePersist
     private void prePersist() {
-        this.regDt = LocalDateTime.now().plusHours(10);
+        this.regDt = LocalDateTime.now();
+        this.readSt = false;
     }
-
 }

@@ -1,4 +1,4 @@
-package com.haru.doyak.harudoyak.domain;
+package com.haru.doyak.harudoyak.entitys;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
