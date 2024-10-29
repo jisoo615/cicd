@@ -16,11 +16,11 @@ public class Doyak {
     private Long doyakId;
 
     @ManyToOne
-    @JoinColumn(name = "shDyId")
+    @JoinColumn(name = "shareDoyakId")
     private ShareDoyak shareDoyak;// 서로도약 아이디(외래키)
 
     @ManyToOne
-    @JoinColumn(name = "memId")
+    @JoinColumn(name = "memberId")
     private Member member;// 회원 아이디(외래키)
 
 }

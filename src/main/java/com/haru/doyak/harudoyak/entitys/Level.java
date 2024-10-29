@@ -20,6 +20,6 @@ public class Level {
     private Long continuity;// 최근연속일
     private Long maxContinuity;// 최대연속일
     private Long point;
-    private Long ddCount;// daily doyak count
-    private Long sdCount;// share doyak count
+    private Long logCount;// daily doyak count
+    private Long shareDoyackCount;// share doyak count
 }

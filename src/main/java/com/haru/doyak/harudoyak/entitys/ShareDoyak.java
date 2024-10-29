@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -17,10 +18,10 @@ public class ShareDoyak {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long shDyId;    // 서로도약pk
+    private Long shareDoyakId;    // 서로도약pk
 
     @ManyToOne
-    @JoinColumn(name = "memId")
+    @JoinColumn(name = "memberId")
     private Member member;// 회원 아이디(외래키)
 
     @NotNull
@@ -30,6 +31,9 @@ public class ShareDoyak {
     private String content; // 서로도약 글내용
 
     @CreationTimestamp
-    private Date regDt;     // 서로도약 글등록일
+    private LocalDateTime creationDate;     // 서로도약 글등록일
 
+    @OneToOne
+    @JoinColumn(name = "fileId")
+    private File file;
 }

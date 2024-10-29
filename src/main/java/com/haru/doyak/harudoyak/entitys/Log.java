@@ -16,17 +16,21 @@ public class Log {
     private Long logId;
 
     @ManyToOne
-    @JoinColumn(name = "memId")
+    @JoinColumn(name = "memberId")
     private Member member; // 회원 (외래키)
 
     private String content;
     private String emotion;
-    private LocalDateTime regDt;// registration date time
-    private Boolean readSt;// read state
+    private LocalDateTime creation_date;// registration date time
+    private Boolean isRead;// read state
+
+    @OneToOne
+    @JoinColumn(name = "fileId")
+    private File file;
 
     @PrePersist
     private void prePersist() {
-        this.regDt = LocalDateTime.now();
-        this.readSt = false;
+        this.creation_date = LocalDateTime.now();
+        this.isRead = false;
     }
 }

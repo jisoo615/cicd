@@ -4,19 +4,17 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.antlr.v4.runtime.misc.NotNull;
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Goal {
-
+public class File {
     @Id
-    private Long goalId; // 목표 아이디
-
-    @OneToOne
-    @JoinColumn(name = "memId")
-    private Member member; // 회원 아이디(외래키)
-
-    private String name; // 목표명
-
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @NotNull
+    private String filename;
+    @NotNull
+    private String originalName;
 }
