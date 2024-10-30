@@ -14,7 +14,7 @@ public class Level {
     private Long levelId;
 
     @OneToOne
-    @JoinColumn(name = "memId")
+    @JoinColumn(name = "memberId")
     private Member member; // 회원 아이디(외래키)
 
     private Long continuity;// 최근연속일

@@ -2,10 +2,8 @@ package com.haru.doyak.harudoyak.entitys;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.antlr.v4.runtime.misc.NotNull;
 
 //@Setter  예시에는 세터를 안쓰는데 그 이유는..?
 @Getter
@@ -18,7 +16,7 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long memberId;         // 회원아이디
-    @NotNull
+
     private String email;      // 이메일 주소
 
     private String password;        // 비밀번호
@@ -43,12 +41,6 @@ public class Member {
         if (this.isChecked == null) {
             this.isChecked = false;
         }
-    }
-
-    @Builder
-    public Member(String email, String password, String nickname, String aiNickname, String goalName, String kakaoId, String googleId) {
-        this.email = email;
-        this.password = password;
     }
 
 }
