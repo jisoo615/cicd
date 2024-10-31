@@ -17,7 +17,7 @@ public class Comments {
     // 댓글 엔티티
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentId;        // 댓글 아이디
 
     @ManyToOne
