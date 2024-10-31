@@ -65,12 +65,23 @@ public class GoogleOAuthService {
         GoogleUserResponse userInfo = requestGoogleUserInfo(requestGoogleAccessToken(authorizationCode));
         // 이메일로 가입된 회원인지 확인하기
         Optional<Member> optionalMember = memberRepository.findMemberByEmail(userInfo.email);
-        // 가입 안되어있으면 가입시키기
+        Member savedMember;
         if(optionalMember.isEmpty()){
-
+            // 가입 안되어있으면 가입시키기
+            Member member = Member.builder()
+                    .email(userInfo.email)
+                    .isChecked(true)
+                    .googleId(userInfo.id)
+                    .nickname(userInfo.name)
+                    .build();
+            memberRepository.saveMember(member);
+            savedMember = member;
+        }else {
+            savedMember = optionalMember.get();
         }
         
-        // jwt 토큰 발급하기
+        //TODO: savedMember로 jwt 토큰 발급하기
+
         
         return userInfo.toString();
     }

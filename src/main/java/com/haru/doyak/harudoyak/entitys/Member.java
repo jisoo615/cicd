@@ -1,15 +1,14 @@
 package com.haru.doyak.harudoyak.entitys;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-//@Setter  예시에는 세터를 안쓰는데 그 이유는..?
 @Getter
 @Entity
 // AccessLevel.PROTECTED : 접근권한 최소화 (세팅한 값만 사용하기 위해)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class Member {
     // 회원 엔티티
     
@@ -42,5 +41,7 @@ public class Member {
             this.isChecked = false;
         }
     }
+
+
 
 }

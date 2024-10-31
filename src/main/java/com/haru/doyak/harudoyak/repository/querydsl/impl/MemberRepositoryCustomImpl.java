@@ -28,7 +28,7 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
     @Override
     public Optional<Member> saveMember(Member member) {
         entityManager.persist(member);
-        return Optional.ofNullable(member);// persist 해서 영속성을 가져 auto-increase id를 가지게됨
+        return Optional.ofNullable(member);
     }
 
 }
