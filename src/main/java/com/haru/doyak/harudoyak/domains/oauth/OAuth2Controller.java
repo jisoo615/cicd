@@ -8,10 +8,16 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("api/oauth/google")
 public class OAuth2Controller {
-    private final OAuthService oAuthService;
+    private final GoogleOAuthService oAuthService;
 
     @GetMapping("token")
-    public ResponseEntity getGoogleToken(@RequestParam String code){
-        return ResponseEntity.ok().body(oAuthService.getGoogleAccessToken(code));
+    public ResponseEntity<GoogleTokenResponse> getGoogleToken(@RequestParam("code") String code){
+
+        return ResponseEntity.ok().body(oAuthService.requestGoogleAccessToken(code));
+    }
+
+    @GetMapping("user")
+    public ResponseEntity<String> getUser(@RequestParam("code") String code){
+        return ResponseEntity.ok().body(oAuthService.googleLogin(code));
     }
 }
