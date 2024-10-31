@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class LogTag {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long logTagId;
 
     @ManyToOne

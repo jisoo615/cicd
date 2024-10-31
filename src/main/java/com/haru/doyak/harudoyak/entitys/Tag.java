@@ -14,7 +14,7 @@ import org.antlr.v4.runtime.misc.NotNull;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Tag {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long tagId;
     @NotNull
     private String name;
