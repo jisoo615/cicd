@@ -1,5 +1,10 @@
 package com.haru.doyak.harudoyak.repository.querydsl;
 
-public interface MemberRepositoryCustom {
+import com.haru.doyak.harudoyak.entitys.Member;
 
+import java.util.Optional;
+
+public interface MemberRepositoryCustom {
+    Optional<Member> findMemberByEmail(String email);
+    Optional<Member> saveMember(Member member);
 }

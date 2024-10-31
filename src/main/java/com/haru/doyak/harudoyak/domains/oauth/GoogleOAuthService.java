@@ -1,5 +1,6 @@
 package com.haru.doyak.harudoyak.domains.oauth;
 
+import com.haru.doyak.harudoyak.entitys.Member;
 import com.haru.doyak.harudoyak.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +11,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -61,6 +63,15 @@ public class GoogleOAuthService {
 
     public String googleLogin(String authorizationCode){
         GoogleUserResponse userInfo = requestGoogleUserInfo(requestGoogleAccessToken(authorizationCode));
+        // 이메일로 가입된 회원인지 확인하기
+        Optional<Member> optionalMember = memberRepository.findMemberByEmail(userInfo.email);
+        // 가입 안되어있으면 가입시키기
+        if(optionalMember.isEmpty()){
+
+        }
+        
+        // jwt 토큰 발급하기
+        
         return userInfo.toString();
     }
 }
