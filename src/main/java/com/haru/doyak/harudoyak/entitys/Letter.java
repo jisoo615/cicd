@@ -14,18 +14,23 @@ import java.util.Date;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Letter {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long letterId;
 
     private String content;
 
-    @CreationTimestamp
-    private Date regDt;
-    private LocalDateTime arrivedDt;// registration date time
+    private LocalDateTime creationDate;
+
+    private LocalDateTime arrivedDate;
+
+    @ManyToOne
+    @JoinColumn(name = "logId")
+    private Log log;// 회원 아이디(외래키)
 
     @PrePersist
     private void prePersist() {
-        this.arrivedDt = LocalDateTime.now().plusHours(10);
+        this.creationDate = LocalDateTime.now();
+        this.arrivedDate = this.creationDate.plusHours(10);
     }
 
 }

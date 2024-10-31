@@ -12,10 +12,12 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Tag {
+public class File {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long tagId;
+    private Long fileId;
     @NotNull
-    private String name;
+    private String filePathName;
+    @NotNull
+    private String originalName;
 }
