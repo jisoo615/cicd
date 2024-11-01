@@ -15,7 +15,7 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
     private final EntityManager entityManager;
 
-    private final QMember m;
+    private final QMember m = QMember.member;
 
     @Override
     public Optional<Member> findMemberByEmail(String email){
