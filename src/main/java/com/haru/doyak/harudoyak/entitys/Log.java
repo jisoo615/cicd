@@ -1,15 +1,13 @@
 package com.haru.doyak.harudoyak.entitys;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Entity
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Log {
     @Id
@@ -19,6 +17,9 @@ public class Log {
     @ManyToOne
     @JoinColumn(name = "memberId")
     private Member member; // 회원 (외래키)
+
+//    @EmbeddedId
+    private LogTag logTag;    // 로그&태그 복합키 테이블 사용
 
     private String content;
     private String emotion;

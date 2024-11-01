@@ -2,12 +2,14 @@ package com.haru.doyak.harudoyak.entitys;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 //@Setter  예시에는 세터를 안쓰는데 그 이유는..?
 @Getter
 @Entity
+@AllArgsConstructor
 // AccessLevel.PROTECTED : 접근권한 최소화 (세팅한 값만 사용하기 위해)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
@@ -16,6 +18,9 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;         // 회원아이디
+
+//    @EmbeddedId
+    private Doyak doyak;    //복합키 테이블 사용
 
     private String email;      // 이메일 주소
 
