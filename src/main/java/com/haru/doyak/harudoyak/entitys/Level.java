@@ -15,11 +15,11 @@ public class Level {
 
     @OneToOne
     @JoinColumn(name = "memberId")
-    private Member member; // 회원 아이디(외래키)
+    private Member member;          // 회원 아이디(외래키)
 
-    private Long continuity;// 최근연속일
-    private Long maxContinuity;// 최대연속일
-    private Long point;
-    private Long logCount;// daily doyak count
-    private Long shareDoyackCount;// share doyak count
+    private Long recentContinuity;  // 최근연속 작성일
+    private Long maxContinuity;     // 최대연속일
+    private Long point;             // 경험치
+    private Long logCount;          // daily doyak count
+    private Long shareDoyackCount;  // share doyak count
 }
