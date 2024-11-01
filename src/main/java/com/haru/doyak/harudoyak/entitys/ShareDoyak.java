@@ -2,6 +2,7 @@ package com.haru.doyak.harudoyak.entitys;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import jakarta.validation.constraints.NotNull;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Entity
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ShareDoyak {
     // 서로도약 엔티티
@@ -22,6 +24,9 @@ public class ShareDoyak {
     @ManyToOne
     @JoinColumn(name = "memberId")
     private Member member;// 회원 아이디(외래키)
+
+//    @EmbeddedId
+    private Doyak doyak;    //복합키 테이블 사용
 
     @NotNull
     private String title;   // 서로도약 제목

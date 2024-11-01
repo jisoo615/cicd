@@ -4,7 +4,7 @@ import com.haru.doyak.harudoyak.entitys.Member;
 
 import java.util.Optional;
 
-public interface MemberRepositoryCustom {
+public interface MemberCustomRepository {
     Optional<Member> findMemberByEmail(String email);
     Optional<Member> saveMember(Member member);
 }

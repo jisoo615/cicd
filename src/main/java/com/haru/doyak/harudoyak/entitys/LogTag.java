@@ -1,24 +1,27 @@
 package com.haru.doyak.harudoyak.entitys;
 
-import jakarta.persistence.*;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Getter
-@Entity
+//@Embeddable
+//@AllArgsConstructor
+//@EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class LogTag {
+public class LogTag implements Serializable {
+    // 로그&태그 엔티티
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long logTagId;
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "logId")
     private Log log;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tagId")
     private Tag tag;
 
