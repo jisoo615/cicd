@@ -23,6 +23,16 @@ public class LogService {
     private final S3FileManager s3FileManager;
     private final FileRepository fileRepository;
 
+
+    /*
+     * 도약 기록 목록
+     * req : memberId(Long)
+     * res : logId(Long), creationDate(Date)
+     * */
+    public void getLogList(){
+
+    }
+
     /*
      * 도약 기록 작성 (에러 처리 해야함)
      * req : memberId(Long), logImage(MultipartFile),
@@ -91,6 +101,10 @@ public class LogService {
          }
     }
 
+    /*
+    * 로그&태그 저장
+    * req : log(Long), tag(Long)
+    * */
     @Transactional
     public void setTag(Log log, Tag tag){
         LogTag logTag = LogTag.builder()

@@ -17,6 +17,15 @@ public class LogController {
      * 도약 기록
      * */
 
+    /*
+     * 도약 기록 목록
+     * req : memberId(Long)
+     * res :
+     * */
+    @GetMapping("list/{memberId}")
+    public void getLogList(){
+
+    }
 
     /*
      * 도약 기록 작성

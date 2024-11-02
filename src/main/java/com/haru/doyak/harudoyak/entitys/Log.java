@@ -24,7 +24,7 @@ public class Log {
 
     private String content;
     private String emotion;
-    private LocalDateTime creation_date;// registration date time
+    private LocalDateTime creationDate;// registration date time
     private Boolean isRead;// read state
 
     @OneToOne
@@ -33,16 +33,16 @@ public class Log {
 
     @PrePersist
     private void prePersist() {
-        this.creation_date = LocalDateTime.now();
+        this.creationDate = LocalDateTime.now();
         this.isRead = false;
     }
 
     @Builder
-    public Log(Member member, String content, String emotion, LocalDateTime creation_date, Boolean isRead, File file) {
+    public Log(Member member, String content, String emotion, LocalDateTime creationDate, Boolean isRead, File file) {
         this.member = member;
         this.content = content;
         this.emotion = emotion;
-        this.creation_date = creation_date;
+        this.creationDate = creationDate;
         this.isRead = isRead;
         this.file = file;
     }

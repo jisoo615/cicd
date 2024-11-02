@@ -1,24 +1,27 @@
 package com.haru.doyak.harudoyak.entitys;
 
 import jakarta.persistence.*;
-import lombok.*;
-
-import java.io.Serializable;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
-//@Embeddable        // 복합키 설정
-//@AllArgsConstructor
-//@EqualsAndHashCode
+@Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Doyak implements Serializable {
+public class Doyak {
     // 도약 엔티티
 
+    @EmbeddedId
+    private DoyakId doyakId;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "shareDoyakId")
+    @MapsId("shareDoyakId")
+    @JoinColumn(name = "share_doyak_id")
     private ShareDoyak shareDoyak;// 서로도약 아이디(외래키)
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "memberId")
+    @MapsId("memberId")
+    @JoinColumn(name = "member_id")
     private Member member;// 회원 아이디(외래키)
 
 }

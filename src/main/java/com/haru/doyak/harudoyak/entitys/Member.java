@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 //@Setter  예시에는 세터를 안쓰는데 그 이유는..?
 @Getter
 @Entity
@@ -19,8 +21,8 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;         // 회원아이디
 
-//    @EmbeddedId
-//    private Doyak doyak;    //복합키 테이블 사용
+    @OneToMany(mappedBy = "member")
+    private List<Doyak> doyaks;
 
     private String email;      // 이메일 주소
 

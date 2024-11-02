@@ -31,10 +31,4 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
         return Optional.ofNullable(member);// persist 해서 영속성을 가져 auto-increase id를 가지게됨
     }
 
-    @Override
-    public Member findMemberByMemberId(Long memberId) {
-        return jpaQueryFactory.selectFrom(m)
-                .where(m.memberId.eq(memberId))
-                .fetchOne();
-    }
 }
