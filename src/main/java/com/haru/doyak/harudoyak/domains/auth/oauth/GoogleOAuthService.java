@@ -1,10 +1,9 @@
-package com.haru.doyak.harudoyak.domains.oauth;
+package com.haru.doyak.harudoyak.domains.auth.oauth;
 
 import com.haru.doyak.harudoyak.dto.jwt.JwtRecord;
 import com.haru.doyak.harudoyak.entitys.Member;
 import com.haru.doyak.harudoyak.repository.MemberRepository;
 import com.haru.doyak.harudoyak.util.JwtProvider;
-import io.jsonwebtoken.Jwt;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -83,10 +82,8 @@ public class GoogleOAuthService {
         }else {
             savedMember = optionalMember.get();
         }
-
-        JwtRecord jwtRecord = new JwtRecord("Bearer",
-                jwtProvider.generateAccessToken(savedMember.getClaims()),
-                jwtProvider.generateRefreshToken());
+        // 토큰 발행
+        JwtRecord jwtRecord = jwtProvider.getJwtRecord(savedMember);
         savedMember.updateRefreshToken(jwtRecord.refreshToken());
         memberRepository.saveMember(savedMember);
         return jwtRecord;

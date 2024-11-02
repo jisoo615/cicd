@@ -1,5 +1,7 @@
 package com.haru.doyak.harudoyak.util;
 
+import com.haru.doyak.harudoyak.dto.jwt.JwtRecord;
+import com.haru.doyak.harudoyak.entitys.Member;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -48,6 +50,12 @@ public class JwtProvider {
                 .expiration(Date.from(ZonedDateTime.now().plusHours(atkExpirationHour).toInstant()))
                 .signWith(key)
                 .compact();
+    }
+
+    public JwtRecord getJwtRecord(Member member) {
+        return new JwtRecord("Bearer",
+                generateAccessToken(member.getClaims()),
+                generateRefreshToken());
     }
 
     public Map<String, Object> validateToken(String token){

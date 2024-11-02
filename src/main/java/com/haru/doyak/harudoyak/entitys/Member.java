@@ -50,6 +50,7 @@ public class Member {
 
     public Map<String, Object> getClaims(){
         Map<String, Object> map = new HashMap<>();
+        map.put("role", "ROLE_USER");
         map.put("email", this.email);
         map.put("memberId", this.memberId);
         return map;
