@@ -5,4 +5,7 @@ import com.haru.doyak.harudoyak.repository.querydsl.MemberCustomRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MemberRepository extends JpaRepository<Member, Long>, MemberCustomRepository {
+
+    boolean existsMemberByMemberId(Long memberId);
+
 }

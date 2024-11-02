@@ -12,7 +12,6 @@ spring:
   sql:
     init:
       mode: always #always에서 변경한 상태
-  #      data-locations: classpath:data.sql
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
@@ -26,3 +25,7 @@ spring:
     database: mysql # 없으면 ddl error
   profiles:
     include: secret
+  servlet:
+    multipart:
+      max-file-size: 100MB # 한개 파일의 최대 사이즈 (default: 1MB)
+      max-request-size: 100MB # 한개 요청의 최대 사이즈 (default: 10MB)

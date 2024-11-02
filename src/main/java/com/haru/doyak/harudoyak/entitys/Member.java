@@ -20,7 +20,7 @@ public class Member {
     private Long memberId;         // 회원아이디
 
 //    @EmbeddedId
-    private Doyak doyak;    //복합키 테이블 사용
+//    private Doyak doyak;    //복합키 테이블 사용
 
     private String email;      // 이메일 주소
 

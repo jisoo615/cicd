@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Entity
@@ -18,8 +19,8 @@ public class Log {
     @JoinColumn(name = "memberId")
     private Member member; // 회원 (외래키)
 
-//    @EmbeddedId
-    private LogTag logTag;    // 로그&태그 복합키 테이블 사용
+    @OneToMany(mappedBy = "log")
+    private List<LogTag> tags;    // 로그&태그 복합키 테이블 사용
 
     private String content;
     private String emotion;
@@ -37,12 +38,13 @@ public class Log {
     }
 
     @Builder
-    public Log(Member member, String content, String emotion, LocalDateTime creation_date, Boolean isRead) {
+    public Log(Member member, String content, String emotion, LocalDateTime creation_date, Boolean isRead, File file) {
         this.member = member;
         this.content = content;
         this.emotion = emotion;
         this.creation_date = creation_date;
         this.isRead = isRead;
+        this.file = file;
     }
 
 }

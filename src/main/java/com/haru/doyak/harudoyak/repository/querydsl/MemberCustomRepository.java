@@ -7,4 +7,8 @@ import java.util.Optional;
 public interface MemberCustomRepository {
     Optional<Member> findMemberByEmail(String email);
     Optional<Member> saveMember(Member member);
+
+
+
+    Member findMemberByMemberId(Long memberId);
 }
