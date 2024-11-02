@@ -7,6 +7,9 @@ import com.haru.doyak.harudoyak.entitys.Member;
 import com.haru.doyak.harudoyak.repository.MemberRepository;
 import com.haru.doyak.harudoyak.util.JwtProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,11 +19,12 @@ import java.util.Optional;
 public class AuthService {
     private final MemberRepository memberRepository;
     private final JwtProvider jwtProvider;
+    private final PasswordEncoder passwordEncoder;
 
     public void joinMember(JoinReqDTO joinReqDTO){
         Member member = Member.builder()
                 .email(joinReqDTO.getEmail())
-                .password(joinReqDTO.getPassword())
+                .password(passwordEncoder.encode(joinReqDTO.getPassword()))
                 .nickname(joinReqDTO.getNickname())
                 .build();
 
@@ -33,7 +37,7 @@ public class AuthService {
             throw new Exception("member no exist");
         }
         Member savedMember = memberOptional.get();
-        if(savedMember.getPassword().equals(loginReqDTO.getPassword())){
+        if(passwordEncoder.matches(loginReqDTO.getPassword(), savedMember.getPassword())){
             throw new Exception("wrong password");
         }
         // 토큰 발행

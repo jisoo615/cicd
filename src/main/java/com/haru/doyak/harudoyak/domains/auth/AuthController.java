@@ -34,6 +34,7 @@ public class AuthController {
 
     @PostMapping("join")
     public ResponseEntity<String> join(@RequestBody JoinReqDTO joinReqDto){
+        authService.joinMember(joinReqDto);
         return ResponseEntity.ok().body("회원가입이 완료되었습니다.");
     }
 }
