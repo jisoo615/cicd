@@ -2,8 +2,6 @@ package com.haru.doyak.harudoyak.util;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import jakarta.annotation.PostConstruct;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -13,51 +11,56 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Map;
 
-@RequiredArgsConstructor
 @Component
 public class JwtProvider {
-    @Value("${jwt.jwt-key}")
-    String keyValue;
 
-    @PostConstruct
-    public void init(){
-        key = keyValue;
+    private final SecretKey key;
+
+    @Value("${jwt.atk.expiration-hour}")
+    private int atkExpirationHour;
+    @Value("${jwt.rtk.expiration-hour}")
+    private int rtkExpirationHour;
+
+    public JwtProvider(@Value("${jwt.jwt-key}") String keyValue) {
+        byte[] keyBytes = keyValue.getBytes(StandardCharsets.UTF_8);
+        this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    private static String key;
-
-    public static String generateToken(Map<String, Object> valueMap, int day){
-        SecretKey key = null;
-
-        try {
-            key = Keys.hmacShaKeyFor(JwtProvider.key.getBytes(StandardCharsets.UTF_8));
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
-
-        String jwtStr = Jwts.builder()
-                .setHeader(Map.of("typ", "jwt"))
-                .setSubject((String)valueMap.get("role"))
-                .setClaims(valueMap)
-                .setIssuedAt(Date.from(ZonedDateTime.now().toInstant()))
-                .setExpiration(Date.from(ZonedDateTime.now().plusDays(day).toInstant()))
+    public String generateAccessToken(Map<String, Object> valueMap) {
+        return Jwts.builder()
+                .header()
+                    .add("typ", "atk")
+                .and()
+                .subject((String)valueMap.get("role"))
+                .claims(valueMap)
+                .issuedAt(Date.from(ZonedDateTime.now().toInstant()))
+                .expiration(Date.from(ZonedDateTime.now().plusHours(atkExpirationHour).toInstant()))
                 .signWith(key)
                 .compact();
-
-        return jwtStr;
     }
 
-    public static Map<String, Object> validateToken(String token){
+    public String generateRefreshToken() {
+        return Jwts.builder()
+                .header()
+                .add("typ", "rtk")
+                .and()
+                .issuedAt(Date.from(ZonedDateTime.now().toInstant()))
+                .expiration(Date.from(ZonedDateTime.now().plusHours(atkExpirationHour).toInstant()))
+                .signWith(key)
+                .compact();
+    }
+
+    public Map<String, Object> validateToken(String token){
         token = token;
-        Map<String, Object> claim = null;
+        Map<String, Object> claims = null;
 
         try{
-            SecretKey Key = Keys.hmacShaKeyFor(JwtProvider.key.getBytes(StandardCharsets.UTF_8));
-            claim = Jwts.parserBuilder()
-                    .setSigningKey(Key)
+            claims = Jwts.parser()
+                    .verifyWith(key)
                     .build()
-                    .parseClaimsJws(token)
-                    .getBody();
+                    .parseSignedClaims(token)
+                    .getPayload();
+
         } catch  (MalformedJwtException malformedJwtException) {
             throw new RuntimeException(malformedJwtException.getMessage());
         } catch (ExpiredJwtException expiredJwtException) {
@@ -70,16 +73,16 @@ public class JwtProvider {
             throw new RuntimeException(e.getMessage());
         }
 
-        return claim;
+        return claims;
     }
 
     public String validateTokenAndGetSubject(String token) {
-        return Jwts.parser()
-                .setSigningKey(JwtProvider.key.getBytes())
+        Map<String, Object> claims = Jwts.parser()
+                .verifyWith(key)
                 .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+                .parseSignedClaims(token)
+                .getPayload();
+        return claims.get("sub").toString();
     }
 
 

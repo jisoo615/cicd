@@ -6,6 +6,7 @@ import com.haru.doyak.harudoyak.entitys.QMember;
 import com.haru.doyak.harudoyak.repository.querydsl.MemberCustomRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
@@ -25,6 +26,7 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
         return Optional.ofNullable(member);
     }
 
+    @Transactional
     @Override
     public Optional<Member> saveMember(Member member) {
         entityManager.persist(member);

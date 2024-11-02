@@ -1,7 +1,10 @@
 package com.haru.doyak.harudoyak.domains.oauth;
 
+import com.haru.doyak.harudoyak.dto.jwt.JwtRecord;
 import com.haru.doyak.harudoyak.entitys.Member;
 import com.haru.doyak.harudoyak.repository.MemberRepository;
+import com.haru.doyak.harudoyak.util.JwtProvider;
+import io.jsonwebtoken.Jwt;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -18,6 +21,7 @@ import java.util.Optional;
 public class GoogleOAuthService {
     private final WebClient webClient = WebClient.create();
     private final MemberRepository memberRepository;
+    private final JwtProvider jwtProvider;
 
     @Value("${spring.oauth2.google.client-id}")
     private String google_client_id;
@@ -61,7 +65,7 @@ public class GoogleOAuthService {
                 .block();
     }
 
-    public String googleLogin(String authorizationCode){
+    public JwtRecord googleLogin(String authorizationCode){
         GoogleUserResponse userInfo = requestGoogleUserInfo(requestGoogleAccessToken(authorizationCode));
         // 이메일로 가입된 회원인지 확인하기
         Optional<Member> optionalMember = memberRepository.findMemberByEmail(userInfo.email);
@@ -79,10 +83,12 @@ public class GoogleOAuthService {
         }else {
             savedMember = optionalMember.get();
         }
-        
-        //TODO: savedMember로 jwt 토큰 발급하기
 
-        
-        return userInfo.toString();
+        JwtRecord jwtRecord = new JwtRecord("Bearer",
+                jwtProvider.generateAccessToken(savedMember.getClaims()),
+                jwtProvider.generateRefreshToken());
+        savedMember.updateRefreshToken(jwtRecord.refreshToken());
+        memberRepository.saveMember(savedMember);
+        return jwtRecord;
     }
 }

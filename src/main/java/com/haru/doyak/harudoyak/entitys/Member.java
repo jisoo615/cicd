@@ -3,6 +3,9 @@ package com.haru.doyak.harudoyak.entitys;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Getter
 @Entity
 // AccessLevel.PROTECTED : 접근권한 최소화 (세팅한 값만 사용하기 위해)
@@ -40,8 +43,20 @@ public class Member {
         if (this.isChecked == null) {
             this.isChecked = false;
         }
+        if(this.aiNickname == null){
+            this.aiNickname = "도약이";
+        }
     }
 
+    public Map<String, Object> getClaims(){
+        Map<String, Object> map = new HashMap<>();
+        map.put("email", this.email);
+        map.put("memberId", this.memberId);
+        return map;
+    }
 
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
 
 }
