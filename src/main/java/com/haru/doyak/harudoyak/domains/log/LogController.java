@@ -1,10 +1,13 @@
 package com.haru.doyak.harudoyak.domains.log;
 
 import com.haru.doyak.harudoyak.dto.log.ReqLogDTO;
+import com.haru.doyak.harudoyak.dto.log.ResLogDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -20,11 +23,12 @@ public class LogController {
     /*
      * 도약 기록 목록
      * req : memberId(Long)
-     * res :
+     * res : logId(Long), creationDate(Date)
      * */
     @GetMapping("list/{memberId}")
-    public void getLogList(){
-
+    public List<ResLogDTO> getLogList(@PathVariable("memberId") Long memberId){
+        List<ResLogDTO> resLogDTOS = logService.getLogList(memberId);
+        return resLogDTOS;
     }
 
     /*

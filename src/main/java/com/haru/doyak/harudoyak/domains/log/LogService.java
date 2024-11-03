@@ -2,8 +2,10 @@ package com.haru.doyak.harudoyak.domains.log;
 
 import com.haru.doyak.harudoyak.dto.file.FileDTO;
 import com.haru.doyak.harudoyak.dto.log.ReqLogDTO;
+import com.haru.doyak.harudoyak.dto.log.ResLogDTO;
 import com.haru.doyak.harudoyak.entitys.*;
 import com.haru.doyak.harudoyak.repository.FileRepository;
+import com.haru.doyak.harudoyak.repository.LogRepository;
 import com.haru.doyak.harudoyak.repository.MemberRepository;
 import com.haru.doyak.harudoyak.util.S3FileManager;
 import jakarta.persistence.EntityManager;
@@ -13,11 +15,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class LogService {
-//    private final LogRepository logRepository;
+    private final LogRepository logRepository;
     private final EntityManager entityManager;
     private final MemberRepository memberRepository;
     private final S3FileManager s3FileManager;
@@ -29,8 +33,16 @@ public class LogService {
      * req : memberId(Long)
      * res : logId(Long), creationDate(Date)
      * */
-    public void getLogList(){
+    public List<ResLogDTO> getLogList(Long memberId){
 
+        List<ResLogDTO> resLogDTOS = logRepository.findLogAllByMemberId(memberId);
+
+        for (ResLogDTO resLogDTO : resLogDTOS) {
+            log.info("resLogDTO: {}", resLogDTO.getCreationDate());
+            log.info("resLogDTO: {}", resLogDTO.getLogId());
+        }
+
+        return resLogDTOS;
     }
 
     /*

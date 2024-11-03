@@ -5,4 +5,5 @@ import com.haru.doyak.harudoyak.repository.querydsl.LogCustomRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface LogRepository extends JpaRepository<Log, Long> , LogCustomRepository {
+
 }
