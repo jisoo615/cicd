@@ -22,7 +22,7 @@ public class Member {
     private Long memberId;         // 회원아이디
 
     @OneToMany(mappedBy = "member")
-    private List<Doyak> doyaks;
+    private List<Doyak> doyaks;    // 복합키 도약 엔티티
 
     private String email;      // 이메일 주소
 

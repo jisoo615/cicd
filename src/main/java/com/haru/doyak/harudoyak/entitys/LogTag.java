@@ -13,15 +13,15 @@ public class LogTag {
     // 로그&태그 엔티티
 
     @EmbeddedId
-    private LogTagId logTagId;
+    private LogTagId logTagId;  // 기본키 클래스
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("logId") // LogTagId.logId와 매핑
+    @MapsId("logId")            // LogTagId.logId와 매핑
     @JoinColumn(name = "log_id")
     private Log log;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("tagId") // LogTagId.tagId와 매핑
+    @MapsId("tagId")            // LogTagId.tagId와 매핑
     @JoinColumn(name = "tag_id")
     private Tag tag;
 

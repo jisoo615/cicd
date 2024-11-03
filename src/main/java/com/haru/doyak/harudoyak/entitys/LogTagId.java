@@ -15,6 +15,7 @@ public class LogTagId implements Serializable {
     // log와 tag 외래 키를 포함한 기본키 클래스
 
     private Long logId; // 도약기록아이디
+
     private Long tagId; // 태그아이디
 
 }

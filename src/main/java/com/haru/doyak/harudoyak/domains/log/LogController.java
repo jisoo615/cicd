@@ -38,7 +38,7 @@ public class LogController {
      * res : 200 ok 400 등
      * */
     @PostMapping("{memberId}")
-    public void setLogAdd(@PathVariable("memberId") Long memberId, ReqLogDTO reqLogDTO, @RequestParam("logImage")MultipartFile logImage) {
+    public void setLogAdd(@PathVariable("memberId") Long memberId, ReqLogDTO reqLogDTO, @RequestPart(value="logImage",required = false) MultipartFile logImage) {
         logService.setLogAdd(reqLogDTO, memberId, logImage);
     }
 

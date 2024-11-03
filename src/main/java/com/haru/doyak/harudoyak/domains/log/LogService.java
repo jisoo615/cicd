@@ -56,6 +56,8 @@ public class LogService {
 
         // 도약기록 insert 전 회원 존재하는지 isExists 확인
          boolean isExistsMember = memberRepository.existsMemberByMemberId(memberId);
+
+         // 회원이 존재한다면
          if (isExistsMember){
 
              FileDTO fileDTO = new FileDTO();
@@ -73,7 +75,6 @@ public class LogService {
              } catch (Exception e) {
                  throw new RuntimeException(e);
              }
-
 
              /*
              * DB에 파일 정보 insert
@@ -111,6 +112,9 @@ public class LogService {
 
 
          }
+
+         // 회원이 존재하지 않다면
+
     }
 
     /*

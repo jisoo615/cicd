@@ -11,25 +11,30 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Log {
+    // 도약기록 엔티티
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long logId;
+    private Long logId;                 // 도약기록 아이디
 
     @ManyToOne
     @JoinColumn(name = "memberId")
-    private Member member; // 회원 (외래키)
-
-    @OneToMany(mappedBy = "log")
-    private List<LogTag> tags;    // 로그&태그 복합키 테이블 사용
-
-    private String content;
-    private String emotion;
-    private LocalDateTime creationDate;// registration date time
-    private Boolean isRead;// read state
+    private Member member;              // 회원 아이디 (외래키)
 
     @OneToOne
     @JoinColumn(name = "fileId")
-    private File file;
+    private File file;                  // 파일 아이디 (외래키)
+
+    @OneToMany(mappedBy = "log")
+    private List<LogTag> tags;          // 로그&태그 복합키 엔티티 사용
+
+    private String content;             // 도약기록 내용
+    
+    private String emotion;             // 오늘의 감정
+    
+    private LocalDateTime creationDate; // 도약기록 작성일
+    
+    private Boolean isRead;             // 도약기록 알림 읽기 여부
 
     @PrePersist
     private void prePersist() {

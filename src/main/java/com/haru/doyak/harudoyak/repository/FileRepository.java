@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface FileRepository extends JpaRepository<File, Long> {
 
     File findByfilePathName(String filePathName);
-    boolean existsByFileId(Long fileId);
+    boolean existsFileByFileId(Long fileId);
 
 }

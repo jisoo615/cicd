@@ -15,13 +15,13 @@ public class Tag {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long tagId;
+    private Long tagId;           // 태그 아이디
 
     @OneToMany(mappedBy = "tag")
-    private List<LogTag> logs;    // 로그&태그 복합키 테이블 사용
+    private List<LogTag> logs;    // 로그&태그 복합키 엔티티
 
     @NotNull
-    private String name;
+    private String name;          // 태그명
 
     @Builder
     public Tag(String name, List<LogTag> logs) {
