@@ -55,7 +55,8 @@ public class JwtProvider {
     public JwtRecord getJwtRecord(Member member) {
         return new JwtRecord("Bearer",
                 generateAccessToken(member.getClaims()),
-                generateRefreshToken());
+                generateRefreshToken(),
+                member.getMemberId());
     }
 
     public Map<String, Object> validateToken(String token){
