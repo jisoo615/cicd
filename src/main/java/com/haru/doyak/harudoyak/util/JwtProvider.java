@@ -59,7 +59,7 @@ public class JwtProvider {
                 member.getMemberId());
     }
 
-    public Map<String, Object> validateToken(String token){
+    public boolean validateToken(String token){
         token = token;
         Map<String, Object> claims = null;
 
@@ -82,16 +82,16 @@ public class JwtProvider {
             throw new RuntimeException(e.getMessage());
         }
 
-        return claims;
+        return true;
     }
 
-    public String validateTokenAndGetSubject(String token) {
+    public Map<String, Object> extractClaimsFromJwt(String token) {
         Map<String, Object> claims = Jwts.parser()
                 .verifyWith(key)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
-        return claims.get("sub").toString();
+        return claims;
     }
 
 
