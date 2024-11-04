@@ -34,7 +34,7 @@ public class LogController {
     /*
      * 도약 기록 작성
      * req : memberId(Long), logImage(MultipartFile),
-     *       content(String), tagName(String []), emotion(String)
+     *       logContent(String), tagName(String []), emotion(String)
      * res : 200 ok 400 등
      * */
     @PostMapping("{memberId}")

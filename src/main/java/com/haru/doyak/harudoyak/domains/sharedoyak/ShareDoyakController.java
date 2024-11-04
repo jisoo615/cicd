@@ -1,5 +1,6 @@
 package com.haru.doyak.harudoyak.domains.sharedoyak;
 
+import com.haru.doyak.harudoyak.dto.sharedoyak.ReqCommentDTO;
 import com.haru.doyak.harudoyak.dto.sharedoyak.ReqShareDoyakDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,16 +18,31 @@ public class ShareDoyakController {
     * */
 
     /*
-    * 도약하기 추가
+    * 댓글 작성
+    * req : memberId(Long), shareDoyakId(Long), commentContent(String)
+    * res :
     * */
-    @PostMapping("doyak/{memberId}/{shareDoyakId}")
-    public void setDoyakAdd(){
+    @PostMapping("comments/{memberId}/{shareDoyakId}")
+    public void setCommentAdd(@PathVariable("memberId") Long memberId, @PathVariable("shareDoyakId") Long shareDoyakId, ReqCommentDTO reqCommentDTO) {
 
     }
 
     /*
+    * 도약하기 추가
+    * req : memberId(Long), shareDoyakId(Long)
+    * res : doyakCount(Long)
+     * */
+    @PostMapping("doyak/{memberId}/{shareDoyakId}")
+    public Long setDoyakAdd(@PathVariable("memberId") Long memberId, @PathVariable("shareDoyakId") Long shareDoyakId) {
+
+        Long doyakCount = shareDoyakService.setDoyakAdd(memberId, shareDoyakId);
+
+        return doyakCount;
+    }
+
+    /*
     * 서로도약 작성
-    * req : memberId(Long), content(String), shareImage(MultipartFile)
+    * req : memberId(Long), shareContent(String), shareImage(MultipartFile)
     * res :
     * */
     @PostMapping("{memberId}")

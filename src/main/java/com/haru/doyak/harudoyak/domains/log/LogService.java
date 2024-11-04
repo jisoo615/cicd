@@ -27,7 +27,6 @@ public class LogService {
     private final S3FileManager s3FileManager;
     private final FileRepository fileRepository;
 
-
     /*
      * 도약 기록 목록
      * req : memberId(Long)
@@ -48,14 +47,14 @@ public class LogService {
     /*
      * 도약 기록 작성 (에러 처리 해야함)
      * req : memberId(Long), logImage(MultipartFile),
-     *       content(String), tagName(String []), emotion(String)
+     *       logContent(String), tagName(String []), emotion(String)
      * res : 200 ok 400 등
      * */
     @Transactional
     public void setLogAdd(ReqLogDTO reqLogDTO, Long memberId, MultipartFile logImage) {
 
         // 도약기록 insert 전 회원 존재하는지 isExists 확인
-         boolean isExistsMember = memberRepository.existsMemberByMemberId(memberId);
+         boolean isExistsMember = memberRepository.existsByMemberId(memberId);
 
          // 회원이 존재한다면
          if (isExistsMember){
@@ -93,7 +92,7 @@ public class LogService {
              Log log = Log.builder()
                      .member(selectByMember)
                      .file(selectFile)
-                     .content(reqLogDTO.getContent())
+                     .content(reqLogDTO.getLogContent())
                      .emotion(reqLogDTO.getEmotion())
                      .build();
              entityManager.persist(log);
@@ -107,7 +106,7 @@ public class LogService {
                          .name(tagName)
                          .build();
                  entityManager.persist(tag);
-                 setTag(log, tag);
+                 setLogTag(log, tag);
              }
 
 
@@ -122,7 +121,7 @@ public class LogService {
     * req : log(Long), tag(Long)
     * */
     @Transactional
-    public void setTag(Log log, Tag tag){
+    public void setLogTag(Log log, Tag tag){
         LogTag logTag = LogTag.builder()
                 .logTagId(new LogTagId(log.getLogId(), tag.getTagId()))
                 .log(log)

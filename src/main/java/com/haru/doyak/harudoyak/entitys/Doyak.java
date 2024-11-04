@@ -2,6 +2,7 @@ package com.haru.doyak.harudoyak.entitys;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,5 +24,12 @@ public class Doyak {
     @MapsId("memberId")
     @JoinColumn(name = "member_id")
     private Member member;          // 회원 아이디(외래키)
+
+    @Builder
+    public Doyak(DoyakId doyakId, ShareDoyak shareDoyak, Member member) {
+        this.doyakId = doyakId;
+        this.shareDoyak = shareDoyak;
+        this.member = member;
+    }
 
 }

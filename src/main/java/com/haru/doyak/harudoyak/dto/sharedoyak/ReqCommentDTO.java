@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReqShareDoyakDTO {
-    // 서로도약 요청 정보를 받는 DTO
+public class ReqCommentDTO {
+    // 댓글 요청 정보를 담을 DTO
 
-    private String shareContent;
+    private String commentContent; // 댓글 내용
 
 }

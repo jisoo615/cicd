@@ -7,9 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReqShareDoyakDTO {
-    // 서로도약 요청 정보를 받는 DTO
+public class ReqDoyakDTO {
+    // 도약 응답 정보를 담는 DTO
 
-    private String shareContent;
+    private Long memberId;  // 회원 아이디
+    private Long doyakCount;// 해당 게시글의 총 도약수
 
 }
