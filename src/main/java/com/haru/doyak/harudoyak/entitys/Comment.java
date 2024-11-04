@@ -3,6 +3,7 @@ package com.haru.doyak.harudoyak.entitys;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -27,7 +28,6 @@ public class Comment {
     @JoinColumn(name = "memberId")
     private Member member;// 회원 아이디(외래키)
 
-    @NotNull
     private Long parentCommentId;     // 상위댓글 아이디
 
     @NotNull
@@ -39,18 +39,25 @@ public class Comment {
     @NotNull
     private Boolean isRemoved;  // 댓글 삭제여부
 
-//    private Boolean isRead; // 알림읽기 여부
+    private Boolean isRead; // 알림읽기 여부
 
     /**
      * insert 되기전 (persist 되기전) 실행된다.
      * */
     @PrePersist
     public void prePersist() {
-        if (this.isRemoved == null) {
+        if (this.isRemoved == null && this.isRead == null) {
             this.isRemoved = false;
+            this.isRead = false;
         }
     }
 
-
+    @Builder
+    public Comment(ShareDoyak shareDoyak, Member member, Long parentCommentId, String content) {
+        this.shareDoyak = shareDoyak;
+        this.member = member;
+        this.parentCommentId = parentCommentId;
+        this.content = content;
+    }
 
 }

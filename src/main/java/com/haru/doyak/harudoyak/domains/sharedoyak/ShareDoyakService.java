@@ -45,9 +45,15 @@ public class ShareDoyakService {
         boolean isExistsShareDoyak = shareDoyakRepository.existsById(shareDoyakId);
 
         if(isExistsMember && isExistsShareDoyak){
+            // 회원 select
+            Member selectMember = memberRepository.findMemberByMemberId(memberId);
+            // 서로도약 select
+            ShareDoyak selectShareDoyak = shareDoyakRepository.findShareDoyakByShareDoyakId(shareDoyakId);
+
 
             // 댓글 insert
-
+            Comment comment = Comment.builder()
+                    .build();
 
         }
 
