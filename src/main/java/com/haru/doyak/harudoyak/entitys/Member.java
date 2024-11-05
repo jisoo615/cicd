@@ -1,19 +1,20 @@
 package com.haru.doyak.harudoyak.entitys;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 //@Setter  예시에는 세터를 안쓰는데 그 이유는..?
+import java.util.HashMap;
+import java.util.Map;
+
 @Getter
 @Entity
-@AllArgsConstructor
 // AccessLevel.PROTECTED : 접근권한 최소화 (세팅한 값만 사용하기 위해)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class Member {
     // 회원 엔티티
     
@@ -48,6 +49,21 @@ public class Member {
         if (this.isChecked == null) {
             this.isChecked = false;
         }
+        if(this.aiNickname == null){
+            this.aiNickname = "도약이";
+        }
+    }
+
+    public Map<String, Object> getClaims(){
+        Map<String, Object> map = new HashMap<>();
+        map.put("role", "ROLE_USER");
+        map.put("email", this.email);
+        map.put("memberId", this.memberId);
+        return map;
+    }
+
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 
 }

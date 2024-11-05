@@ -1,7 +1,9 @@
-package com.haru.doyak.harudoyak.domains.oauth;
+package com.haru.doyak.harudoyak.domains.auth.oauth;
 
+import com.haru.doyak.harudoyak.dto.jwt.JwtRecord;
 import com.haru.doyak.harudoyak.entitys.Member;
 import com.haru.doyak.harudoyak.repository.MemberRepository;
+import com.haru.doyak.harudoyak.util.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -18,6 +20,7 @@ import java.util.Optional;
 public class GoogleOAuthService {
     private final WebClient webClient = WebClient.create();
     private final MemberRepository memberRepository;
+    private final JwtProvider jwtProvider;
 
     @Value("${spring.oauth2.google.client-id}")
     private String google_client_id;
@@ -61,17 +64,28 @@ public class GoogleOAuthService {
                 .block();
     }
 
-    public String googleLogin(String authorizationCode){
+    public JwtRecord googleLogin(String authorizationCode){
         GoogleUserResponse userInfo = requestGoogleUserInfo(requestGoogleAccessToken(authorizationCode));
         // 이메일로 가입된 회원인지 확인하기
         Optional<Member> optionalMember = memberRepository.findMemberByEmail(userInfo.email);
-        // 가입 안되어있으면 가입시키기
+        Member savedMember;
         if(optionalMember.isEmpty()){
-
+            // 가입 안되어있으면 가입시키기
+            Member member = Member.builder()
+                    .email(userInfo.email)
+                    .isChecked(true)
+                    .googleId(userInfo.id)
+                    .nickname(userInfo.name)
+                    .build();
+            memberRepository.saveMember(member);
+            savedMember = member;
+        }else {
+            savedMember = optionalMember.get();
         }
-        
-        // jwt 토큰 발급하기
-        
-        return userInfo.toString();
+        // 토큰 발행
+        JwtRecord jwtRecord = jwtProvider.getJwtRecord(savedMember);
+        savedMember.updateRefreshToken(jwtRecord.refreshToken());
+        memberRepository.saveMember(savedMember);
+        return jwtRecord;
     }
 }
