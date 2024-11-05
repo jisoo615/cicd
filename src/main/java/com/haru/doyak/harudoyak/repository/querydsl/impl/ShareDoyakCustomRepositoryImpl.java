@@ -1,7 +1,7 @@
 package com.haru.doyak.harudoyak.repository.querydsl.impl;
 
-import static com.haru.doyak.harudoyak.entitys.QDoyak.doyak;
-import static com.haru.doyak.harudoyak.entitys.QShareDoyak.shareDoyak;
+import static com.haru.doyak.harudoyak.entity.QDoyak.doyak;
+
 import com.haru.doyak.harudoyak.repository.querydsl.ShareDoyakCustomRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;

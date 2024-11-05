@@ -1,7 +1,7 @@
 package com.haru.doyak.harudoyak.repository.querydsl.impl;
 
 import com.haru.doyak.harudoyak.dto.log.ResLogDTO;
-import static com.haru.doyak.harudoyak.entitys.QLog.log;
+import static com.haru.doyak.harudoyak.entity.QLog.log;
 import com.haru.doyak.harudoyak.repository.querydsl.LogCustomRepository;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;

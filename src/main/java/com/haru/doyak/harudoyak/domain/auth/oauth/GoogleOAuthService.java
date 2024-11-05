@@ -1,7 +1,7 @@
 package com.haru.doyak.harudoyak.domain.auth.oauth;
 
 import com.haru.doyak.harudoyak.dto.jwt.JwtRecord;
-import com.haru.doyak.harudoyak.entitys.Member;
+import com.haru.doyak.harudoyak.entity.Member;
 import com.haru.doyak.harudoyak.repository.MemberRepository;
 import com.haru.doyak.harudoyak.util.JwtProvider;
 import lombok.RequiredArgsConstructor;
@@ -77,7 +77,7 @@ public class GoogleOAuthService {
                     .googleId(userInfo.id)
                     .nickname(userInfo.name)
                     .build();
-            memberRepository.saveMember(member);
+            memberRepository.save(member);
             savedMember = member;
         }else {
             savedMember = optionalMember.get();
@@ -85,7 +85,7 @@ public class GoogleOAuthService {
         // 토큰 발행
         JwtRecord jwtRecord = jwtProvider.getJwtRecord(savedMember);
         savedMember.updateRefreshToken(jwtRecord.refreshToken());
-        memberRepository.saveMember(savedMember);
+        memberRepository.save(savedMember);
         return jwtRecord;
     }
 }

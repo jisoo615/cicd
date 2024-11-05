@@ -1,4 +1,4 @@
-package com.haru.doyak.harudoyak.entitys;
+package com.haru.doyak.harudoyak.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
