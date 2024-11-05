@@ -37,7 +37,7 @@ public class AuthService {
             throw new Exception("member no exist");
         }
         Member savedMember = memberOptional.get();
-        if(passwordEncoder.matches(loginReqDTO.getPassword(), savedMember.getPassword())){
+        if(!passwordEncoder.matches(loginReqDTO.getPassword(), savedMember.getPassword())){
             throw new Exception("wrong password");
         }
         // 토큰 발행
