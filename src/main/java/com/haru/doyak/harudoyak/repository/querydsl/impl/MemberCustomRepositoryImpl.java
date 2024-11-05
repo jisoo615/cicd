@@ -22,4 +22,21 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
         return Optional.ofNullable(getMember);
     }
 
+    @Override
+    public Optional<Member> findMemberByNickname(String nickname) {
+        Member getMember = jpaQueryFactory.selectFrom(member)
+                .where(member.nickname.eq(nickname))
+                .fetchOne();
+        return Optional.ofNullable(getMember);
+    }
+
+    @Override
+    public Optional<Member> findMemberById(Long id) {
+        Member getMember = jpaQueryFactory.selectFrom(member)
+                .where(member.memberId.eq(id))
+                .fetchOne();
+        return Optional.ofNullable(getMember);
+    }
+
+
 }

@@ -1,6 +1,7 @@
 package com.haru.doyak.harudoyak.domain.auth;
 
 import com.haru.doyak.harudoyak.dto.auth.JoinReqDTO;
+import com.haru.doyak.harudoyak.dto.auth.JwtMemberDTO;
 import com.haru.doyak.harudoyak.dto.auth.LoginReqDTO;
 import com.haru.doyak.harudoyak.dto.jwt.JwtRecord;
 import com.haru.doyak.harudoyak.entity.Member;
@@ -29,7 +30,7 @@ public class AuthService {
         memberRepository.save(member);
     }
 
-    public JwtRecord login(LoginReqDTO loginReqDTO) throws Exception {
+    public JwtMemberDTO login(LoginReqDTO loginReqDTO) throws Exception {
         Optional<Member> memberOptional = memberRepository.findMemberByEmail(loginReqDTO.getEmail());
         if(memberOptional.isEmpty()){
             throw new Exception("member no exist");
@@ -42,7 +43,9 @@ public class AuthService {
         JwtRecord jwtRecord = jwtProvider.getJwtRecord(savedMember);
         savedMember.updateRefreshToken(jwtRecord.refreshToken());
         memberRepository.save(savedMember);
-
-        return jwtRecord;
+        return JwtMemberDTO.builder()
+                .jwtRecord(jwtRecord)
+                .member(savedMember)
+                .build();
     }
 }
