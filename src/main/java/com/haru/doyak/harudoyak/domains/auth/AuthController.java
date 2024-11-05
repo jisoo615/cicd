@@ -12,6 +12,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -61,5 +65,11 @@ public class AuthController {
     public ResponseEntity<String> chcek(@Param("nickname")String nickname){
         // 중복확인 로직
         return ResponseEntity.ok().body("");
+    }
+
+    @PostMapping("validate")
+    public ResponseEntity validate(){
+        Object object = RequestContextHolder.getRequestAttributes().getAttribute("authenticated", RequestAttributes.SCOPE_REQUEST);
+        return ResponseEntity.ok().body(object.toString());
     }
 }
