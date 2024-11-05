@@ -2,13 +2,14 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.3.4'
 	id 'io.spring.dependency-management' version '1.1.6'
-	id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10' // Q 클래스 생성 플러그인
+	// id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10' // Q 클래스 생성 플러그인
 }
 
 group = 'com.haru.doyak'
 version = '0.0.1-SNAPSHOT'
 
 java {
+	sourceCompatibility = '17'
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(17)
 	}
@@ -42,9 +43,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
 	// QueryDSL 설정
-	implementation group: 'org.javassist', name: 'javassist', version: '3.15.0-GA'
 	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
-	annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
+	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
 	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
 	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
@@ -66,24 +66,41 @@ dependencies {
 	implementation 'org.springframework.security:spring-security-crypto'
 }
 
-def querydslDir = "$buildDir/generated/querydsl" // 생성된 Q 클래스가 저장될 위치를 정의한다.
-
-querydsl {
-	jpa = true
-	querydslSourcesDir = querydslDir
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
 }
 
-sourceSets {
-	main.java.srcDir querydslDir
+clean {
+    delete file('src/main/generated')
 }
 
-compileQuerydsl {
-	options.annotationProcessorPath = configurations.querydsl
-}
 
-tasks.withType(JavaCompile) {
-	options.annotationProcessorPath = configurations.annotationProcessor
-}
+// def querydslDir = "$buildDir/generated/querydsl" // 생성된 Q 클래스가 저장될 위치를 정의한다.
+
+// querydsl {
+// 	jpa = true
+// 	querydslSourcesDir = querydslDir
+// }
+
+// sourceSets {
+// 	main.java.srcDir querydslDir
+// }
+
+// compileQuerydsl {
+// 	options.annotationProcessorPath = configurations.querydsl
+// }
+
+// tasks.generateQueryDSL(type: JavaCompile, group: 'build') {
+//     source = sourceSets.main.java
+//     classpath = configurations.compile
+//     destinationDir = querydslDir
+//     options.compilerArgs = [
+//             "-proc:only",
+//             "-processor", 'com.querydsl.apt.jpa.JPAAnnotationProcessor,lombok.launch.AnnotationProcessorHider$AnnotationProcessor'
+//     ]
+// }
 
 tasks.named('test') {
 	useJUnitPlatform()
