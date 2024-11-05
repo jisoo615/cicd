@@ -15,6 +15,8 @@ import java.util.List;
 public class LogCustomRepositoryImpl implements LogCustomRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
+    // private final QLog log = QLog.log;
+
     @Override
     public List<ResLogDTO> findLogAllByMemberId(Long memberId) {
         List<ResLogDTO> resLogDTOs = jpaQueryFactory

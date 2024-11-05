@@ -202,3 +202,4 @@ $RECYCLE.BIN/
 application-secret.yaml
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,eclipse,java,web
+/src/main/generated/com/haru/doyak/harudoyak/entity/*

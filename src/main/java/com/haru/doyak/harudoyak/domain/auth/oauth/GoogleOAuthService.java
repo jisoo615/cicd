@@ -77,7 +77,7 @@ public class GoogleOAuthService {
                     .googleId(userInfo.id)
                     .nickname(userInfo.name)
                     .build();
-            memberRepository.saveMember(member);
+            memberRepository.save(member);
             savedMember = member;
         }else {
             savedMember = optionalMember.get();
@@ -85,7 +85,7 @@ public class GoogleOAuthService {
         // 토큰 발행
         JwtRecord jwtRecord = jwtProvider.getJwtRecord(savedMember);
         savedMember.updateRefreshToken(jwtRecord.refreshToken());
-        memberRepository.saveMember(savedMember);
+        memberRepository.save(savedMember);
         return jwtRecord;
     }
 }

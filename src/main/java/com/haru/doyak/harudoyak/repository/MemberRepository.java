@@ -8,5 +8,4 @@ public interface MemberRepository extends JpaRepository<Member, Long>, MemberCus
 
     Member findMemberByMemberId(Long memberId);
     boolean existsByMemberId(Long memberId);
-
 }

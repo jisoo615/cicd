@@ -41,7 +41,7 @@ public class AuthService {
         // 토큰 발행
         JwtRecord jwtRecord = jwtProvider.getJwtRecord(savedMember);
         savedMember.updateRefreshToken(jwtRecord.refreshToken());
-        memberRepository.saveMember(savedMember);
+        memberRepository.save(savedMember);
 
         return jwtRecord;
     }
