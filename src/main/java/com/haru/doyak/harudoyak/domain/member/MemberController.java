@@ -1,4 +1,4 @@
-package com.haru.doyak.harudoyak.domains.member;
+package com.haru.doyak.harudoyak.domain.member;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;

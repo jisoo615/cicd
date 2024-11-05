@@ -1,4 +1,4 @@
-package com.haru.doyak.harudoyak.domains.auth;
+package com.haru.doyak.harudoyak.domain.auth;
 
 import com.haru.doyak.harudoyak.dto.auth.JoinReqDTO;
 import com.haru.doyak.harudoyak.dto.auth.LoginReqDTO;
@@ -7,8 +7,6 @@ import com.haru.doyak.harudoyak.entitys.Member;
 import com.haru.doyak.harudoyak.repository.MemberRepository;
 import com.haru.doyak.harudoyak.util.JwtProvider;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

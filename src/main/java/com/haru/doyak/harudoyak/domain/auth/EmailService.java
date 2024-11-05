@@ -1,4 +1,4 @@
-package com.haru.doyak.harudoyak.domains.auth;
+package com.haru.doyak.harudoyak.domain.auth;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;

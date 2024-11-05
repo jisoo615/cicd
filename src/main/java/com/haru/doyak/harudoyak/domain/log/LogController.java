@@ -1,4 +1,4 @@
-package com.haru.doyak.harudoyak.domains.log;
+package com.haru.doyak.harudoyak.domain.log;
 
 import com.haru.doyak.harudoyak.dto.log.ReqLogDTO;
 import com.haru.doyak.harudoyak.dto.log.ResLogDTO;

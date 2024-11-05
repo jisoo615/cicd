@@ -1,4 +1,4 @@
-package com.haru.doyak.harudoyak.domains.auth.oauth;
+package com.haru.doyak.harudoyak.domain.auth.oauth;
 
 import lombok.Data;
 

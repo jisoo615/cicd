@@ -1,4 +1,4 @@
-package com.haru.doyak.harudoyak.domains.sharedoyak;
+package com.haru.doyak.harudoyak.domain.sharedoyak;
 
 import com.haru.doyak.harudoyak.dto.file.FileDTO;
 import com.haru.doyak.harudoyak.dto.sharedoyak.ReqCommentDTO;

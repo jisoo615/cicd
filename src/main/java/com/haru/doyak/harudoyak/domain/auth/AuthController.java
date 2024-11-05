@@ -1,12 +1,11 @@
-package com.haru.doyak.harudoyak.domains.auth;
+package com.haru.doyak.harudoyak.domain.auth;
 
-import com.haru.doyak.harudoyak.domains.auth.oauth.GoogleOAuthService;
+import com.haru.doyak.harudoyak.domain.auth.oauth.GoogleOAuthService;
 import com.haru.doyak.harudoyak.dto.auth.JoinReqDTO;
 import com.haru.doyak.harudoyak.dto.auth.LoginReqDTO;
 import com.haru.doyak.harudoyak.dto.jwt.JwtRecord;
 import com.haru.doyak.harudoyak.dto.jwt.JwtResDTO;
 import jakarta.mail.MessagingException;
-import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpHeaders;
@@ -14,8 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
-
-import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
