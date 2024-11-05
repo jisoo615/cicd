@@ -61,12 +61,6 @@ public class AuthController {
         return ResponseEntity.ok().body("인증 메일이 발송되었습니다.");
     }
 
-    @GetMapping("chcek")
-    public ResponseEntity<String> chcek(@Param("nickname")String nickname){
-        // 중복확인 로직
-        return ResponseEntity.ok().body("");
-    }
-
     @PostMapping("validate")
     public ResponseEntity validate(){
         Object object = RequestContextHolder.getRequestAttributes().getAttribute("authenticated", RequestAttributes.SCOPE_REQUEST);
