@@ -1,13 +1,11 @@
-package com.haru.doyak.harudoyak.entitys;
+package com.haru.doyak.harudoyak.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Getter
 @Entity

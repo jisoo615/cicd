@@ -1,7 +1,7 @@
 package com.haru.doyak.harudoyak.repository.querydsl.impl;
 
-import com.haru.doyak.harudoyak.entitys.QDoyak;
-import com.haru.doyak.harudoyak.entitys.QShareDoyak;
+import static com.haru.doyak.harudoyak.entity.QDoyak.doyak;
+import static com.haru.doyak.harudoyak.entity.QShareDoyak.shareDoyak;
 import com.haru.doyak.harudoyak.repository.querydsl.ShareDoyakCustomRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -11,9 +11,6 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class ShareDoyakCustomRepositoryImpl implements ShareDoyakCustomRepository {
     private final JPAQueryFactory jpaQueryFactory;
-
-    private final QShareDoyak shareDoyak= QShareDoyak.shareDoyak;
-    private final QDoyak doyak= QDoyak.doyak;
 
     @Override
     public boolean existsByMemberId(Long memberId) {

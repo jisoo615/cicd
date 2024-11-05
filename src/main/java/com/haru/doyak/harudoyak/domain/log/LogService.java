@@ -3,7 +3,7 @@ package com.haru.doyak.harudoyak.domain.log;
 import com.haru.doyak.harudoyak.dto.file.FileDTO;
 import com.haru.doyak.harudoyak.dto.log.ReqLogDTO;
 import com.haru.doyak.harudoyak.dto.log.ResLogDTO;
-import com.haru.doyak.harudoyak.entitys.*;
+import com.haru.doyak.harudoyak.entity.*;
 import com.haru.doyak.harudoyak.repository.FileRepository;
 import com.haru.doyak.harudoyak.repository.LogRepository;
 import com.haru.doyak.harudoyak.repository.MemberRepository;

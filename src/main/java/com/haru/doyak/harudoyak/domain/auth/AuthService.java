@@ -3,7 +3,7 @@ package com.haru.doyak.harudoyak.domain.auth;
 import com.haru.doyak.harudoyak.dto.auth.JoinReqDTO;
 import com.haru.doyak.harudoyak.dto.auth.LoginReqDTO;
 import com.haru.doyak.harudoyak.dto.jwt.JwtRecord;
-import com.haru.doyak.harudoyak.entitys.Member;
+import com.haru.doyak.harudoyak.entity.Member;
 import com.haru.doyak.harudoyak.repository.MemberRepository;
 import com.haru.doyak.harudoyak.util.JwtProvider;
 import lombok.RequiredArgsConstructor;

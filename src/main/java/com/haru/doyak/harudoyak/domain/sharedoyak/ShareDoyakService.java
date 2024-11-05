@@ -3,7 +3,7 @@ package com.haru.doyak.harudoyak.domain.sharedoyak;
 import com.haru.doyak.harudoyak.dto.file.FileDTO;
 import com.haru.doyak.harudoyak.dto.sharedoyak.ReqCommentDTO;
 import com.haru.doyak.harudoyak.dto.sharedoyak.ReqShareDoyakDTO;
-import com.haru.doyak.harudoyak.entitys.*;
+import com.haru.doyak.harudoyak.entity.*;
 import com.haru.doyak.harudoyak.repository.FileRepository;
 import com.haru.doyak.harudoyak.repository.MemberRepository;
 import com.haru.doyak.harudoyak.repository.ShareDoyakRepository;

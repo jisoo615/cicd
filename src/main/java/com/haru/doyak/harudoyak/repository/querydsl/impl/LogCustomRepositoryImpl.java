@@ -1,7 +1,7 @@
 package com.haru.doyak.harudoyak.repository.querydsl.impl;
 
 import com.haru.doyak.harudoyak.dto.log.ResLogDTO;
-import com.haru.doyak.harudoyak.entitys.QLog;
+import static com.haru.doyak.harudoyak.entity.QLog.log;
 import com.haru.doyak.harudoyak.repository.querydsl.LogCustomRepository;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -14,8 +14,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LogCustomRepositoryImpl implements LogCustomRepository {
     private final JPAQueryFactory jpaQueryFactory;
-
-    private final QLog log = QLog.log;
 
     @Override
     public List<ResLogDTO> findLogAllByMemberId(Long memberId) {

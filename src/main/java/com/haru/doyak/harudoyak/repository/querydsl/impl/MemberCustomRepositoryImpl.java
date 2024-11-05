@@ -1,7 +1,7 @@
 package com.haru.doyak.harudoyak.repository.querydsl.impl;
 
-import com.haru.doyak.harudoyak.entitys.Member;
-import com.haru.doyak.harudoyak.entitys.QMember;
+import com.haru.doyak.harudoyak.entity.Member;
+import com.haru.doyak.harudoyak.entity.QMember;
 
 import com.haru.doyak.harudoyak.repository.querydsl.MemberCustomRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;

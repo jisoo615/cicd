@@ -1,6 +1,6 @@
 package com.haru.doyak.harudoyak.repository.querydsl;
 
-import com.haru.doyak.harudoyak.entitys.Member;
+import com.haru.doyak.harudoyak.entity.Member;
 
 import java.util.Optional;
 

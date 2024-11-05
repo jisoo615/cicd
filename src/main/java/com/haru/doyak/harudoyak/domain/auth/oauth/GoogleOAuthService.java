@@ -1,7 +1,7 @@
 package com.haru.doyak.harudoyak.domain.auth.oauth;
 
 import com.haru.doyak.harudoyak.dto.jwt.JwtRecord;
-import com.haru.doyak.harudoyak.entitys.Member;
+import com.haru.doyak.harudoyak.entity.Member;
 import com.haru.doyak.harudoyak.repository.MemberRepository;
 import com.haru.doyak.harudoyak.util.JwtProvider;
 import lombok.RequiredArgsConstructor;
