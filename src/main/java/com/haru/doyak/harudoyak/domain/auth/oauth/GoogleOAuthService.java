@@ -1,5 +1,6 @@
 package com.haru.doyak.harudoyak.domain.auth.oauth;
 
+import com.haru.doyak.harudoyak.dto.auth.JwtMemberDTO;
 import com.haru.doyak.harudoyak.dto.jwt.JwtRecord;
 import com.haru.doyak.harudoyak.entity.Member;
 import com.haru.doyak.harudoyak.repository.MemberRepository;
@@ -64,7 +65,7 @@ public class GoogleOAuthService {
                 .block();
     }
 
-    public JwtRecord googleLogin(String authorizationCode){
+    public JwtMemberDTO googleLogin(String authorizationCode){
         GoogleUserResponse userInfo = requestGoogleUserInfo(requestGoogleAccessToken(authorizationCode));
         // 이메일로 가입된 회원인지 확인하기
         Optional<Member> optionalMember = memberRepository.findMemberByEmail(userInfo.email);
@@ -73,7 +74,7 @@ public class GoogleOAuthService {
             // 가입 안되어있으면 가입시키기
             Member member = Member.builder()
                     .email(userInfo.email)
-                    .isChecked(true)
+                    .isVerified(true)
                     .googleId(userInfo.id)
                     .nickname(userInfo.name)
                     .build();
@@ -86,6 +87,9 @@ public class GoogleOAuthService {
         JwtRecord jwtRecord = jwtProvider.getJwtRecord(savedMember);
         savedMember.updateRefreshToken(jwtRecord.refreshToken());
         memberRepository.save(savedMember);
-        return jwtRecord;
+        return JwtMemberDTO.builder()
+                .jwtRecord(jwtRecord)
+                .member(savedMember)
+                .build();
     }
 }

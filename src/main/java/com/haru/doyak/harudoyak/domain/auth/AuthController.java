@@ -2,12 +2,12 @@ package com.haru.doyak.harudoyak.domain.auth;
 
 import com.haru.doyak.harudoyak.domain.auth.oauth.GoogleOAuthService;
 import com.haru.doyak.harudoyak.dto.auth.JoinReqDTO;
+import com.haru.doyak.harudoyak.dto.auth.JwtMemberDTO;
 import com.haru.doyak.harudoyak.dto.auth.LoginReqDTO;
 import com.haru.doyak.harudoyak.dto.jwt.JwtRecord;
-import com.haru.doyak.harudoyak.dto.jwt.JwtResDTO;
+import com.haru.doyak.harudoyak.dto.auth.LoginResDTO;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,27 +23,29 @@ public class AuthController {
     private final EmailService emailService;
 
     @PostMapping("login")
-    public ResponseEntity<JwtResDTO> login(@RequestBody LoginReqDTO loginReqDTO) throws Exception {
-        JwtRecord jwt = authService.login(loginReqDTO);
-        JwtResDTO jwtResDTO = JwtResDTO.builder()
-                .memberId(jwt.memberId())
-                .refreshToken(jwt.refreshToken())
+    public ResponseEntity<LoginResDTO> login(@RequestBody LoginReqDTO loginReqDTO) throws Exception {
+        JwtMemberDTO jwtMemberDTO = authService.login(loginReqDTO);
+        LoginResDTO loginResDTO = LoginResDTO.builder()
+                .memberId(jwtMemberDTO.getMember().getMemberId())
+                .aiNickname(jwtMemberDTO.getMember().getAiNickname())
+                .refreshToken(jwtMemberDTO.getJwtRecord().refreshToken())
                 .build();
         return ResponseEntity.ok()
-                .header(HttpHeaders.AUTHORIZATION, jwt.authorizationType()+" "+jwt.accessToken())
-                .body(jwtResDTO);
+                .header(HttpHeaders.AUTHORIZATION, jwtMemberDTO.getJwtRecord().authorizationType()+" "+jwtMemberDTO.getJwtRecord().accessToken())
+                .body(loginResDTO);
     }
 
     @PostMapping("login/google")
-    public ResponseEntity<JwtResDTO> googleLogin(@RequestBody String code){
-        JwtRecord jwt = oAuthService.googleLogin(code);
-        JwtResDTO jwtResDTO = JwtResDTO.builder()
-                .memberId(jwt.memberId())
-                .refreshToken(jwt.refreshToken())
+    public ResponseEntity<LoginResDTO> googleLogin(@RequestBody String code){
+        JwtMemberDTO jwtMemberDTO = oAuthService.googleLogin(code);
+        LoginResDTO loginResDTO = LoginResDTO.builder()
+                .memberId(jwtMemberDTO.getMember().getMemberId())
+                .aiNickname(jwtMemberDTO.getMember().getAiNickname())
+                .refreshToken(jwtMemberDTO.getJwtRecord().refreshToken())
                 .build();
         return ResponseEntity.ok()
-                .header(HttpHeaders.AUTHORIZATION, jwt.authorizationType()+" "+jwt.accessToken())
-                .body(jwtResDTO);
+                .header(HttpHeaders.AUTHORIZATION, jwtMemberDTO.getJwtRecord().authorizationType()+" "+jwtMemberDTO.getJwtRecord().accessToken())
+                .body(loginResDTO);
     }
 
     @PostMapping("join")

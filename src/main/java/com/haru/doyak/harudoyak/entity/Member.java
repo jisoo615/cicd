@@ -37,7 +37,7 @@ public class Member {
 
     private String kakaoId;    // 카카오아이디
     private String googleId;   // 구글아이디
-    private Boolean isChecked;   // 이메일인증 상태
+    private Boolean isVerified;   // 이메일인증 상태
     private String refreshToken;
     private String refreshTokenExpireDate;
 
@@ -46,8 +46,8 @@ public class Member {
      * */
     @PrePersist
     public void prePersist() {
-        if (this.isChecked == null) {
-            this.isChecked = false;
+        if (this.isVerified == null) {
+            this.isVerified = false;
         }
         if(this.aiNickname == null){
             this.aiNickname = "도약이";
@@ -65,5 +65,18 @@ public class Member {
     public void updateRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
     }
+    public void updateNickname(String nickname){
+        this.nickname = nickname;
+    }
+    public void updateAiNickname(String aiNickname){
+        this.aiNickname = aiNickname;
+    }
+    public void updatePassword(String password){
+        this.password = password;
+    }
+    public void updateGoalName(String goalName){
+        this.goalName = goalName;
+    }
+
 
 }
