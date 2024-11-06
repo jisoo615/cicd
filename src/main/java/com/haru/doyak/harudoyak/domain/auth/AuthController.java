@@ -63,8 +63,14 @@ public class AuthController {
     }
 
     @PostMapping("reissue")
-    public ResponseEntity reissue(@RequestBody JwtReqDTO jwtReqDTO){
-        authService.reissue(jwtReqDTO);
-        return ResponseEntity.ok().body("");
+    public ResponseEntity<JwtResDTO> reissue(@RequestBody JwtReqDTO jwtReqDTO){
+        JwtMemberDTO jwtMemberDTO = authService.reissue(jwtReqDTO);
+        JwtResDTO jwtResDTO = JwtResDTO.builder()
+                .memberId(jwtMemberDTO.getMember().getMemberId())
+                .refreshToken(jwtMemberDTO.getJwtRecord().refreshToken())
+                .build();
+        return ResponseEntity.ok()
+                .header(HttpHeaders.AUTHORIZATION, jwtMemberDTO.getJwtRecord().authorizationType()+" "+jwtMemberDTO.getJwtRecord().accessToken())
+                .body(jwtResDTO);
     }
 }

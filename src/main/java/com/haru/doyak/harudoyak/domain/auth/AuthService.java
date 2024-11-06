@@ -50,16 +50,18 @@ public class AuthService {
                 .build();
     }
 
-    public void reissue(JwtReqDTO jwtReqDTO) {
-        if(jwtReqDTO.getRefreshToken()!=null){
-            // 검증
-            if(jwtProvider.validateToken(jwtReqDTO.getRefreshToken())){
-                // db랑 연결된 유저 찾기
-                Member savedMember = memberRepository.findMemberByRefreshToken(jwtReqDTO.getRefreshToken()).orElseThrow();
-                // 재발급
-                jwtProvider.getJwtRecord(savedMember);
-            }
-
+    public JwtMemberDTO reissue(JwtReqDTO jwtReqDTO) {
+        // 검증
+        if(jwtProvider.validateToken(jwtReqDTO.getRefreshToken())){
+            // rtk로 유저 찾기
+            Member savedMember = memberRepository.findMemberByRefreshToken(jwtReqDTO.getRefreshToken()).orElseThrow();
+            // 재발급
+            JwtRecord jwtRecord = jwtProvider.getJwtRecord(savedMember);
+            return JwtMemberDTO.builder()
+                    .jwtRecord(jwtRecord)
+                    .member(savedMember)
+                    .build();
         }
+        return null;
     }
 }
