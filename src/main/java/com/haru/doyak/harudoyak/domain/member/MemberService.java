@@ -51,8 +51,5 @@ public class MemberService {
         member.updateGoalName(encoded);
         memberRepository.save(member);
     }
-
-    public MemberAccountResDTO getAccount(Long memberId) {
-
-    }
+    
 }

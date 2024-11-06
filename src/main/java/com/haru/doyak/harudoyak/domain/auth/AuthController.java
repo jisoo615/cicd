@@ -27,23 +27,24 @@ public class AuthController {
         JwtMemberDTO jwtMemberDTO = authService.login(loginReqDTO);
         LoginResDTO loginResDTO = LoginResDTO.builder()
                 .memberId(jwtMemberDTO.getMember().getMemberId())
-                .aiNickname()
-                .refreshToken(jwt.refreshToken())
+                .aiNickname(jwtMemberDTO.getMember().getAiNickname())
+                .refreshToken(jwtMemberDTO.getJwtRecord().refreshToken())
                 .build();
         return ResponseEntity.ok()
-                .header(HttpHeaders.AUTHORIZATION, jwt.authorizationType()+" "+jwt.accessToken())
+                .header(HttpHeaders.AUTHORIZATION, jwtMemberDTO.getJwtRecord().authorizationType()+" "+jwtMemberDTO.getJwtRecord().accessToken())
                 .body(loginResDTO);
     }
 
     @PostMapping("login/google")
     public ResponseEntity<LoginResDTO> googleLogin(@RequestBody String code){
-        JwtRecord jwt = oAuthService.googleLogin(code);
+        JwtMemberDTO jwtMemberDTO = oAuthService.googleLogin(code);
         LoginResDTO loginResDTO = LoginResDTO.builder()
-                .memberId(jwt.memberId())
-                .refreshToken(jwt.refreshToken())
+                .memberId(jwtMemberDTO.getMember().getMemberId())
+                .aiNickname(jwtMemberDTO.getMember().getAiNickname())
+                .refreshToken(jwtMemberDTO.getJwtRecord().refreshToken())
                 .build();
         return ResponseEntity.ok()
-                .header(HttpHeaders.AUTHORIZATION, jwt.authorizationType()+" "+jwt.accessToken())
+                .header(HttpHeaders.AUTHORIZATION, jwtMemberDTO.getJwtRecord().authorizationType()+" "+jwtMemberDTO.getJwtRecord().accessToken())
                 .body(loginResDTO);
     }
 
