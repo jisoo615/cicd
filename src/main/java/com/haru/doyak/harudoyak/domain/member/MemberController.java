@@ -53,9 +53,4 @@ public class MemberController {
         return ResponseEntity.ok().body("비밀번호가 변경되었습니다.");
     }
 
-    @GetMapping("{memberId}/account")
-    public ResponseEntity<MemberAccountResDTO> getAccount(@PathVariable("memberId") Long memberId){
-        MemberAccountResDTO dto = memberService.getAccount(memberId);
-        return ResponseEntity.ok().body(dto);
-    }
 }
