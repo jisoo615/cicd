@@ -1,10 +1,10 @@
 package com.haru.doyak.harudoyak.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+@AllArgsConstructor
+@Builder
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

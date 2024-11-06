@@ -5,7 +5,9 @@ import com.haru.doyak.harudoyak.dto.auth.JwtMemberDTO;
 import com.haru.doyak.harudoyak.dto.auth.JwtReqDTO;
 import com.haru.doyak.harudoyak.dto.auth.LoginReqDTO;
 import com.haru.doyak.harudoyak.dto.jwt.JwtRecord;
+import com.haru.doyak.harudoyak.entity.Level;
 import com.haru.doyak.harudoyak.entity.Member;
+import com.haru.doyak.harudoyak.repository.LevelRepository;
 import com.haru.doyak.harudoyak.repository.MemberRepository;
 import com.haru.doyak.harudoyak.util.JwtProvider;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ public class AuthService {
     private final MemberRepository memberRepository;
     private final JwtProvider jwtProvider;
     private final PasswordEncoder passwordEncoder;
+    private final LevelRepository levelRepository;
 
     public void joinMember(JoinReqDTO joinReqDTO){
         Member member = Member.builder()
@@ -29,6 +32,12 @@ public class AuthService {
                 .build();
 
         memberRepository.save(member);
+        // 레벨 생성하기
+        Level level = Level.builder()
+                .member(member)
+                .point(10L)// 가입시 10포인트
+                .build();
+        levelRepository.save(level);
     }
 
     public JwtMemberDTO login(LoginReqDTO loginReqDTO) throws Exception {
