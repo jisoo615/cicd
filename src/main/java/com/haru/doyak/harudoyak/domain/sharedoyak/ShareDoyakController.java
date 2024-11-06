@@ -5,7 +5,6 @@ import com.haru.doyak.harudoyak.dto.sharedoyak.ReqShareDoyakDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @RestController
@@ -19,11 +18,15 @@ public class ShareDoyakController {
 
     /*
     * 댓글 작성
-    * req : memberId(Long), shareDoyakId(Long), commentContent(String)
-    * res :
+    * @param : memberId(Long), shareDoyakId(Long), commentContent(String)
+    * @return :
     * */
     @PostMapping("comments/{memberId}/{shareDoyakId}")
     public void setCommentAdd(@PathVariable("memberId") Long memberId, @PathVariable("shareDoyakId") Long shareDoyakId, ReqCommentDTO reqCommentDTO) {
+
+        log.info("콘텐츠가 파라미터로 잘 넘어왔니? {}", reqCommentDTO.getCommentContent());
+
+        shareDoyakService.setCommentAdd(memberId, shareDoyakId, reqCommentDTO);
 
     }
 
@@ -42,13 +45,13 @@ public class ShareDoyakController {
 
     /*
     * 서로도약 작성
-    * req : memberId(Long), shareContent(String), shareImage(MultipartFile)
-    * res :
+    * @param : memberId(Long), shareContent(String), shareImegeUrl(String), shareOriginalName(String)
+    * @return :
     * */
     @PostMapping("{memberId}")
-    public void setShareDoyakAdd(@PathVariable("memberId") Long memberId, ReqShareDoyakDTO reqShareDoyakDTO, @RequestParam("shareImage") MultipartFile shareImage){
+    public void setShareDoyakAdd(@PathVariable("memberId") Long memberId, @RequestBody ReqShareDoyakDTO reqShareDoyakDTO) {
 
-        shareDoyakService.setShareDoyakAdd(memberId, reqShareDoyakDTO, shareImage);
+        shareDoyakService.setShareDoyakAdd(memberId, reqShareDoyakDTO);
 
     }
 

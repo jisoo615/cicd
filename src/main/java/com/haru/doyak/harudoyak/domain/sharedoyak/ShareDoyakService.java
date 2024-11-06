@@ -1,19 +1,16 @@
 package com.haru.doyak.harudoyak.domain.sharedoyak;
 
-import com.haru.doyak.harudoyak.dto.file.FileDTO;
 import com.haru.doyak.harudoyak.dto.sharedoyak.ReqCommentDTO;
 import com.haru.doyak.harudoyak.dto.sharedoyak.ReqShareDoyakDTO;
 import com.haru.doyak.harudoyak.entity.*;
 import com.haru.doyak.harudoyak.repository.FileRepository;
 import com.haru.doyak.harudoyak.repository.MemberRepository;
 import com.haru.doyak.harudoyak.repository.ShareDoyakRepository;
-import com.haru.doyak.harudoyak.util.S3FileManager;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @Service
@@ -22,13 +19,13 @@ public class ShareDoyakService {
     private final ShareDoyakRepository shareDoyakRepository;
     private final EntityManager entityManager;
     private final MemberRepository memberRepository;
-    private final S3FileManager s3FileManager;
+//    private final S3FileManager s3FileManager;
     private final FileRepository fileRepository;
 
     /*
      * 댓글 작성
-     * req : memberId(Long), shareDoyakId(Long), commentContent(String)
-     * res :
+     * @param : memberId(Long), shareDoyakId(Long), commentContent(String)
+     * @return :
      * */
     @Transactional
     public void setCommentAdd(Long memberId, Long shareDoyakId, ReqCommentDTO reqCommentDTO){
@@ -53,8 +50,11 @@ public class ShareDoyakService {
 
             // 댓글 insert
             Comment comment = Comment.builder()
+                    .shareDoyak(selectShareDoyak)
+                    .member(selectMember)
+                    .content(reqCommentDTO.getCommentContent())
                     .build();
-
+            entityManager.persist(comment);
         }
 
 
@@ -116,11 +116,11 @@ public class ShareDoyakService {
 
     /*
      * 서로도약 작성
-     * req : memberId(Long), shareContent(String), shareImage(MultipartFile)
-     * res :
+     * @param : memberId(Long), shareContent(String), shareImegeUrl(String), shareOriginalName(String)
+     * @return :
      * */
     @Transactional
-    public void setShareDoyakAdd(Long memberId, ReqShareDoyakDTO reqShareDoyakDTO, MultipartFile shareImage){
+    public void setShareDoyakAdd(Long memberId, ReqShareDoyakDTO reqShareDoyakDTO){
 
         // 회원 존재 여부 확인
         boolean isExistsMember = memberRepository.existsByMemberId(memberId);
@@ -128,23 +128,27 @@ public class ShareDoyakService {
         // 회원이 존재 한다면
         if(isExistsMember){
 
-            FileDTO fileDTO = new FileDTO();
+//            FileDTO fileDTO = new FileDTO();
+//
+//            // 이미지 S3 업로드
+//            try {
+//               fileDTO = s3FileManager.saveImageFile(shareImage);
+//            } catch (Exception e) {
+//                throw new RuntimeException(e);
+//            }
 
-            // 이미지 S3 업로드
-            try {
-               fileDTO = s3FileManager.saveImageFile(shareImage);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+            log.info("=======================shareDoyakService 파일 정보들아 있니?!!!!");
+            log.info("shareDoyakFilePathName {}", reqShareDoyakDTO.getShareImegeUrl());
+            log.info("shareDoyakFileOriginalName {}", reqShareDoyakDTO.getShareOriginalName());
 
             // 파일 DB insert
             File file = File.builder()
-                    .filePathName(fileDTO.getFilePathName())
-                    .originalName(fileDTO.getOriginalName())
+                    .filePathName(reqShareDoyakDTO.getShareImegeUrl())
+                    .originalName(reqShareDoyakDTO.getShareOriginalName())
                     .build();
             entityManager.persist(file);
 
-            File selectFile = fileRepository.findByfilePathName(fileDTO.getFilePathName());
+            File selectFile = fileRepository.findByfilePathName(reqShareDoyakDTO.getShareImegeUrl());
             Member selectMember = memberRepository.findMemberByMemberId(memberId);
 
             // 서로도약 insert

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReqDoyakDTO {
+public class ResDoyakDTO {
     // 도약 응답 정보를 담는 DTO
 
     private Long memberId;  // 회원 아이디
