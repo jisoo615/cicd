@@ -2,6 +2,7 @@ package com.haru.doyak.harudoyak.domain.auth;
 
 import com.haru.doyak.harudoyak.dto.auth.JoinReqDTO;
 import com.haru.doyak.harudoyak.dto.auth.JwtMemberDTO;
+import com.haru.doyak.harudoyak.dto.auth.JwtReqDTO;
 import com.haru.doyak.harudoyak.dto.auth.LoginReqDTO;
 import com.haru.doyak.harudoyak.dto.jwt.JwtRecord;
 import com.haru.doyak.harudoyak.entity.Member;
@@ -47,5 +48,18 @@ public class AuthService {
                 .jwtRecord(jwtRecord)
                 .member(savedMember)
                 .build();
+    }
+
+    public void reissue(JwtReqDTO jwtReqDTO) {
+        if(jwtReqDTO.getRefreshToken()!=null){
+            // 검증
+            if(jwtProvider.validateToken(jwtReqDTO.getRefreshToken())){
+                // db랑 연결된 유저 찾기
+                Member savedMember = memberRepository.findMemberByRefreshToken(jwtReqDTO.getRefreshToken()).orElseThrow();
+                // 재발급
+                jwtProvider.getJwtRecord(savedMember);
+            }
+
+        }
     }
 }

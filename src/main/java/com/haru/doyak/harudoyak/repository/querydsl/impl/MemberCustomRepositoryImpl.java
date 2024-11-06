@@ -38,5 +38,13 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
         return Optional.ofNullable(getMember);
     }
 
+    @Override
+    public Optional<Member> findMemberByRefreshToken(String refreshToken) {
+        Member getMember = jpaQueryFactory.selectFrom(member)
+                .where(member.refreshToken.eq(refreshToken))
+                .fetchOne();
+        return Optional.ofNullable(getMember);
+    }
+
 
 }

@@ -1,11 +1,7 @@
 package com.haru.doyak.harudoyak.domain.auth;
 
 import com.haru.doyak.harudoyak.domain.auth.oauth.GoogleOAuthService;
-import com.haru.doyak.harudoyak.dto.auth.JoinReqDTO;
-import com.haru.doyak.harudoyak.dto.auth.JwtMemberDTO;
-import com.haru.doyak.harudoyak.dto.auth.LoginReqDTO;
-import com.haru.doyak.harudoyak.dto.jwt.JwtRecord;
-import com.haru.doyak.harudoyak.dto.auth.LoginResDTO;
+import com.haru.doyak.harudoyak.dto.auth.*;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -64,5 +60,11 @@ public class AuthController {
     public ResponseEntity validate(){
         Object object = RequestContextHolder.getRequestAttributes().getAttribute("authenticated", RequestAttributes.SCOPE_REQUEST);
         return ResponseEntity.ok().body(object.toString());
+    }
+
+    @PostMapping("reissue")
+    public ResponseEntity reissue(@RequestBody JwtReqDTO jwtReqDTO){
+        authService.reissue(jwtReqDTO);
+        return ResponseEntity.ok().body("");
     }
 }
