@@ -25,6 +25,9 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Doyak> doyaks;    // 복합키 도약 엔티티
 
+    @OneToOne
+    private File file;
+
     private String email;      // 이메일 주소
 
     private String password;        // 비밀번호
