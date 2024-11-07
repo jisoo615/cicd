@@ -119,8 +119,8 @@ public class OAuthService {
     public JwtMemberDTO kakaoLogin(String authorizationCode) {
         KakaoUserResponse userInfo = requestKakaoUserInfo(requestKakaoAccessToken(authorizationCode));
         // 이메일로 가입된 회원인지 확인하기
-        String providerId = kakao_client_name+"_"+userInfo.getId();
-        Optional<Member> optionalMember = memberRepository.findMemberByKakaoId(providerId);
+        String providerId = kakao_client_name+"_"+userInfo.getId().toString();
+        Optional<Member> optionalMember = memberRepository.findMemberByProviderId(providerId);
         Member savedMember;
         if(optionalMember.isEmpty()){
             // 가입 안되어있으면 가입시키기

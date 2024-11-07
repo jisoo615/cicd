@@ -21,5 +21,5 @@ public class Level {
     private Long maxContinuity;     // 최대연속일
     private Long point;             // 경험치
     private Long logCount;          // daily doyak count
-    private Long shareDoyackCount;  // share doyak count
+    private Long shareDoyakCount;  // share doyak count
 }
