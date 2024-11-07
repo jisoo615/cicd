@@ -46,5 +46,19 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
         return Optional.ofNullable(getMember);
     }
 
+    @Override
+    public Member findMemberByGoogleId(String googleId) {
+        return jpaQueryFactory.selectFrom(member)
+                .where(member.googleId.eq(googleId))
+                .fetchOne();
+    }
+
+    @Override
+    public Member findMemberByKakaoId(Long kakaoId) {
+        return jpaQueryFactory.selectFrom(member)
+                .where(member.kakaoId.eq(kakaoId))
+                .fetchOne();
+    }
+
 
 }

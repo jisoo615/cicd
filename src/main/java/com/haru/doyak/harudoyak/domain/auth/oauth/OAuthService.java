@@ -33,12 +33,16 @@ public class OAuthService {
     private String google_client_secret;
     @Value("${spring.oauth2.google.redirect-uri}")
     private String google_redirect_uri;
+    @Value("${spring.oauth2.google.client-name}")
+    private String google_client_name;
     @Value("${spring.oauth2.kakao.client-id}")
     private String kakao_client_id;
     @Value("${spring.oauth2.kakao.client-secret}")
     private String kakao_client_secret;
     @Value("${spring.oauth2.kakao.redirect-uri}")
     private String kakao_redirect_uri;
+    @Value("${spring.oauth2.kakao.client-name}")
+    private String kakao_client_name;
 
 
     public GoogleTokenResponse requestGoogleAccessToken(String authorizationCode) {
@@ -79,7 +83,7 @@ public class OAuthService {
     public JwtMemberDTO googleLogin(String authorizationCode){
         GoogleUserResponse userInfo = requestGoogleUserInfo(requestGoogleAccessToken(authorizationCode));
         // 이메일로 가입된 회원인지 확인하기
-        Optional<Member> optionalMember = memberRepository.findMemberByEmail(userInfo.email);
+        Optional<Member> optionalMember = memberRepository.findMemberByGoogleId(google_client_name+"_"+userInfo.id);
         Member savedMember;
         if(optionalMember.isEmpty()){
             // 가입 안되어있으면 가입시키기
@@ -91,6 +95,12 @@ public class OAuthService {
                     .build();
             memberRepository.save(member);
             savedMember = member;
+            // 레벨 생성하기
+            Level level = Level.builder()
+                    .member(savedMember)
+                    .point(10L)// 가입시 10포인트
+                    .build();
+            levelRepository.save(level);
         }else {
             savedMember = optionalMember.get();
         }
@@ -107,18 +117,24 @@ public class OAuthService {
     public JwtMemberDTO kakaoLogin(String authorizationCode) {
         KakaoUserResponse userInfo = requestKakaoUserInfo(requestKakaoAccessToken(authorizationCode));
         // 이메일로 가입된 회원인지 확인하기
-        Optional<Member> optionalMember = memberRepository.findMemberByEmail(userInfo.getKakao_account().getEmail());
+        Optional<Member> optionalMember = memberRepository.findMemberByKakaoId(kakao_client_name+"_"+userInfo.getId().toString());
         Member savedMember;
         if(optionalMember.isEmpty()){
             // 가입 안되어있으면 가입시키기
             Member member = Member.builder()
-                    .email(userInfo.getKakao_account().getEmail())
+                    .kakaoId(userInfo.getId())
                     .isVerified(true)
                     .kakaoId(userInfo.getId())
-                    .nickname(userInfo.getKakao_account().getName())
+                    .nickname(userInfo.getId().toString())
                     .build();
             memberRepository.save(member);
             savedMember = member;
+            // 레벨 생성하기
+            Level level = Level.builder()
+                    .member(savedMember)
+                    .point(10L)// 가입시 10포인트
+                    .build();
+            levelRepository.save(level);
         }else {
             savedMember = optionalMember.get();
         }
