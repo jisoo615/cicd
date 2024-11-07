@@ -78,4 +78,10 @@ public class AuthService {
         }
         return null;
     }
+
+    public Level getLevelByMemberId(Long memberId){
+        Optional<Level> levelOptional = levelRepository.findLevelByMemberId(memberId);
+        Level level = levelOptional.orElseThrow();
+        return level;
+    }
 }

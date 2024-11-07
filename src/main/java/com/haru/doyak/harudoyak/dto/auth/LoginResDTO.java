@@ -1,5 +1,6 @@
 package com.haru.doyak.harudoyak.dto.auth;
 
+import com.haru.doyak.harudoyak.entity.Level;
 import com.haru.doyak.harudoyak.entity.Member;
 import lombok.Builder;
 import lombok.Data;
@@ -14,5 +15,5 @@ public class LoginResDTO {
     String goalName;
     String email;
     boolean isVerified;
-
+    Level level;
 }

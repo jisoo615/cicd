@@ -2,6 +2,7 @@ package com.haru.doyak.harudoyak.domain.auth;
 
 import com.haru.doyak.harudoyak.domain.auth.oauth.OAuthService;
 import com.haru.doyak.harudoyak.dto.auth.*;
+import com.haru.doyak.harudoyak.entity.Level;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -21,10 +22,12 @@ public class AuthController {
     @PostMapping("login")
     public ResponseEntity<LoginResDTO> login(@RequestBody LoginReqDTO loginReqDTO) throws Exception {
         JwtMemberDTO jwtMemberDTO = authService.login(loginReqDTO);
+        Level level = authService.getLevelByMemberId(jwtMemberDTO.getMember().getMemberId());
         LoginResDTO loginResDTO = LoginResDTO.builder()
                 .memberId(jwtMemberDTO.getMember().getMemberId())
                 .aiNickname(jwtMemberDTO.getMember().getAiNickname())
                 .refreshToken(jwtMemberDTO.getJwtRecord().refreshToken())
+                .level(level)
                 .build();
         return ResponseEntity.ok()
                 .header(HttpHeaders.AUTHORIZATION, jwtMemberDTO.getJwtRecord().authorizationType()+" "+jwtMemberDTO.getJwtRecord().accessToken())
@@ -34,10 +37,12 @@ public class AuthController {
     @PostMapping("login/google")
     public ResponseEntity<LoginResDTO> googleLogin(@RequestBody LoginReqDTO loginReqDTO){
         JwtMemberDTO jwtMemberDTO = oAuthService.googleLogin(loginReqDTO.getCode());
+        Level level = authService.getLevelByMemberId(jwtMemberDTO.getMember().getMemberId());
         LoginResDTO loginResDTO = LoginResDTO.builder()
                 .memberId(jwtMemberDTO.getMember().getMemberId())
                 .aiNickname(jwtMemberDTO.getMember().getAiNickname())
                 .refreshToken(jwtMemberDTO.getJwtRecord().refreshToken())
+                .level(level)
                 .build();
         return ResponseEntity.ok()
                 .header(HttpHeaders.AUTHORIZATION, jwtMemberDTO.getJwtRecord().authorizationType()+" "+jwtMemberDTO.getJwtRecord().accessToken())
@@ -47,28 +52,21 @@ public class AuthController {
     @PostMapping("login/kakao")
     public ResponseEntity kakaoLogin(@RequestBody LoginReqDTO loginReqDTO) throws Exception {
         JwtMemberDTO jwtMemberDTO = oAuthService.kakaoLogin(loginReqDTO.getCode());
+        Level level = authService.getLevelByMemberId(jwtMemberDTO.getMember().getMemberId());
         LoginResDTO loginResDTO = LoginResDTO.builder()
                 .memberId(jwtMemberDTO.getMember().getMemberId())
                 .aiNickname(jwtMemberDTO.getMember().getAiNickname())
                 .refreshToken(jwtMemberDTO.getJwtRecord().refreshToken())
+                .level(level)
                 .build();
         return ResponseEntity.ok()
                 .header(HttpHeaders.AUTHORIZATION, jwtMemberDTO.getJwtRecord().authorizationType()+" "+jwtMemberDTO.getJwtRecord().accessToken())
                 .body(loginResDTO);
     }
 
-    @GetMapping("login/kakao")
-    public ResponseEntity getAtk(@RequestParam("code") String code){
-
-        return ResponseEntity.ok()
-                .body(
-                        oAuthService.requestKakaoUserInfo(
-                                oAuthService.requestKakaoAccessToken(code))
-                );
-    }
-
     @PostMapping("join")
     public ResponseEntity<String> join(@RequestBody JoinReqDTO joinReqDto){
+        if(!joinReqDto.isVerified()) return ResponseEntity.badRequest().body("이메일 인증이 필요합니다.");
         authService.joinMember(joinReqDto);
         return ResponseEntity.ok().body("회원가입이 완료되었습니다.");
     }
