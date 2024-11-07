@@ -1,6 +1,6 @@
 package com.haru.doyak.harudoyak.domain.auth;
 
-import com.haru.doyak.harudoyak.domain.auth.oauth.GoogleOAuthService;
+import com.haru.doyak.harudoyak.domain.auth.oauth.OAuthService;
 import com.haru.doyak.harudoyak.dto.auth.*;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 @RestController
 @RequestMapping("api/auth")
 public class AuthController {
-    private final GoogleOAuthService oAuthService;
+    private final OAuthService oAuthService;
     private final AuthService authService;
     private final EmailService emailService;
 
@@ -32,8 +32,8 @@ public class AuthController {
     }
 
     @PostMapping("login/google")
-    public ResponseEntity<LoginResDTO> googleLogin(@RequestBody String code){
-        JwtMemberDTO jwtMemberDTO = oAuthService.googleLogin(code);
+    public ResponseEntity<LoginResDTO> googleLogin(@RequestBody LoginReqDTO loginReqDTO){
+        JwtMemberDTO jwtMemberDTO = oAuthService.googleLogin(loginReqDTO.getCode());
         LoginResDTO loginResDTO = LoginResDTO.builder()
                 .memberId(jwtMemberDTO.getMember().getMemberId())
                 .aiNickname(jwtMemberDTO.getMember().getAiNickname())
@@ -42,6 +42,29 @@ public class AuthController {
         return ResponseEntity.ok()
                 .header(HttpHeaders.AUTHORIZATION, jwtMemberDTO.getJwtRecord().authorizationType()+" "+jwtMemberDTO.getJwtRecord().accessToken())
                 .body(loginResDTO);
+    }
+
+    @PostMapping("login/kakao")
+    public ResponseEntity kakaoLogin(@RequestBody LoginReqDTO loginReqDTO) throws Exception {
+        JwtMemberDTO jwtMemberDTO = oAuthService.kakaoLogin(loginReqDTO.getCode());
+        LoginResDTO loginResDTO = LoginResDTO.builder()
+                .memberId(jwtMemberDTO.getMember().getMemberId())
+                .aiNickname(jwtMemberDTO.getMember().getAiNickname())
+                .refreshToken(jwtMemberDTO.getJwtRecord().refreshToken())
+                .build();
+        return ResponseEntity.ok()
+                .header(HttpHeaders.AUTHORIZATION, jwtMemberDTO.getJwtRecord().authorizationType()+" "+jwtMemberDTO.getJwtRecord().accessToken())
+                .body(loginResDTO);
+    }
+
+    @GetMapping("login/kakao")
+    public ResponseEntity getAtk(@RequestParam("code") String code){
+
+        return ResponseEntity.ok()
+                .body(
+                        oAuthService.requestKakaoUserInfo(
+                                oAuthService.requestKakaoAccessToken(code))
+                );
     }
 
     @PostMapping("join")

@@ -35,7 +35,7 @@ public class Member {
 
     private String goalName;   // 도약목표명
 
-    private String kakaoId;    // 카카오아이디
+    private Long kakaoId;    // 카카오아이디
     private String googleId;   // 구글아이디
     private Boolean isVerified;   // 이메일인증 상태
     private String refreshToken;
