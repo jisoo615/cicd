@@ -83,14 +83,16 @@ public class OAuthService {
     public JwtMemberDTO googleLogin(String authorizationCode){
         GoogleUserResponse userInfo = requestGoogleUserInfo(requestGoogleAccessToken(authorizationCode));
         // 이메일로 가입된 회원인지 확인하기
-        Optional<Member> optionalMember = memberRepository.findMemberByGoogleId(google_client_name+"_"+userInfo.id);
+        String providerId = google_client_name+"_"+userInfo.getId();
+        Optional<Member> optionalMember = memberRepository.findMemberByProviderId(providerId);
         Member savedMember;
         if(optionalMember.isEmpty()){
             // 가입 안되어있으면 가입시키기
             Member member = Member.builder()
                     .email(userInfo.email)
                     .isVerified(true)
-                    .googleId(userInfo.id)
+                    .provider(google_client_name)
+                    .providerId(providerId)
                     .nickname(userInfo.name)
                     .build();
             memberRepository.save(member);
@@ -117,15 +119,16 @@ public class OAuthService {
     public JwtMemberDTO kakaoLogin(String authorizationCode) {
         KakaoUserResponse userInfo = requestKakaoUserInfo(requestKakaoAccessToken(authorizationCode));
         // 이메일로 가입된 회원인지 확인하기
-        Optional<Member> optionalMember = memberRepository.findMemberByKakaoId(kakao_client_name+"_"+userInfo.getId().toString());
+        String providerId = kakao_client_name+"_"+userInfo.getId();
+        Optional<Member> optionalMember = memberRepository.findMemberByKakaoId(providerId);
         Member savedMember;
         if(optionalMember.isEmpty()){
             // 가입 안되어있으면 가입시키기
             Member member = Member.builder()
-                    .kakaoId(userInfo.getId())
+                    .provider(kakao_client_name)
+                    .providerId(providerId)
                     .isVerified(true)
-                    .kakaoId(userInfo.getId())
-                    .nickname(userInfo.getId().toString())
+                    .nickname(providerId)
                     .build();
             memberRepository.save(member);
             savedMember = member;

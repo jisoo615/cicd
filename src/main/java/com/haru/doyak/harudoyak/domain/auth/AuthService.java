@@ -11,6 +11,7 @@ import com.haru.doyak.harudoyak.repository.LevelRepository;
 import com.haru.doyak.harudoyak.repository.MemberRepository;
 import com.haru.doyak.harudoyak.util.JwtProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,15 +24,19 @@ public class AuthService {
     private final JwtProvider jwtProvider;
     private final PasswordEncoder passwordEncoder;
     private final LevelRepository levelRepository;
+    @Value("${spring.oauth2.local.client-name}")
+    private String local_client_name;
 
     public void joinMember(JoinReqDTO joinReqDTO){
         Member member = Member.builder()
                 .email(joinReqDTO.getEmail())
+                .provider(local_client_name)
                 .password(passwordEncoder.encode(joinReqDTO.getPassword()))
                 .nickname(joinReqDTO.getNickname())
                 .build();
 
         memberRepository.save(member);
+        member.updateLocalProviderId();
         // 레벨 생성하기
         Level level = Level.builder()
                 .member(member)

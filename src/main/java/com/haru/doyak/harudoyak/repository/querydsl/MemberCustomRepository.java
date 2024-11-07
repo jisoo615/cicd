@@ -11,4 +11,5 @@ public interface MemberCustomRepository {
     Optional<Member> findMemberByRefreshToken(String refreshToken);
     Optional<Member> findMemberByGoogleId(String googleId);
     Optional<Member> findMemberByKakaoId(String kakaoId);
+    Optional<Member> findMemberByProviderId(String providerId);
 }

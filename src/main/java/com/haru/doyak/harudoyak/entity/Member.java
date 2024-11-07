@@ -35,11 +35,13 @@ public class Member {
 
     private String goalName;   // 도약목표명
 
-    private Long kakaoId;    // 카카오아이디
+    private String kakaoId;    // 카카오아이디
     private String googleId;   // 구글아이디
     private Boolean isVerified;   // 이메일인증 상태
     private String refreshToken;
-    private String refreshTokenExpireDate;
+
+    private String provider;
+    private String providerId;
 
     /**
      * insert 되기전 (persist 되기전) 실행된다.
@@ -77,6 +79,8 @@ public class Member {
     public void updateGoalName(String goalName){
         this.goalName = goalName;
     }
-
+    public void updateLocalProviderId(){
+        this.providerId = this.provider+"_"+this.memberId;
+    }
 
 }
