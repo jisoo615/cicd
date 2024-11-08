@@ -1,5 +1,6 @@
 package com.haru.doyak.harudoyak.repository.querydsl.impl;
 
+import com.haru.doyak.harudoyak.dto.sharedoyak.ReqShareDoyakDTO;
 import com.haru.doyak.harudoyak.dto.sharedoyak.ResCommentDTO;
 import com.haru.doyak.harudoyak.dto.sharedoyak.ResReplyCommentDTO;
 import com.haru.doyak.harudoyak.dto.sharedoyak.ResShareDoyakDTO;
@@ -25,6 +26,21 @@ import static com.haru.doyak.harudoyak.entity.QShareDoyak.shareDoyak;
 public class ShareDoyakCustomRepositoryImpl implements ShareDoyakCustomRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
+    /*
+    * 서로도약 content 수정
+    * */
+    @Override
+    public long ShareContentUpdate(Long shareDoyakId, ReqShareDoyakDTO reqShareDoyakDTO){
+        return jpaQueryFactory
+                .update(shareDoyak)
+                .where(shareDoyak.shareDoyakId.eq(shareDoyakId))
+                .set(shareDoyak.content, reqShareDoyakDTO.getShareContent())
+                .execute();
+    }
+
+    /*
+    * 서로도약 댓글 목록에 쓰일 data select
+    * */
     @Override
     public List<ResReplyCommentDTO> findeCommentAll(Long shareDoyakId) {
         List<ResReplyCommentDTO> comments = jpaQueryFactory
@@ -64,6 +80,9 @@ public class ShareDoyakCustomRepositoryImpl implements ShareDoyakCustomRepositor
         return comments;
     }
 
+    /*
+    * 서로도약 목록에 쓰일 data select
+    * */
     @Override
     public List<ResShareDoyakDTO> findeAll() {
 

@@ -6,4 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface LogRepository extends JpaRepository<Log, Long> , LogCustomRepository {
 
+    Log findLogByLogId(Long logId);
+
+    boolean existsByLogId(Long logId);
+
 }

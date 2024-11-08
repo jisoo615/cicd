@@ -1,5 +1,6 @@
 package com.haru.doyak.harudoyak.domain.log;
 
+import com.haru.doyak.harudoyak.dto.letter.ReqLetterDTO;
 import com.haru.doyak.harudoyak.dto.log.ReqLogDTO;
 import com.haru.doyak.harudoyak.dto.log.ResLogDTO;
 import com.haru.doyak.harudoyak.dto.log.TagDTO;
@@ -23,6 +24,31 @@ public class LogService {
     private final EntityManager entityManager;
     private final MemberRepository memberRepository;
     private final FileRepository fileRepository;
+
+    /*
+     * 도약이 편지 작성
+     * @param : memberId(Long), logId(Long), letterContent(String)
+     * @return :
+     * */
+    @Transactional
+    public void setLetterAdd(Long memberId, Long LogId, ReqLetterDTO reqLetterDTO) {
+        // 회원 존재 여부
+        boolean isExistsMember = memberRepository.existsByMemberId(memberId);
+
+        // 도약 기록 존재 여부
+        boolean isExistsLog = logRepository.existsByLogId(LogId);
+
+        // 회원과 도약기록이 존재한다면
+        if(isExistsMember && isExistsLog) {
+            Log selectLog = logRepository.findLogByLogId(LogId);
+
+            Letter letter = Letter.builder()
+                    .log(selectLog)
+                    .content(reqLetterDTO.getLetterContent())
+                    .build();
+            entityManager.persist(letter);
+        }
+    }
 
     /*
      * 도약 기록 목록
@@ -55,10 +81,7 @@ public class LogService {
          // 회원이 존재한다면
          if (isExistsMember){
 
-             /*
-             * DB에 파일 정보 insert
-             * values : filePathName
-             * */
+             // 이미지파일url insert
              File file = File.builder()
                      .filePathName(reqLogDTO.getLogImageUrl())
                      .build();
@@ -67,7 +90,7 @@ public class LogService {
              File selectFile = fileRepository.findByFileId(file.getFileId());
              Member selectByMember = memberRepository.findMemberByMemberId(memberId);
 
-           // 도약기록 insert
+             // 도약기록 insert
              Log log = Log.builder()
                      .member(selectByMember)
                      .file(selectFile)
@@ -76,10 +99,7 @@ public class LogService {
                      .build();
              entityManager.persist(log);
 
-             /*
-             * 태그 insert
-             * values :
-             * */
+             // 태그 insert
              for(TagDTO tagDTO : reqLogDTO.getTagNameList()){
                  Tag tag = Tag.builder()
                          .name(tagDTO.getTagName())
