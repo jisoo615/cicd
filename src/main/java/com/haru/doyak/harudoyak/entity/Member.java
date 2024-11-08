@@ -1,6 +1,7 @@
 package com.haru.doyak.harudoyak.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.List;
@@ -26,25 +27,21 @@ public class Member {
     private List<Doyak> doyaks;    // 복합키 도약 엔티티
 
     @JoinColumn
-    private Long fileId;// 외래키
+    private Long fileId;// 프로필 사진
 
     private String email;      // 이메일 주소
-
     private String password;        // 비밀번호
-
+    @NotNull
     private String nickname;   // 닉네임
-
+    @NotNull
     private String aiNickname; // 도약이별명
-
     private String goalName;   // 도약목표명
-
-    private String kakaoId;    // 카카오아이디
-    private String googleId;   // 구글아이디
+    @NotNull
     private Boolean isVerified;   // 이메일인증 상태
     private String refreshToken;
-
-    private String provider;
-    private String providerId;
+    @NotNull
+    private String provider;// 소셜로그인제공자 local, kakao, google
+    private String providerId;// provider_소셜이부여한id
 
     /**
      * insert 되기전 (persist 되기전) 실행된다.
