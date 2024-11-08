@@ -33,10 +33,18 @@ public class ShareDoyakService {
      * @return :
      * */
     @Transactional
-    public Long setShareDoyakUpdate(Long shareDoyakId, String shareContent){
+    public Long setShareDoyakUpdate(Long memberId, Long shareDoyakId, String shareContent){
         ReqShareDoyakDTO reqShareDoyakDTO = new ReqShareDoyakDTO();
         reqShareDoyakDTO.setShareContent(shareContent);
-        Long shareDoyakUpdateResult = shareDoyakRepository.ShareContentUpdate(shareDoyakId, reqShareDoyakDTO);
+        // 서로도약 작성자가 해당 회원이 맞다면
+        ShareDoyak selectShareDoyak = shareDoyakRepository.findShareDoyakByMemberId(memberId);
+        Long shareDoyakAuthor = selectShareDoyak.getMember().getMemberId();
+        long shareDoyakUpdateResult = 0;
+        if(shareDoyakAuthor.equals(memberId)){
+            shareDoyakUpdateResult = shareDoyakRepository.ShareContentUpdate(shareDoyakId, reqShareDoyakDTO);
+        }
+        // 아니라면
+
         return shareDoyakUpdateResult;
     }
 
@@ -120,29 +128,30 @@ public class ShareDoyakService {
         boolean isExistsMember = memberRepository.existsByMemberId(memberId);
         boolean isExistsShareDoyak = shareDoyakRepository.existsByshareDoyakId(shareDoyakId);
 
-        // 회원이 존재 한다면
-        if(isExistsMember){
-            if(isExistsShareDoyak){
+        // 회원과 서로도약게시글이 존재 한다면
+        if(isExistsMember && isExistsShareDoyak){
 
-                Member selectMember = memberRepository.findMemberByMemberId(memberId);
-                ShareDoyak selectShareDoyak = shareDoyakRepository.findShareDoyakByShareDoyakId(shareDoyakId);
+            Member selectMember = memberRepository.findMemberByMemberId(memberId);
+            ShareDoyak selectShareDoyak = shareDoyakRepository.findShareDoyakByShareDoyakId(shareDoyakId);
 
-                log.info("=============================================shareDoyakService");
-                log.info("memberId {}", selectMember.getMemberId());
-                log.info("shareDoyakId {}", selectShareDoyak.getShareDoyakId());
+            log.info("=============================================shareDoyakService");
+            log.info("memberId {}", selectMember.getMemberId());
+            log.info("shareDoyakId {}", selectShareDoyak.getShareDoyakId());
 
-                Doyak doyak = Doyak.builder()
-                        .doyakId(new DoyakId(
-                                selectShareDoyak.getShareDoyakId(),
-                                selectMember.getMemberId()
-                                )
-                        )
-                        .member(selectMember)
-                        .shareDoyak(selectShareDoyak)
-                        .build();
-                entityManager.persist(doyak);
-            }
+            Doyak doyak = Doyak.builder()
+                    .doyakId(new DoyakId(
+                            selectShareDoyak.getShareDoyakId(),
+                            selectMember.getMemberId()
+                            )
+                    )
+                    .member(selectMember)
+                    .shareDoyak(selectShareDoyak)
+                    .build();
+            entityManager.persist(doyak);
         }
+        // 회원이 존재하지 않다면
+
+
         // 해당 게시글의 총 도약수 select
         Long doyakCount = doyakCustomRepository.findDoyakAllCount();
         log.info("===============해당 게시글의 총 도약수 ");

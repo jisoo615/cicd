@@ -25,8 +25,8 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Doyak> doyaks;    // 복합키 도약 엔티티
 
-    @JoinColumn
-    private Long fileId;// 외래키
+//    @JoinColumn
+//    private Long fileId;// 외래키
 
     private String email;      // 이메일 주소
 
@@ -38,8 +38,11 @@ public class Member {
 
     private String goalName;   // 도약목표명
 
-    private String kakaoId;    // 카카오아이디
-    private String googleId;   // 구글아이디
+//    private String kakaoId;    // 카카오아이디
+//    private String googleId;   // 구글아이디
+    @OneToOne
+    @JoinColumn(name = "fileId")
+    private File file;
     private Boolean isVerified;   // 이메일인증 상태
     private String refreshToken;
 

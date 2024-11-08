@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ShareDoyakRepository extends JpaRepository<ShareDoyak, Long>, ShareDoyakCustomRepository {
 
+    ShareDoyak findShareDoyakByMemberId(Long memberId);
     ShareDoyak findShareDoyakByShareDoyakId(Long shareDoyakId);
     boolean existsByshareDoyakId(Long shareDoyakId);
 

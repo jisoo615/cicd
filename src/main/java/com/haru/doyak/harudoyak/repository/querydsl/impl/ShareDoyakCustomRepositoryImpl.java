@@ -30,7 +30,7 @@ public class ShareDoyakCustomRepositoryImpl implements ShareDoyakCustomRepositor
     * 서로도약 content 수정
     * */
     @Override
-    public Long ShareContentUpdate(Long shareDoyakId, ReqShareDoyakDTO reqShareDoyakDTO){
+    public long ShareContentUpdate(Long shareDoyakId, ReqShareDoyakDTO reqShareDoyakDTO){
         return jpaQueryFactory
                 .update(shareDoyak)
                 .where(shareDoyak.shareDoyakId.eq(shareDoyakId))

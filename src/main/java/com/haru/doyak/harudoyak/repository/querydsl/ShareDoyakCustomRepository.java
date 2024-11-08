@@ -12,6 +12,6 @@ List<ResShareDoyakDTO> findeAll();
 
 List<ResReplyCommentDTO> findeCommentAll(Long shareDoyakId);
 
-Long ShareContentUpdate(Long shareDoyakId, ReqShareDoyakDTO reqShareDoyakDTO);
+long ShareContentUpdate(Long shareDoyakId, ReqShareDoyakDTO reqShareDoyakDTO);
 
 }
