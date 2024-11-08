@@ -1,8 +1,8 @@
 package com.haru.doyak.harudoyak.domain.log;
 
-import com.haru.doyak.harudoyak.dto.file.FileDTO;
 import com.haru.doyak.harudoyak.dto.log.ReqLogDTO;
 import com.haru.doyak.harudoyak.dto.log.ResLogDTO;
+import com.haru.doyak.harudoyak.dto.log.TagDTO;
 import com.haru.doyak.harudoyak.entity.*;
 import com.haru.doyak.harudoyak.repository.FileRepository;
 import com.haru.doyak.harudoyak.repository.LogRepository;
@@ -13,7 +13,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -46,12 +45,11 @@ public class LogService {
 
     /*
      * 도약 기록 작성 (에러 처리 해야함)
-     * req : memberId(Long), logImage(MultipartFile),
-     *       logContent(String), tagName(String []), emotion(String)
+     * req : memberId(Long),logContent(String), tagName(String []), emotion(String)
      * res : 200 ok 400 등
      * */
     @Transactional
-    public void setLogAdd(ReqLogDTO reqLogDTO, Long memberId, MultipartFile logImage) {
+    public void setLogAdd(ReqLogDTO reqLogDTO, Long memberId) {
 
         // 도약기록 insert 전 회원 존재하는지 isExists 확인
          boolean isExistsMember = memberRepository.existsByMemberId(memberId);
@@ -59,33 +57,16 @@ public class LogService {
          // 회원이 존재한다면
          if (isExistsMember){
 
-             FileDTO fileDTO = new FileDTO();
-             /*
-             * S3파일 업로드
-             *
-             * return : filePathName(urlPath+fileName),
-             *          fileOriginalName(업로드시 fileName)
-             * */
-             try {
-                 fileDTO = s3FileManager.saveImageFile(logImage);
-                 log.info("=======================");
-                 log.info("LogService filePathName {}", fileDTO.getFilePathName());
-                 log.info("LogService fileOriginalName {}", fileDTO.getOriginalName());
-             } catch (Exception e) {
-                 throw new RuntimeException(e);
-             }
-
              /*
              * DB에 파일 정보 insert
-             * values : filePathName, originalName
+             * values : filePathName
              * */
              File file = File.builder()
-                     .filePathName(fileDTO.getFilePathName())
-                     .originalName(fileDTO.getOriginalName())
+                     .filePathName(reqLogDTO.getLogImageUrl())
                      .build();
              entityManager.persist(file);
 
-             File selectFile = fileRepository.findByfilePathName(fileDTO.getFilePathName());
+             File selectFile = fileRepository.findByFileId(file.getFileId());
              Member selectByMember = memberRepository.findMemberByMemberId(memberId);
 
            // 도약기록 insert
@@ -101,9 +82,9 @@ public class LogService {
              * 태그 insert
              * values :
              * */
-             for(String tagName : reqLogDTO.getTagName()){
+             for(TagDTO tagDTO : reqLogDTO.getTagNameList()){
                  Tag tag = Tag.builder()
-                         .name(tagName)
+                         .name(tagDTO.getTagName())
                          .build();
                  entityManager.persist(tag);
                  setLogTag(log, tag);

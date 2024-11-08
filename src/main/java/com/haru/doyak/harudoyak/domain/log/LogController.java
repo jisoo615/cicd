@@ -4,8 +4,8 @@ import com.haru.doyak.harudoyak.dto.log.ReqLogDTO;
 import com.haru.doyak.harudoyak.dto.log.ResLogDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -26,9 +26,9 @@ public class LogController {
      * res : logId(Long), creationDate(Date)
      * */
     @GetMapping("list/{memberId}")
-    public List<ResLogDTO> getLogList(@PathVariable("memberId") Long memberId){
+    public ResponseEntity<List<ResLogDTO>> getLogList(@PathVariable("memberId") Long memberId){
         List<ResLogDTO> resLogDTOS = logService.getLogList(memberId);
-        return resLogDTOS;
+        return ResponseEntity.ok().body(resLogDTOS);
     }
 
     /*
@@ -38,8 +38,9 @@ public class LogController {
      * res : 200 ok 400 등
      * */
     @PostMapping("{memberId}")
-    public void setLogAdd(@PathVariable("memberId") Long memberId, ReqLogDTO reqLogDTO, @RequestPart(value="logImage",required = false) MultipartFile logImage) {
-        logService.setLogAdd(reqLogDTO, memberId, logImage);
+    public ResponseEntity<String> setLogAdd(@PathVariable("memberId") Long memberId, @RequestBody ReqLogDTO reqLogDTO) {
+        logService.setLogAdd(reqLogDTO, memberId);
+        return ResponseEntity.ok().body("기록도약 게시글 작성을 완료했습니다.");
     }
 
 }

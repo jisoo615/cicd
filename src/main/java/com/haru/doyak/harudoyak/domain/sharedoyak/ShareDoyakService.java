@@ -2,15 +2,20 @@ package com.haru.doyak.harudoyak.domain.sharedoyak;
 
 import com.haru.doyak.harudoyak.dto.sharedoyak.ReqCommentDTO;
 import com.haru.doyak.harudoyak.dto.sharedoyak.ReqShareDoyakDTO;
+import com.haru.doyak.harudoyak.dto.sharedoyak.ResReplyCommentDTO;
+import com.haru.doyak.harudoyak.dto.sharedoyak.ResShareDoyakDTO;
 import com.haru.doyak.harudoyak.entity.*;
 import com.haru.doyak.harudoyak.repository.FileRepository;
 import com.haru.doyak.harudoyak.repository.MemberRepository;
 import com.haru.doyak.harudoyak.repository.ShareDoyakRepository;
+import com.haru.doyak.harudoyak.repository.querydsl.DoyakCustomRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -21,6 +26,28 @@ public class ShareDoyakService {
     private final MemberRepository memberRepository;
 //    private final S3FileManager s3FileManager;
     private final FileRepository fileRepository;
+    private final DoyakCustomRepository doyakCustomRepository;
+
+    /*
+     * 댓글 목록
+     * @param : shareDoyakId(Long)
+     * @return :
+     * */
+    public List<ResReplyCommentDTO> getCommentList(Long shareDoyakId){
+        List<ResReplyCommentDTO> resReplyCommentDTOS = shareDoyakRepository.findeCommentAll(shareDoyakId);
+        return resReplyCommentDTOS;
+    }
+
+    /*
+     * 서로도약 목록
+     * @param :
+     * @return : List<ResShareDoyakDTO>
+     * */
+    @Transactional
+    public List<ResShareDoyakDTO> getShareDoyakList(){
+        List<ResShareDoyakDTO> resDoyakDTOS = shareDoyakRepository.findeAll();
+        return resDoyakDTOS;
+    }
 
     /*
      * 댓글 작성
@@ -70,13 +97,13 @@ public class ShareDoyakService {
     public Long setDoyakAdd(Long memberId, Long shareDoyakId) {
 
         // 도약 테이블에 memberId 존재 여부
-        boolean isExistsDoyak = shareDoyakRepository.existsByMemberId(memberId);
+        boolean isExistsDoyak = doyakCustomRepository.existsByMemberId(memberId);
 
         //
         if (isExistsDoyak) {
             log.info("해당 아이디가 있는 도약이 있니?");
-            shareDoyakRepository.deleteDoyakByMemberId(memberId);
-            Long doyakCount = shareDoyakRepository.findDoyakAllCount();
+            doyakCustomRepository.deleteDoyakByMemberId(memberId);
+            Long doyakCount = doyakCustomRepository.findDoyakAllCount();
             return doyakCount;
         }
 
@@ -108,7 +135,7 @@ public class ShareDoyakService {
             }
         }
         // 해당 게시글의 총 도약수 select
-        Long doyakCount = shareDoyakRepository.findDoyakAllCount();
+        Long doyakCount = doyakCustomRepository.findDoyakAllCount();
         log.info("===============해당 게시글의 총 도약수 ");
         return doyakCount;
 
@@ -128,27 +155,14 @@ public class ShareDoyakService {
         // 회원이 존재 한다면
         if(isExistsMember){
 
-//            FileDTO fileDTO = new FileDTO();
-//
-//            // 이미지 S3 업로드
-//            try {
-//               fileDTO = s3FileManager.saveImageFile(shareImage);
-//            } catch (Exception e) {
-//                throw new RuntimeException(e);
-//            }
-
-            log.info("=======================shareDoyakService 파일 정보들아 있니?!!!!");
-            log.info("shareDoyakFilePathName {}", reqShareDoyakDTO.getShareImegeUrl());
-            log.info("shareDoyakFileOriginalName {}", reqShareDoyakDTO.getShareOriginalName());
-
             // 파일 DB insert
             File file = File.builder()
                     .filePathName(reqShareDoyakDTO.getShareImegeUrl())
-                    .originalName(reqShareDoyakDTO.getShareOriginalName())
                     .build();
             entityManager.persist(file);
 
-            File selectFile = fileRepository.findByfilePathName(reqShareDoyakDTO.getShareImegeUrl());
+            // persist()는 insert와 동시에 pk값을 조회할 수 있음 .getXXX()
+            File selectFile = fileRepository.findByFileId(file.getFileId());
             Member selectMember = memberRepository.findMemberByMemberId(memberId);
 
             // 서로도약 insert
@@ -158,6 +172,7 @@ public class ShareDoyakService {
                     .file(selectFile)
                     .build();
             entityManager.persist(shareDoyak);
+
         }
 
 
