@@ -25,6 +25,9 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Doyak> doyaks;    // 복합키 도약 엔티티
 
+    @JoinColumn
+    private Long fileId;// 외래키
+
     private String email;      // 이메일 주소
 
     private String password;        // 비밀번호
@@ -39,7 +42,9 @@ public class Member {
     private String googleId;   // 구글아이디
     private Boolean isVerified;   // 이메일인증 상태
     private String refreshToken;
-    private String refreshTokenExpireDate;
+
+    private String provider;
+    private String providerId;
 
     /**
      * insert 되기전 (persist 되기전) 실행된다.
@@ -77,6 +82,8 @@ public class Member {
     public void updateGoalName(String goalName){
         this.goalName = goalName;
     }
-
+    public void updateLocalProviderId(){
+        this.providerId = this.provider+"_"+this.memberId;
+    }
 
 }

@@ -38,5 +38,37 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
         return Optional.ofNullable(getMember);
     }
 
+    @Override
+    public Optional<Member> findMemberByRefreshToken(String refreshToken) {
+        Member getMember = jpaQueryFactory.selectFrom(member)
+                .where(member.refreshToken.eq(refreshToken))
+                .fetchOne();
+        return Optional.ofNullable(getMember);
+    }
+
+    @Override
+    public Optional<Member> findMemberByGoogleId(String googleId) {
+        Member getMember = jpaQueryFactory.selectFrom(member)
+                .where(member.googleId.eq(googleId))
+                .fetchOne();
+        return Optional.ofNullable(getMember);
+    }
+
+    @Override
+    public Optional<Member> findMemberByKakaoId(String kakaoId) {
+        Member getMember = jpaQueryFactory.selectFrom(member)
+                .where(member.kakaoId.eq(kakaoId))
+                .fetchOne();
+        return Optional.ofNullable(getMember);
+    }
+
+    @Override
+    public Optional<Member> findMemberByProviderId(String providerId) {
+        Member getMember = jpaQueryFactory.selectFrom(member)
+                .where(member.providerId.eq(providerId))
+                .fetchOne();
+        return Optional.ofNullable(getMember);
+    }
+
 
 }
