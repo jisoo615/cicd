@@ -2,8 +2,10 @@ package com.haru.doyak.harudoyak.domain.auth.oauth;
 
 import com.haru.doyak.harudoyak.dto.auth.JwtMemberDTO;
 import com.haru.doyak.harudoyak.dto.jwt.JwtRecord;
+import com.haru.doyak.harudoyak.entity.File;
 import com.haru.doyak.harudoyak.entity.Level;
 import com.haru.doyak.harudoyak.entity.Member;
+import com.haru.doyak.harudoyak.repository.FileRepository;
 import com.haru.doyak.harudoyak.repository.LevelRepository;
 import com.haru.doyak.harudoyak.repository.MemberRepository;
 import com.haru.doyak.harudoyak.util.JwtProvider;
@@ -26,6 +28,7 @@ public class OAuthService {
     private final MemberRepository memberRepository;
     private final JwtProvider jwtProvider;
     private final LevelRepository levelRepository;
+    private final FileRepository fileRepository;
 
     @Value("${spring.oauth2.google.client-id}")
     private String google_client_id;
@@ -82,7 +85,7 @@ public class OAuthService {
 
     public JwtMemberDTO googleLogin(String authorizationCode){
         GoogleUserResponse userInfo = requestGoogleUserInfo(requestGoogleAccessToken(authorizationCode));
-        // 이메일로 가입된 회원인지 확인하기
+        // provider_id로 가입 했었는지 확인
         String providerId = google_client_name+"_"+userInfo.getId();
         Optional<Member> optionalMember = memberRepository.findMemberByProviderId(providerId);
         Member savedMember;
@@ -118,11 +121,15 @@ public class OAuthService {
 
     public JwtMemberDTO kakaoLogin(String authorizationCode) {
         KakaoUserResponse userInfo = requestKakaoUserInfo(requestKakaoAccessToken(authorizationCode));
-        // 이메일로 가입된 회원인지 확인하기
+        // provider_id로 가입 했었는지 확인
         String providerId = kakao_client_name+"_"+userInfo.getId().toString();
         Optional<Member> optionalMember = memberRepository.findMemberByProviderId(providerId);
         Member savedMember;
         if(optionalMember.isEmpty()){
+            // 기본 프로필사진
+            File profile = File.builder().build();
+
+
             // 가입 안되어있으면 가입시키기
             Member member = Member.builder()
                     .provider(kakao_client_name)

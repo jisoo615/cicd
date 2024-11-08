@@ -3,8 +3,11 @@ package com.haru.doyak.harudoyak.repository.querydsl.impl;
 import com.haru.doyak.harudoyak.entity.Member;
 
 import static com.haru.doyak.harudoyak.entity.QMember.member;
+import static com.haru.doyak.harudoyak.entity.QLevel.level;
+import static com.haru.doyak.harudoyak.entity.QFile.file;
 
 import com.haru.doyak.harudoyak.repository.querydsl.MemberCustomRepository;
+import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
@@ -70,5 +73,16 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
         return Optional.ofNullable(getMember);
     }
 
-
+    @Override
+    public Tuple findLevelAndFileByMemberId(Long memberId) {
+        return jpaQueryFactory.select(member.memberId, member.email
+        , member.providerId, member.nickname, member.aiNickname, member.isVerified, member.goalName,
+                file.fileId, file.filePathName, file.originalName
+        ,level.levelId, level.point, level.firstDate, level.logCount, level.shareDoyakCount,
+                level.recentContinuity, level.maxContinuity)
+                .from(member)
+                .leftJoin(level).on(member.memberId.eq(level.member.memberId))
+                .leftJoin(file).on(member.fileId.eq(file.fileId))
+                .fetchOne();
+    }
 }
