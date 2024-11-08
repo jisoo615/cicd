@@ -22,6 +22,13 @@ public class ShareDoyakController {
     * */
 
     /*
+     * 서로도약 수정
+     * @param : memberId(Long), shareDoyakId(Long), shareContent(String)
+     * @return :
+     * */
+
+
+    /*
      * 댓글 목록
      * @param : shareDoyakId(Long)
      * @return :
@@ -31,6 +38,7 @@ public class ShareDoyakController {
         List<ResReplyCommentDTO> resReplyCommentDTOS = shareDoyakService.getCommentList(shareDoyakId);
         return ResponseEntity.ok(resReplyCommentDTOS);
     }
+
     /*
      * 서로도약 목록
      * @param :
