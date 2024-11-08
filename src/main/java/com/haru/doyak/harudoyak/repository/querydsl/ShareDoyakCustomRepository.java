@@ -1,11 +1,14 @@
 package com.haru.doyak.harudoyak.repository.querydsl;
 
+import com.haru.doyak.harudoyak.dto.sharedoyak.ResReplyCommentDTO;
+import com.haru.doyak.harudoyak.dto.sharedoyak.ResShareDoyakDTO;
+
+import java.util.List;
+
 public interface ShareDoyakCustomRepository {
 
-    Long findDoyakAllCount();
+List<ResShareDoyakDTO> findeAll();
 
-    Long deleteDoyakByMemberId(Long memberId);
-
-    boolean existsByMemberId(Long memberId);
+List<ResReplyCommentDTO> findeCommentAll(Long shareDoyakId);
 
 }
