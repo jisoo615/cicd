@@ -48,7 +48,7 @@ public class MemberService {
         Optional<Member> optionalMember = memberRepository.findMemberById(memberId);
         if(optionalMember.isEmpty()) return;
         Member member = optionalMember.get();
-        member.updateGoalName(encoded);
+        member.updatePassword(encoded);
         memberRepository.save(member);
     }
     
