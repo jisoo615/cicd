@@ -7,7 +7,6 @@ import com.haru.doyak.harudoyak.entity.*;
 import com.haru.doyak.harudoyak.repository.FileRepository;
 import com.haru.doyak.harudoyak.repository.LogRepository;
 import com.haru.doyak.harudoyak.repository.MemberRepository;
-import com.haru.doyak.harudoyak.util.S3FileManager;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +22,6 @@ public class LogService {
     private final LogRepository logRepository;
     private final EntityManager entityManager;
     private final MemberRepository memberRepository;
-    private final S3FileManager s3FileManager;
     private final FileRepository fileRepository;
 
     /*

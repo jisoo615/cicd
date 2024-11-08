@@ -26,7 +26,10 @@ public class ShareDoyakController {
      * @param : memberId(Long), shareDoyakId(Long), shareContent(String)
      * @return :
      * */
-
+    @PutMapping("{memberId}/{shareDoyakId}")
+    public void setShareDoyakUpdate(){
+        log.info("서로도약 업데이트 요청 왔는가");
+    }
 
     /*
      * 댓글 목록
