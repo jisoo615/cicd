@@ -24,9 +24,21 @@ public class ShareDoyakService {
     private final ShareDoyakRepository shareDoyakRepository;
     private final EntityManager entityManager;
     private final MemberRepository memberRepository;
-//    private final S3FileManager s3FileManager;
     private final FileRepository fileRepository;
     private final DoyakCustomRepository doyakCustomRepository;
+
+    /*
+     * 서로도약 수정
+     * @param : memberId(Long), shareDoyakId(Long), shareContent(String)
+     * @return :
+     * */
+    @Transactional
+    public Long setShareDoyakUpdate(Long shareDoyakId, String shareContent){
+        ReqShareDoyakDTO reqShareDoyakDTO = new ReqShareDoyakDTO();
+        reqShareDoyakDTO.setShareContent(shareContent);
+        Long shareDoyakUpdateResult = shareDoyakRepository.ShareContentUpdate(shareDoyakId, reqShareDoyakDTO);
+        return shareDoyakUpdateResult;
+    }
 
     /*
      * 댓글 목록
@@ -64,7 +76,6 @@ public class ShareDoyakService {
         // 회원 존재 여부 확인
         boolean isExistsMember = memberRepository.existsByMemberId(memberId);
 
-
         // 서로도약 존재 여부 확인
         boolean isExistsShareDoyak = shareDoyakRepository.existsById(shareDoyakId);
 
@@ -83,8 +94,6 @@ public class ShareDoyakService {
                     .build();
             entityManager.persist(comment);
         }
-
-
 
     }
 

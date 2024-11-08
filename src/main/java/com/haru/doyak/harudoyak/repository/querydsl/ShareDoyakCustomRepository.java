@@ -1,5 +1,6 @@
 package com.haru.doyak.harudoyak.repository.querydsl;
 
+import com.haru.doyak.harudoyak.dto.sharedoyak.ReqShareDoyakDTO;
 import com.haru.doyak.harudoyak.dto.sharedoyak.ResReplyCommentDTO;
 import com.haru.doyak.harudoyak.dto.sharedoyak.ResShareDoyakDTO;
 
@@ -10,5 +11,7 @@ public interface ShareDoyakCustomRepository {
 List<ResShareDoyakDTO> findeAll();
 
 List<ResReplyCommentDTO> findeCommentAll(Long shareDoyakId);
+
+Long ShareContentUpdate(Long shareDoyakId, ReqShareDoyakDTO reqShareDoyakDTO);
 
 }
