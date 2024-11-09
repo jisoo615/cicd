@@ -31,6 +31,7 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
         Member getMember = jpaQueryFactory.selectFrom(member)
                 .where(member.nickname.eq(nickname))
                 .fetchOne();
+        System.out.println("Queried Member: " + getMember);  // 로그 추가
         return Optional.ofNullable(getMember);
     }
 

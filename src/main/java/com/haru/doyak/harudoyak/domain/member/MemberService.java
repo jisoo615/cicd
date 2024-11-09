@@ -51,5 +51,10 @@ public class MemberService {
         member.updatePassword(encoded);
         memberRepository.save(member);
     }
+
+    public boolean isCorrectPassword(Long memberId, String password){
+        Member member = memberRepository.findMemberById(memberId).orElseThrow();
+        return passwordEncoder.matches(password, member.getPassword());
+    }
     
 }
