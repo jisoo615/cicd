@@ -1,5 +1,6 @@
 package com.haru.doyak.harudoyak.repository.querydsl.impl;
 
+import com.haru.doyak.harudoyak.dto.auth.LoginResDTO;
 import com.haru.doyak.harudoyak.entity.Member;
 
 import static com.haru.doyak.harudoyak.entity.QMember.member;
@@ -59,14 +60,11 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
 
     @Override
     public Tuple findLevelAndFileByMemberId(Long memberId) {
-        return jpaQueryFactory.select(member.memberId, member.email
-        , member.providerId, member.nickname, member.aiNickname, member.isVerified, member.goalName,
-                file.fileId, file.filePathName, file.originalName
-        ,level.levelId, level.point, level.firstDate, level.logCount, level.shareDoyakCount,
-                level.recentContinuity, level.maxContinuity)
+        return jpaQueryFactory.select(member, level, file)
                 .from(member)
-                .leftJoin(level).on(member.memberId.eq(level.member.memberId))
+                .leftJoin(level).on(member.memberId.eq(level.memberId))
                 .leftJoin(file).on(member.fileId.eq(file.fileId))
+                .where(member.memberId.eq(memberId))
                 .fetchOne();
     }
 }

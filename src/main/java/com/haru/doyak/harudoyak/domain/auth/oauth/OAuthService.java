@@ -102,7 +102,7 @@ public class OAuthService {
             savedMember = member;
             // 레벨 생성하기
             Level level = Level.builder()
-                    .member(savedMember)
+                    .memberId(member.getMemberId())
                     .point(10L)// 가입시 10포인트
                     .build();
             levelRepository.save(level);
@@ -126,10 +126,6 @@ public class OAuthService {
         Optional<Member> optionalMember = memberRepository.findMemberByProviderId(providerId);
         Member savedMember;
         if(optionalMember.isEmpty()){
-            // 기본 프로필사진
-            File profile = File.builder().build();
-
-
             // 가입 안되어있으면 가입시키기
             Member member = Member.builder()
                     .provider(kakao_client_name)
@@ -141,7 +137,7 @@ public class OAuthService {
             savedMember = member;
             // 레벨 생성하기
             Level level = Level.builder()
-                    .member(savedMember)
+                    .memberId(member.getMemberId())
                     .point(10L)// 가입시 10포인트
                     .build();
             levelRepository.save(level);

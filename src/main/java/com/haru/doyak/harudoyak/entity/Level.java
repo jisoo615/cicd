@@ -17,10 +17,8 @@ public class Level {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long levelId;
 
-    @JsonIgnore
-    @OneToOne
-    @JoinColumn(name = "memberId")
-    private Member member;          // 회원 아이디(외래키)
+    @JoinColumn
+    private Long memberId;          // 회원 아이디(외래키)
 
     private Long recentContinuity;  // 최근연속 작성일
     private Long maxContinuity;     // 최대연속일

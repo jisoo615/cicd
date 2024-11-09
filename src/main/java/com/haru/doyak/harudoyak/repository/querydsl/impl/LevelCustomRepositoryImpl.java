@@ -16,7 +16,7 @@ public class LevelCustomRepositoryImpl implements LevelCustomRepository {
     @Override
     public Optional<Level> findLevelByMemberId(Long memberId){
         Level getLevel = jpaQueryFactory.selectFrom(level)
-                .where(level.member.memberId.eq(memberId))
+                .where(level.memberId.eq(memberId))
                 .fetchOne();
         return Optional.ofNullable(getLevel);
     }

@@ -22,13 +22,7 @@ public class AuthController {
     @PostMapping("login")
     public ResponseEntity<LoginResDTO> login(@RequestBody LoginReqDTO loginReqDTO) throws Exception {
         JwtMemberDTO jwtMemberDTO = authService.login(loginReqDTO);
-        Level level = authService.getLevelByMemberId(jwtMemberDTO.getMember().getMemberId());
-        LoginResDTO loginResDTO = LoginResDTO.builder()
-                .memberId(jwtMemberDTO.getMember().getMemberId())
-                .aiNickname(jwtMemberDTO.getMember().getAiNickname())
-                .refreshToken(jwtMemberDTO.getJwtRecord().refreshToken())
-                .level(level)
-                .build();
+        LoginResDTO loginResDTO = authService.makeLoginResDTO(jwtMemberDTO.getMember().getMemberId());
         return ResponseEntity.ok()
                 .header(HttpHeaders.AUTHORIZATION, jwtMemberDTO.getJwtRecord().authorizationType()+" "+jwtMemberDTO.getJwtRecord().accessToken())
                 .body(loginResDTO);
@@ -37,13 +31,7 @@ public class AuthController {
     @PostMapping("login/google")
     public ResponseEntity<LoginResDTO> googleLogin(@RequestBody LoginReqDTO loginReqDTO){
         JwtMemberDTO jwtMemberDTO = oAuthService.googleLogin(loginReqDTO.getCode());
-        Level level = authService.getLevelByMemberId(jwtMemberDTO.getMember().getMemberId());
-        LoginResDTO loginResDTO = LoginResDTO.builder()
-                .memberId(jwtMemberDTO.getMember().getMemberId())
-                .aiNickname(jwtMemberDTO.getMember().getAiNickname())
-                .refreshToken(jwtMemberDTO.getJwtRecord().refreshToken())
-                .level(level)
-                .build();
+        LoginResDTO loginResDTO = authService.makeLoginResDTO(jwtMemberDTO.getMember().getMemberId());
         return ResponseEntity.ok()
                 .header(HttpHeaders.AUTHORIZATION, jwtMemberDTO.getJwtRecord().authorizationType()+" "+jwtMemberDTO.getJwtRecord().accessToken())
                 .body(loginResDTO);
@@ -52,13 +40,7 @@ public class AuthController {
     @PostMapping("login/kakao")
     public ResponseEntity kakaoLogin(@RequestBody LoginReqDTO loginReqDTO) throws Exception {
         JwtMemberDTO jwtMemberDTO = oAuthService.kakaoLogin(loginReqDTO.getCode());
-        Level level = authService.getLevelByMemberId(jwtMemberDTO.getMember().getMemberId());
-        LoginResDTO loginResDTO = LoginResDTO.builder()
-                .memberId(jwtMemberDTO.getMember().getMemberId())
-                .aiNickname(jwtMemberDTO.getMember().getAiNickname())
-                .refreshToken(jwtMemberDTO.getJwtRecord().refreshToken())
-                .level(level)
-                .build();
+        LoginResDTO loginResDTO = authService.makeLoginResDTO(jwtMemberDTO.getMember().getMemberId());
         return ResponseEntity.ok()
                 .header(HttpHeaders.AUTHORIZATION, jwtMemberDTO.getJwtRecord().authorizationType()+" "+jwtMemberDTO.getJwtRecord().accessToken())
                 .body(loginResDTO);

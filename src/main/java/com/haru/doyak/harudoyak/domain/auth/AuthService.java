@@ -1,9 +1,10 @@
 package com.haru.doyak.harudoyak.domain.auth;
 
-import com.haru.doyak.harudoyak.dto.auth.JoinReqDTO;
-import com.haru.doyak.harudoyak.dto.auth.JwtMemberDTO;
-import com.haru.doyak.harudoyak.dto.auth.JwtReqDTO;
-import com.haru.doyak.harudoyak.dto.auth.LoginReqDTO;
+import static com.haru.doyak.harudoyak.entity.QMember.member;
+import static com.haru.doyak.harudoyak.entity.QLevel.level;
+import static com.haru.doyak.harudoyak.entity.QFile.file;
+
+import com.haru.doyak.harudoyak.dto.auth.*;
 import com.haru.doyak.harudoyak.dto.jwt.JwtRecord;
 import com.haru.doyak.harudoyak.entity.Level;
 import com.haru.doyak.harudoyak.entity.Member;
@@ -11,6 +12,7 @@ import com.haru.doyak.harudoyak.repository.FileRepository;
 import com.haru.doyak.harudoyak.repository.LevelRepository;
 import com.haru.doyak.harudoyak.repository.MemberRepository;
 import com.haru.doyak.harudoyak.util.JwtProvider;
+import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -41,7 +43,7 @@ public class AuthService {
         member.updateLocalProviderId();
         // 레벨 생성하기
         Level level = Level.builder()
-                .member(member)
+                .memberId(member.getMemberId())
                 .point(10L)// 가입시 10포인트
                 .build();
         levelRepository.save(level);
@@ -81,9 +83,12 @@ public class AuthService {
         return null;
     }
 
-    public Level getLevelByMemberId(Long memberId){
-        Optional<Level> levelOptional = levelRepository.findLevelByMemberId(memberId);
-        Level level = levelOptional.orElseThrow();
-        return level;
+    public LoginResDTO makeLoginResDTO(Long memberId) {
+        Tuple tuple = memberRepository.findLevelAndFileByMemberId(memberId);
+        return LoginResDTO.builder()
+                .member(tuple.get(member))
+                .level(tuple.get(level))
+                .file(tuple.get(file))
+                .build();
     }
 }
