@@ -1,5 +1,6 @@
 package com.haru.doyak.harudoyak.domain.log;
 
+import com.haru.doyak.harudoyak.dto.letter.ReqLetterDTO;
 import com.haru.doyak.harudoyak.dto.log.ReqLogDTO;
 import com.haru.doyak.harudoyak.dto.log.ResLogDTO;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,22 @@ public class LogController {
     /*
      * 도약 기록
      * */
+
+    /*
+    * 일간 도약기록 조회
+    * */
+    @GetMapping()
+
+    /*
+    * 도약이 편지 작성
+    * @param : memberId(Long), logId(Long), letterContent(String)
+    * @return :
+    * */
+    @PostMapping("letters/{memberId}/{logId}")
+    public ResponseEntity<String> setLetterAdd(@PathVariable("memberId") Long memberId, @PathVariable("logId") Long LogId,@RequestBody ReqLetterDTO reqLetterDTO) {
+        logService.setLetterAdd(memberId, LogId, reqLetterDTO);
+        return ResponseEntity.ok("작성이 완료되었습니다.");
+    }
 
     /*
      * 도약 기록 목록

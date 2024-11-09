@@ -1,8 +1,10 @@
 package com.haru.doyak.harudoyak.repository.querydsl.impl;
 
+import com.haru.doyak.harudoyak.dto.sharedoyak.ReqShareDoyakDTO;
 import com.haru.doyak.harudoyak.dto.sharedoyak.ResCommentDTO;
 import com.haru.doyak.harudoyak.dto.sharedoyak.ResReplyCommentDTO;
 import com.haru.doyak.harudoyak.dto.sharedoyak.ResShareDoyakDTO;
+import com.haru.doyak.harudoyak.entity.ShareDoyak;
 import com.haru.doyak.harudoyak.repository.querydsl.ShareDoyakCustomRepository;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
@@ -25,9 +27,39 @@ import static com.haru.doyak.harudoyak.entity.QShareDoyak.shareDoyak;
 public class ShareDoyakCustomRepositoryImpl implements ShareDoyakCustomRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
+    /*
+    * 서로도약 작성한 회원 select
+    * */
+    @Override
+    public ShareDoyak findShaereDoyakByMemeberId(Long memeberId, Long shareDoyakId){
+
+        return jpaQueryFactory
+                .select(shareDoyak)
+                .from(shareDoyak)
+                .leftJoin(member).on(shareDoyak.member.memberId.eq(member.memberId))
+                .where(shareDoyak.member.memberId.eq(memeberId), shareDoyak.shareDoyakId.eq(shareDoyakId))
+                .fetchOne();
+    }
+
+    /*
+    * 서로도약 content 수정
+    * */
+    @Override
+    public long ShareContentUpdate(Long shareDoyakId, ReqShareDoyakDTO reqShareDoyakDTO){
+        return jpaQueryFactory
+                .update(shareDoyak)
+                .where(shareDoyak.shareDoyakId.eq(shareDoyakId))
+                .set(shareDoyak.content, reqShareDoyakDTO.getShareContent())
+                .execute();
+    }
+
+    /*
+    * 서로도약 댓글 목록에 쓰일 data select
+    * */
     @Override
     public List<ResReplyCommentDTO> findeCommentAll(Long shareDoyakId) {
-        List<ResReplyCommentDTO> comments = jpaQueryFactory
+
+        return jpaQueryFactory
                 .select(Projections.bean(
                         ResReplyCommentDTO.class,
                         comment.shareDoyak.shareDoyakId.as("commentShareDoyakId"),
@@ -41,7 +73,7 @@ public class ShareDoyakCustomRepositoryImpl implements ShareDoyakCustomRepositor
                                         .select(comment.count())
                                         .from(comment)
                                         .where(comment.parentCommentId.eq(comment.commentId)),
-                        "replyCommentCount")
+                                "replyCommentCount")
 
                         // 좀 더 공부해야 함
                        /* ExpressionUtils.as(
@@ -61,9 +93,12 @@ public class ShareDoyakCustomRepositoryImpl implements ShareDoyakCustomRepositor
                 .where(comment.parentCommentId.isNull(), comment.shareDoyak.shareDoyakId.eq(shareDoyakId))
                 .orderBy(comment.creationDate.desc())
                 .fetch();
-        return comments;
+
     }
 
+    /*
+    * 서로도약 목록에 쓰일 data select
+    * */
     @Override
     public List<ResShareDoyakDTO> findeAll() {
 

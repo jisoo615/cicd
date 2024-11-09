@@ -32,7 +32,6 @@ public class ShareDoyak {
     @OneToMany(mappedBy = "shareDoyak")
     private List<Doyak> doyaks;         // 복합키 도약 엔티티
 
-    /*@NotNull*/
     private String title;               // 서로도약 제목
 
     @NotNull
