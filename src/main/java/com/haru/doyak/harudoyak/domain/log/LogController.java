@@ -3,6 +3,7 @@ package com.haru.doyak.harudoyak.domain.log;
 import com.haru.doyak.harudoyak.dto.letter.ReqLetterDTO;
 import com.haru.doyak.harudoyak.dto.log.ReqLogDTO;
 import com.haru.doyak.harudoyak.dto.log.ResLogDTO;
+import com.haru.doyak.harudoyak.dto.log.ResLogDetailDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +24,13 @@ public class LogController {
 
     /*
     * 일간 도약기록 조회
+    * @param : memberId(Long), logId(Long)
     * */
-    @GetMapping()
+    @GetMapping("{memberId}/{logId}")
+    public ResponseEntity<List<ResLogDetailDTO>> getDailyLogDetail(@PathVariable("memberId") Long memberId, @PathVariable("logId") Long logId) {
+        List<ResLogDetailDTO> resLogDetailDTOS = logService.getDailyLogDetail(memberId, logId);
+        return ResponseEntity.ok(resLogDetailDTOS);
+    }
 
     /*
     * 도약이 편지 작성
