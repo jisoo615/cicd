@@ -1,6 +1,5 @@
-package com.haru.doyak.harudoyak.dto.auth;
+package com.haru.doyak.harudoyak.dto.auth.jwt;
 
-import com.haru.doyak.harudoyak.dto.jwt.JwtRecord;
 import com.haru.doyak.harudoyak.entity.Member;
 import lombok.Builder;
 import lombok.Data;

@@ -1,6 +1,6 @@
 package com.haru.doyak.harudoyak.util;
 
-import com.haru.doyak.harudoyak.dto.jwt.JwtRecord;
+import com.haru.doyak.harudoyak.dto.auth.jwt.JwtRecord;
 import com.haru.doyak.harudoyak.entity.Member;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;

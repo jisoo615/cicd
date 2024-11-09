@@ -1,8 +1,7 @@
 package com.haru.doyak.harudoyak.domain.auth.oauth;
 
-import com.haru.doyak.harudoyak.dto.auth.JwtMemberDTO;
-import com.haru.doyak.harudoyak.dto.jwt.JwtRecord;
-import com.haru.doyak.harudoyak.entity.File;
+import com.haru.doyak.harudoyak.dto.auth.jwt.JwtMemberDTO;
+import com.haru.doyak.harudoyak.dto.auth.jwt.JwtRecord;
 import com.haru.doyak.harudoyak.entity.Level;
 import com.haru.doyak.harudoyak.entity.Member;
 import com.haru.doyak.harudoyak.repository.FileRepository;

@@ -2,6 +2,9 @@ package com.haru.doyak.harudoyak.domain.auth;
 
 import com.haru.doyak.harudoyak.domain.auth.oauth.OAuthService;
 import com.haru.doyak.harudoyak.dto.auth.*;
+import com.haru.doyak.harudoyak.dto.auth.jwt.JwtMemberDTO;
+import com.haru.doyak.harudoyak.dto.auth.jwt.JwtReqDTO;
+import com.haru.doyak.harudoyak.dto.auth.jwt.JwtResDTO;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;

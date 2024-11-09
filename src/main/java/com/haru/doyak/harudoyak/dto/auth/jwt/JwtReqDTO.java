@@ -1,4 +1,4 @@
-package com.haru.doyak.harudoyak.dto.auth;
+package com.haru.doyak.harudoyak.dto.auth.jwt;
 
 import lombok.Data;
 

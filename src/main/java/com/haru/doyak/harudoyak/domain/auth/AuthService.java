@@ -5,7 +5,9 @@ import static com.haru.doyak.harudoyak.entity.QLevel.level;
 import static com.haru.doyak.harudoyak.entity.QFile.file;
 
 import com.haru.doyak.harudoyak.dto.auth.*;
-import com.haru.doyak.harudoyak.dto.jwt.JwtRecord;
+import com.haru.doyak.harudoyak.dto.auth.jwt.JwtMemberDTO;
+import com.haru.doyak.harudoyak.dto.auth.jwt.JwtRecord;
+import com.haru.doyak.harudoyak.dto.auth.jwt.JwtReqDTO;
 import com.haru.doyak.harudoyak.entity.Level;
 import com.haru.doyak.harudoyak.entity.Member;
 import com.haru.doyak.harudoyak.repository.FileRepository;
