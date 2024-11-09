@@ -16,9 +16,11 @@ public class EmailService {
     private final JavaMailSender javaMailSender;
     @Value("${spring.mail.username}")
     private String mailUsername;
+    @Value("${spring.mail.verify-uri}")
+    private String mailVerifyUri;
 
     public void sendAuthLinkEmail(String recipient) throws MessagingException {
-        String authLink = "http://localhost:5500/join?email="+recipient+"&isVerified=true&expireDate="+ LocalDateTime.now().plusDays(1);
+        String authLink = mailVerifyUri+"email="+recipient+"&isVerified=true&expireDate="+ LocalDateTime.now().plusDays(1);
 
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");

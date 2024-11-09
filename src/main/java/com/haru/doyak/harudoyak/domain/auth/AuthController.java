@@ -2,7 +2,6 @@ package com.haru.doyak.harudoyak.domain.auth;
 
 import com.haru.doyak.harudoyak.domain.auth.oauth.OAuthService;
 import com.haru.doyak.harudoyak.dto.auth.*;
-import com.haru.doyak.harudoyak.entity.Level;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -54,8 +53,8 @@ public class AuthController {
     }
 
     @PostMapping("email/verify")
-    public ResponseEntity<String> emailVerify(@RequestBody String email) throws MessagingException {
-        emailService.sendAuthLinkEmail(email);
+    public ResponseEntity<String> emailVerify(@RequestBody EmailVerifyReqDTO dto) throws MessagingException {
+        emailService.sendAuthLinkEmail(dto.getEmail());
         return ResponseEntity.ok().body("인증 메일이 발송되었습니다.");
     }
 
