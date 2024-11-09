@@ -33,19 +33,25 @@ public class ShareDoyakService {
      * @return :
      * */
     @Transactional
-    public Long setShareDoyakUpdate(Long memberId, Long shareDoyakId, String shareContent){
+    public long setShareDoyakUpdate(Long memberId, Long shareDoyakId, String shareContent){
         ReqShareDoyakDTO reqShareDoyakDTO = new ReqShareDoyakDTO();
         reqShareDoyakDTO.setShareContent(shareContent);
+        long shareDoyakAuthor = 0;
+        try {
+            ShareDoyak selectShareDoyak = shareDoyakRepository.findShaereDoyakByMemeberId(memberId, shareDoyakId);
+            shareDoyakAuthor = selectShareDoyak.getMember().getMemberId();
+        }catch (NullPointerException nullPointerException){
+            throw new NullPointerException("해당 글의 작성자가 아닙니다.");
+        }
         // 서로도약 작성자가 해당 회원이 맞다면
-        ShareDoyak selectShareDoyak = shareDoyakRepository.findShareDoyakByMemberId(memberId);
-        Long shareDoyakAuthor = selectShareDoyak.getMember().getMemberId();
         long shareDoyakUpdateResult = 0;
-        if(shareDoyakAuthor.equals(memberId)){
+        if(shareDoyakAuthor == memberId){
             shareDoyakUpdateResult = shareDoyakRepository.ShareContentUpdate(shareDoyakId, reqShareDoyakDTO);
+            return shareDoyakUpdateResult;
         }
         // 아니라면
 
-        return shareDoyakUpdateResult;
+        return 0;
     }
 
     /*

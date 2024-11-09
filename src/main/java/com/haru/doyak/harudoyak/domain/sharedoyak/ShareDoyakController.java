@@ -28,7 +28,7 @@ public class ShareDoyakController {
      * */
     @PutMapping("{memberId}/{shareDoyakId}")
     public ResponseEntity<String> setShareDoyakUpdate(@PathVariable("memberId") Long memberId, @PathVariable("shareDoyakId") Long shareDoyakId,@RequestBody String shareContent){
-        Long shareDoyakUpdateResult = shareDoyakService.setShareDoyakUpdate(memberId, shareDoyakId,shareContent);
+        long shareDoyakUpdateResult = shareDoyakService.setShareDoyakUpdate(memberId, shareDoyakId,shareContent);
         if(shareDoyakUpdateResult == 1){
             return ResponseEntity.ok("서로도약 게시글 업데이트가 완료되었습니다.");
         }

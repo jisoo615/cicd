@@ -4,6 +4,7 @@ import com.haru.doyak.harudoyak.dto.sharedoyak.ReqShareDoyakDTO;
 import com.haru.doyak.harudoyak.dto.sharedoyak.ResCommentDTO;
 import com.haru.doyak.harudoyak.dto.sharedoyak.ResReplyCommentDTO;
 import com.haru.doyak.harudoyak.dto.sharedoyak.ResShareDoyakDTO;
+import com.haru.doyak.harudoyak.entity.ShareDoyak;
 import com.haru.doyak.harudoyak.repository.querydsl.ShareDoyakCustomRepository;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
@@ -27,6 +28,20 @@ public class ShareDoyakCustomRepositoryImpl implements ShareDoyakCustomRepositor
     private final JPAQueryFactory jpaQueryFactory;
 
     /*
+    * 서로도약 작성한 회원 select
+    * */
+    @Override
+    public ShareDoyak findShaereDoyakByMemeberId(Long memeberId, Long shareDoyakId){
+
+        return jpaQueryFactory
+                .select(shareDoyak)
+                .from(shareDoyak)
+                .leftJoin(member).on(shareDoyak.member.memberId.eq(member.memberId))
+                .where(shareDoyak.member.memberId.eq(memeberId), shareDoyak.shareDoyakId.eq(shareDoyakId))
+                .fetchOne();
+    }
+
+    /*
     * 서로도약 content 수정
     * */
     @Override
@@ -43,7 +58,8 @@ public class ShareDoyakCustomRepositoryImpl implements ShareDoyakCustomRepositor
     * */
     @Override
     public List<ResReplyCommentDTO> findeCommentAll(Long shareDoyakId) {
-        List<ResReplyCommentDTO> comments = jpaQueryFactory
+
+        return jpaQueryFactory
                 .select(Projections.bean(
                         ResReplyCommentDTO.class,
                         comment.shareDoyak.shareDoyakId.as("commentShareDoyakId"),
@@ -57,7 +73,7 @@ public class ShareDoyakCustomRepositoryImpl implements ShareDoyakCustomRepositor
                                         .select(comment.count())
                                         .from(comment)
                                         .where(comment.parentCommentId.eq(comment.commentId)),
-                        "replyCommentCount")
+                                "replyCommentCount")
 
                         // 좀 더 공부해야 함
                        /* ExpressionUtils.as(
@@ -77,7 +93,7 @@ public class ShareDoyakCustomRepositoryImpl implements ShareDoyakCustomRepositor
                 .where(comment.parentCommentId.isNull(), comment.shareDoyak.shareDoyakId.eq(shareDoyakId))
                 .orderBy(comment.creationDate.desc())
                 .fetch();
-        return comments;
+
     }
 
     /*
