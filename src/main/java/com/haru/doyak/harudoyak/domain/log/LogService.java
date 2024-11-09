@@ -3,6 +3,7 @@ package com.haru.doyak.harudoyak.domain.log;
 import com.haru.doyak.harudoyak.dto.letter.ReqLetterDTO;
 import com.haru.doyak.harudoyak.dto.log.ReqLogDTO;
 import com.haru.doyak.harudoyak.dto.log.ResLogDTO;
+import com.haru.doyak.harudoyak.dto.log.ResLogDetailDTO;
 import com.haru.doyak.harudoyak.dto.log.TagDTO;
 import com.haru.doyak.harudoyak.entity.*;
 import com.haru.doyak.harudoyak.repository.FileRepository;
@@ -24,6 +25,17 @@ public class LogService {
     private final EntityManager entityManager;
     private final MemberRepository memberRepository;
     private final FileRepository fileRepository;
+
+    /*
+     * 일간 도약기록 조회
+     * @param : memberId(Long), logId(Long)
+     * */
+    public List<ResLogDetailDTO> getDailyLogDetail(Long memberId, Long logId) {
+
+        List<ResLogDetailDTO> resLogDetailDTOS = logRepository.findLogByLogIdAndMemberId(memberId, logId);
+
+        return resLogDetailDTOS;
+    }
 
     /*
      * 도약이 편지 작성
@@ -58,11 +70,6 @@ public class LogService {
     public List<ResLogDTO> getLogList(Long memberId){
 
         List<ResLogDTO> resLogDTOS = logRepository.findLogAllByMemberId(memberId);
-
-        for (ResLogDTO resLogDTO : resLogDTOS) {
-            log.info("resLogDTO: {}", resLogDTO.getCreationDate());
-            log.info("resLogDTO: {}", resLogDTO.getLogId());
-        }
 
         return resLogDTOS;
     }
