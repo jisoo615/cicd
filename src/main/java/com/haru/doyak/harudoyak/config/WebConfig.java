@@ -1,11 +1,6 @@
 package com.haru.doyak.harudoyak.config;
 
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -17,7 +12,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins("http://localhost:3000")
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD")
+                .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD", "TRACE", "CONNECT")
                 .allowedHeaders("*")
                 .allowCredentials(true)
                 .maxAge(3600);
@@ -25,7 +20,7 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     // CORS 필터 등록
-    @Bean
+/*    @Bean
     public FilterRegistrationBean<CorsFilter> corsFilterRegistrationBean() {
 
         CorsConfiguration corsConfig = new CorsConfiguration();
@@ -45,6 +40,6 @@ public class WebConfig implements WebMvcConfigurer {
         corsFilterBean.setOrder(0); // 가장 먼저 실행되도록 설정
 
         return corsFilterBean;
-    }
+    }*/
 
 }
