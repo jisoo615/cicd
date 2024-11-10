@@ -67,9 +67,15 @@ public class AuthController {
     public ResponseEntity<String> emailVerify(@RequestBody EmailVerifyReqDTO dto) throws MessagingException {
         try {
             // 이메일 주소 유효성 검사 후 처리
-            InternetAddress emailAddr = new InternetAddress(dto.getEmail());
+            System.out.println(dto.toString());
+            System.out.println(dto.getEmail());
+
+            String trimedEmail = dto.getEmail().trim();
+            InternetAddress emailAddr = new InternetAddress(trimedEmail);
             emailAddr.validate();
-            emailService.sendAuthLinkEmail(dto.getEmail());
+            System.out.println(emailAddr.getAddress());
+
+            emailService.sendAuthLinkEmail(emailAddr.getAddress());
             return ResponseEntity.status(HttpStatus.OK).body("인증 메일이 발송되었습니다.");
         } catch (Exception e) {
             e.printStackTrace();
