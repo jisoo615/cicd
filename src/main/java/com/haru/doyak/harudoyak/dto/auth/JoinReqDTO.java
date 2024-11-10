@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class JoinReqDTO {
     private String email;
-    private boolean isVerified;
+    private Boolean isVerified;
     private String password;
     private String nickname;
 }
