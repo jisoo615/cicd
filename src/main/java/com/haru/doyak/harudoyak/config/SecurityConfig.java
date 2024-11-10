@@ -16,7 +16,7 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
+    /*@Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests(authorizeRequests ->
@@ -30,5 +30,5 @@ public class SecurityConfig {
                 .logout(logout -> logout.disable());
 
         return http.build();
-    }
+    }*/
 }
