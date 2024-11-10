@@ -25,6 +25,12 @@ public class JwtAuthorizationFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
+        // OPTIONS 요청은 인증을 건너뛰도록 처리
+        if ("OPTIONS".equals(request.getMethod())) {
+            filterChain.doFilter(servletRequest, servletResponse); // OPTIONS 요청은 바로 통과
+            return;
+        }
+
         String token = parseBearerToken(request);
 
         if(token != null && jwtProvider.validateToken(token)) {
