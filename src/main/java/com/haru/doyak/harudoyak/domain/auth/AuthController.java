@@ -9,6 +9,7 @@ import com.haru.doyak.harudoyak.dto.auth.jwt.JwtMemberDTO;
 import com.haru.doyak.harudoyak.dto.auth.jwt.JwtReqDTO;
 import com.haru.doyak.harudoyak.dto.auth.jwt.JwtResDTO;
 import jakarta.mail.MessagingException;
+import jakarta.mail.internet.InternetAddress;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -64,8 +65,16 @@ public class AuthController {
 
     @PostMapping("email/verify")
     public ResponseEntity<String> emailVerify(@RequestBody EmailVerifyReqDTO dto) throws MessagingException {
-        emailService.sendAuthLinkEmail(dto.getEmail());
-        return ResponseEntity.status(HttpStatus.OK).body("인증 메일이 발송되었습니다.");
+        try {
+            // 이메일 주소 유효성 검사 후 처리
+            InternetAddress emailAddr = new InternetAddress(dto.getEmail());
+            emailAddr.validate();
+            emailService.sendAuthLinkEmail(dto.getEmail());
+            return ResponseEntity.status(HttpStatus.OK).body("인증 메일이 발송되었습니다.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("잘못된 요청");
     }
 
     @PostMapping("validate")
