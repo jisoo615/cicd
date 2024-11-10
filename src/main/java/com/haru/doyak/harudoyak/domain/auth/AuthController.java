@@ -1,15 +1,22 @@
 package com.haru.doyak.harudoyak.domain.auth;
 
 import com.haru.doyak.harudoyak.domain.auth.oauth.OAuthService;
-import com.haru.doyak.harudoyak.dto.auth.*;
+import com.haru.doyak.harudoyak.dto.auth.EmailVerifyReqDTO;
+import com.haru.doyak.harudoyak.dto.auth.JoinReqDTO;
+import com.haru.doyak.harudoyak.dto.auth.LoginReqDTO;
+import com.haru.doyak.harudoyak.dto.auth.LoginResDTO;
 import com.haru.doyak.harudoyak.dto.auth.jwt.JwtMemberDTO;
 import com.haru.doyak.harudoyak.dto.auth.jwt.JwtReqDTO;
 import com.haru.doyak.harudoyak.dto.auth.jwt.JwtResDTO;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
@@ -58,7 +65,7 @@ public class AuthController {
     @PostMapping("email/verify")
     public ResponseEntity<String> emailVerify(@RequestBody EmailVerifyReqDTO dto) throws MessagingException {
         emailService.sendAuthLinkEmail(dto.getEmail());
-        return ResponseEntity.ok().body("인증 메일이 발송되었습니다.");
+        return ResponseEntity.status(HttpStatus.OK).body("인증 메일이 발송되었습니다.");
     }
 
     @PostMapping("validate")
