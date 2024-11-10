@@ -1,11 +1,5 @@
 package com.haru.doyak.harudoyak.config;
 
-import com.haru.doyak.harudoyak.util.JwtAuthorizationFilter;
-import com.haru.doyak.harudoyak.util.JwtProvider;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
 //@Configuration
 //public class FilterConfig {
 //    private final JwtProvider jwtProvider;
