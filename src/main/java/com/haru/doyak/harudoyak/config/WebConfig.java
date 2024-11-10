@@ -1,14 +1,35 @@
 package com.haru.doyak.harudoyak.config;
 
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
-public class WebConfig implements WebMvcConfigurer {
+public class WebConfig /*implements WebMvcConfigurer*/ {
+
+    @Bean
+    public FilterRegistrationBean<CorsFilter> corsFilter() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true); // 쿠키 및 인증 정보 허용
+        config.addAllowedOrigin("http://localhost:3000"); // 허용할 출처
+        config.addAllowedHeader("*"); // 모든 헤더 허용
+        config.addAllowedMethod("*"); // 모든 HTTP 메서드 허용 (GET, POST, PUT 등)
+        config.setMaxAge(3600L); // preflight 요청의 캐시 시간 설정 (초 단위)
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config); // 모든 경로에 CORS 설정 적용
+
+        FilterRegistrationBean<CorsFilter> corsFilterBean = new FilterRegistrationBean<>(new CorsFilter(source));
+        corsFilterBean.setOrder(0); // 가장 먼저 실행되도록 설정
+
+        return corsFilterBean;
+    }
 
     // 리액트 CORS설정
-    @Override
+    /*@Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOriginPatterns("http://*:3000")
@@ -17,7 +38,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowCredentials(true)
                 .maxAge(3600);
 
-    }
+    }*/
 
     // CORS 필터 등록
 /*    @Bean
