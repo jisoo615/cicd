@@ -21,7 +21,7 @@ public class WebConfig /*implements WebMvcConfigurer*/ {
         config.addAllowedOriginPattern("http://localhost:3000/*"); // 허용할 출처
         config.addAllowedHeader("*"); // 모든 헤더 허용
         config.addAllowedMethod("*"); // 모든 HTTP 메서드 허용 (GET, POST, PUT 등)
-        config.addExposedHeader("Access-Control-Allow-Origin");
+        config.addExposedHeader("*");
         config.setMaxAge(3600L); // preflight 요청의 캐시 시간 설정 (초 단위)
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

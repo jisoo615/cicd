@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.haru.doyak.harudoyak.entity.QFile.file;
+import static com.haru.doyak.harudoyak.entity.QLetter.letter;
 import static com.haru.doyak.harudoyak.entity.QLog.log;
 import static com.haru.doyak.harudoyak.entity.QLogTag.logTag;
 import static com.haru.doyak.harudoyak.entity.QMember.member;
@@ -49,15 +50,17 @@ public class LogCustomRepositoryImpl implements LogCustomRepository {
                                 "tagNames"
                         ),
                         JPAExpressions
-                                .select(log.content.coalesce("도약이 답변 내용이 없습니다.")
+                                .select(letter.content.coalesce("도약이 답변 내용이 없습니다.")
                                         .as("letterContent"))
                                 .from(log)
+                                .leftJoin(letter).on(log.logId.eq(letter.log.logId))
                                 .where(log.logId.eq(logId)),
 
                         JPAExpressions
-                                .select(log.creationDate.coalesce(LocalDateTime.now())
+                                .select(letter.creationDate.coalesce(LocalDateTime.now())
                                         .as("letterCreationDate"))
                                 .from(log)
+                                .leftJoin(letter).on(log.logId.eq(letter.log.logId))
                                 .where(log.logId.eq(logId))
                         // 도약이 편지가 null일시 CaseBuilder 사용해서 기본값 설정
                         /*new CaseBuilder()
