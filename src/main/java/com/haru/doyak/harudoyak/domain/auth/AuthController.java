@@ -58,7 +58,7 @@ public class AuthController {
 
     @PostMapping("join")
     public ResponseEntity<String> join(@RequestBody JoinReqDTO joinReqDto){
-        if(!joinReqDto.isVerified()) return ResponseEntity.badRequest().body("이메일 인증이 필요합니다.");
+        if(!joinReqDto.getIsVerified()) return ResponseEntity.badRequest().body("이메일 인증이 필요합니다.");
         authService.joinMember(joinReqDto);
         return ResponseEntity.ok().body("회원가입이 완료되었습니다.");
     }
