@@ -14,16 +14,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/auth")
+@RequestMapping(value = "api/auth/*", method = RequestMethod.OPTIONS)
 public class AuthController {
     private final OAuthService oAuthService;
     private final AuthService authService;
