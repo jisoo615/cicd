@@ -10,7 +10,7 @@ public interface LogCustomRepository {
     /*
      * 일간 도약기록 상세 조회
      * */
-    List<ResLogDetailDTO> findLogByLogIdAndMemberId(Long logId, Long memberId);
+    List<ResLogDetailDTO> findLogByLogIdAndMemberId(Long memberId, Long logId);
 
     /*
      * 도약 기록 목록 조회

@@ -1,7 +1,6 @@
 package com.haru.doyak.harudoyak.repository.querydsl.impl;
 
 import com.haru.doyak.harudoyak.dto.sharedoyak.ReqShareDoyakDTO;
-import com.haru.doyak.harudoyak.dto.sharedoyak.ResCommentDTO;
 import com.haru.doyak.harudoyak.dto.sharedoyak.ResReplyCommentDTO;
 import com.haru.doyak.harudoyak.dto.sharedoyak.ResShareDoyakDTO;
 import com.haru.doyak.harudoyak.entity.ShareDoyak;
@@ -14,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.haru.doyak.harudoyak.entity.QComment.comment;
 import static com.haru.doyak.harudoyak.entity.QDoyak.doyak;
@@ -124,7 +122,7 @@ public class ShareDoyakCustomRepositoryImpl implements ShareDoyakCustomRepositor
                 .fetch();
 
         // 댓글의 데이터 목록을 select
-        List<ResCommentDTO> resCommentDTOS = jpaQueryFactory
+        /*List<ResCommentDTO> resCommentDTOS = jpaQueryFactory
                 .select(Projections.bean(ResCommentDTO.class,
                         comment.shareDoyak.shareDoyakId.as("commentShareDoyakId"),
                         comment.commentId,
@@ -133,15 +131,17 @@ public class ShareDoyakCustomRepositoryImpl implements ShareDoyakCustomRepositor
                 ))
                 .from(comment)
                 .join(member).on(comment.member.memberId.eq(member.memberId))
-                .fetch();
+                .fetch();*/
+
+        return resShareDoyakDTOS;
 
         // 게시글 Id를 기준으로 댓글을 그룹화하여 매핑
-        return resShareDoyakDTOS.stream()
+        /*resShareDoyakDTOS.stream()
                         .peek(resShareDoyakDTO -> resShareDoyakDTO.setResComments(
                                 resCommentDTOS.stream()
                                         .filter(comment -> comment.getCommentShareDoyakId().equals(resShareDoyakDTO.getShareDoyakId()))
                                         .collect(Collectors.toList())
                         ))
-                        .collect(Collectors.toList());
+                        .collect(Collectors.toList());*/
     }
 }

@@ -20,6 +20,6 @@ public class ResLogDetailDTO {
     private String aiNickname;                // 도약이 별명
     private String letterContent;             // 도약이 답변
     private LocalDateTime letterCreationDate; // 도약이 답변 생성일
-    private List<String> tagNames; // 태그명
+    private List<TagDTO> tagNameList; // 태그명
 
 }

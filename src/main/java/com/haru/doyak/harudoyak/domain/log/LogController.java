@@ -28,6 +28,8 @@ public class LogController {
     * */
     @GetMapping("{memberId}/{logId}")
     public ResponseEntity<List<ResLogDetailDTO>> getDailyLogDetail(@PathVariable("memberId") Long memberId, @PathVariable("logId") Long logId) {
+        log.info("memberId ------> {}", memberId);
+        log.info("logId ------> {}", logId);
         List<ResLogDetailDTO> resLogDetailDTOS = logService.getDailyLogDetail(memberId, logId);
         return ResponseEntity.ok(resLogDetailDTOS);
     }
