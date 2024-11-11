@@ -28,14 +28,40 @@ public class ShareDoyakService {
     private final DoyakCustomRepository doyakCustomRepository;
 
     /*
+     * 댓글 수정
+     * @param : memberId(Long), commentId(Long)
+     * */
+    @Transactional
+    public long setCommentUpdate(Long memberId, Long commentId, ReqCommentDTO reqCommentDTO) {
+
+        // 댓글의 작성자가 맞는지
+        long commentAuthorId = 0;
+        try{
+            Comment selectComment = shareDoyakRepository.findCommentByMemberId(memberId, commentId);
+            commentAuthorId = selectComment.getMember().getMemberId();
+        } catch (NullPointerException nullPointerException) {
+            throw new NullPointerException("해당 댓글의 작성자가 아닙니다.");
+        }
+
+        // 댓글의 작성자가 맞다면
+        long commentUpdateResult = 0;
+        if(commentAuthorId == memberId){
+            commentUpdateResult = shareDoyakRepository.commentContentUpdate(commentId, reqCommentDTO);
+            return commentUpdateResult;
+        }
+        
+        // 아니라면
+        return 0;
+    }
+
+    /*
      * 서로도약 수정
      * @param : memberId(Long), shareDoyakId(Long), shareContent(String)
      * @return :
      * */
     @Transactional
-    public long setShareDoyakUpdate(Long memberId, Long shareDoyakId, String shareContent){
-        ReqShareDoyakDTO reqShareDoyakDTO = new ReqShareDoyakDTO();
-        reqShareDoyakDTO.setShareContent(shareContent);
+    public long setShareDoyakUpdate(Long memberId, Long shareDoyakId, ReqShareDoyakDTO reqShareDoyakDTO){
+
         long shareDoyakAuthor = 0;
         try {
             ShareDoyak selectShareDoyak = shareDoyakRepository.findShaereDoyakByMemeberId(memberId, shareDoyakId);
@@ -46,7 +72,7 @@ public class ShareDoyakService {
         // 서로도약 작성자가 해당 회원이 맞다면
         long shareDoyakUpdateResult = 0;
         if(shareDoyakAuthor == memberId){
-            shareDoyakUpdateResult = shareDoyakRepository.ShareContentUpdate(shareDoyakId, reqShareDoyakDTO);
+            shareDoyakUpdateResult = shareDoyakRepository.shareContentUpdate(shareDoyakId, reqShareDoyakDTO);
             return shareDoyakUpdateResult;
         }
         // 아니라면

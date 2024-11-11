@@ -22,15 +22,28 @@ public class ShareDoyakController {
     * */
 
     /*
+    * 댓글 수정
+    * @param : memberId(Long), commentId(Long)
+    * */
+    @PutMapping("comments/{memberId}/{commentId}")
+    public ResponseEntity<String> setCommentUpdate(@PathVariable("memberId") Long memberId, @PathVariable("commentId") Long commentId, @RequestBody ReqCommentDTO reqCommentDTO) {
+        long commentUpdateResult = shareDoyakService.setCommentUpdate(memberId, commentId, reqCommentDTO);
+        if(commentUpdateResult == 1) {
+            return ResponseEntity.ok("댓글 수정이 완료되었습니다.");
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    /*
      * 서로도약 수정
      * @param : memberId(Long), shareDoyakId(Long), shareContent(String)
      * @return :
      * */
     @PutMapping("{memberId}/{shareDoyakId}")
-    public ResponseEntity<String> setShareDoyakUpdate(@PathVariable("memberId") Long memberId, @PathVariable("shareDoyakId") Long shareDoyakId,@RequestBody String shareContent){
-        long shareDoyakUpdateResult = shareDoyakService.setShareDoyakUpdate(memberId, shareDoyakId,shareContent);
+    public ResponseEntity<String> setShareDoyakUpdate(@PathVariable("memberId") Long memberId, @PathVariable("shareDoyakId") Long shareDoyakId,@RequestBody ReqShareDoyakDTO reqShareDoyakDTO){
+        long shareDoyakUpdateResult = shareDoyakService.setShareDoyakUpdate(memberId, shareDoyakId, reqShareDoyakDTO);
         if(shareDoyakUpdateResult == 1){
-            return ResponseEntity.ok("서로도약 게시글 업데이트가 완료되었습니다.");
+            return ResponseEntity.ok("서로도약 게시글 수정이 완료되었습니다.");
         }
         return ResponseEntity.notFound().build();
     }

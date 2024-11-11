@@ -1,8 +1,10 @@
 package com.haru.doyak.harudoyak.repository.querydsl.impl;
 
+import com.haru.doyak.harudoyak.dto.sharedoyak.ReqCommentDTO;
 import com.haru.doyak.harudoyak.dto.sharedoyak.ReqShareDoyakDTO;
 import com.haru.doyak.harudoyak.dto.sharedoyak.ResReplyCommentDTO;
 import com.haru.doyak.harudoyak.dto.sharedoyak.ResShareDoyakDTO;
+import com.haru.doyak.harudoyak.entity.Comment;
 import com.haru.doyak.harudoyak.entity.ShareDoyak;
 import com.haru.doyak.harudoyak.repository.querydsl.ShareDoyakCustomRepository;
 import com.querydsl.core.types.ExpressionUtils;
@@ -26,6 +28,32 @@ public class ShareDoyakCustomRepositoryImpl implements ShareDoyakCustomRepositor
     private final JPAQueryFactory jpaQueryFactory;
 
     /*
+     * 댓글 내용 update
+     * */
+    @Override
+    public long commentContentUpdate(Long commentId, ReqCommentDTO reqCommentDTO){
+        return jpaQueryFactory
+                .update(comment)
+                .where(comment.commentId.eq(commentId))
+                .set(comment.content, reqCommentDTO.getCommentContent())
+                .execute();
+    }
+
+    /*
+    * 댓글 작성한 회원 select
+    * */
+    @Override
+    public Comment findCommentByMemberId(Long memberId, Long commentId){
+
+        return jpaQueryFactory
+                .select(comment)
+                .from(comment)
+                .leftJoin(member).on(comment.member.memberId.eq(member.memberId))
+                .where(comment.member.memberId.eq(memberId), comment.commentId.eq(commentId))
+                .fetchOne();
+    }
+
+    /*
     * 서로도약 작성한 회원 select
     * */
     @Override
@@ -43,7 +71,7 @@ public class ShareDoyakCustomRepositoryImpl implements ShareDoyakCustomRepositor
     * 서로도약 content 수정
     * */
     @Override
-    public long ShareContentUpdate(Long shareDoyakId, ReqShareDoyakDTO reqShareDoyakDTO){
+    public long shareContentUpdate(Long shareDoyakId, ReqShareDoyakDTO reqShareDoyakDTO){
         return jpaQueryFactory
                 .update(shareDoyak)
                 .where(shareDoyak.shareDoyakId.eq(shareDoyakId))

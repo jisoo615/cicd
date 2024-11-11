@@ -1,7 +1,7 @@
 package com.haru.doyak.harudoyak.repository.querydsl.impl;
 
 import com.haru.doyak.harudoyak.dto.log.ResLogDTO;
-import com.haru.doyak.harudoyak.dto.log.ResLogDetailDTO;
+import com.haru.doyak.harudoyak.dto.log.ResDailyLogDTO;
 import com.haru.doyak.harudoyak.dto.log.TagDTO;
 import com.haru.doyak.harudoyak.repository.querydsl.LogCustomRepository;
 import com.querydsl.core.types.Projections;
@@ -28,10 +28,10 @@ public class LogCustomRepositoryImpl implements LogCustomRepository {
     * 일간 도약기록 상세 조회
     * */
     @Override
-    public List<ResLogDetailDTO> findLogByLogIdAndMemberId(Long memberId, Long logId){
-        List<ResLogDetailDTO> resLogDetailDTOS = jpaQueryFactory
+    public List<ResDailyLogDTO> findLogByLogIdAndMemberId(Long memberId, Long logId){
+        List<ResDailyLogDTO> resDailyLogDTOS = jpaQueryFactory
                 .select(Projections.bean(
-                        ResLogDetailDTO.class,
+                        ResDailyLogDTO.class,
                         log.logId,
                         log.creationDate.as("logCreationDate"),
                         log.emotion,
@@ -69,11 +69,11 @@ public class LogCustomRepositoryImpl implements LogCustomRepository {
                 .where(logTag.log.logId.eq(logId))
                 .fetch();
 
-        resLogDetailDTOS.forEach(resLogDetailDTO -> {
-            resLogDetailDTO.setTagNameList(tagDTOS);
+        resDailyLogDTOS.forEach(resDailyLogDTO -> {
+            resDailyLogDTO.setTagNameList(tagDTOS);
         });
 
-        return resLogDetailDTOS;
+        return resDailyLogDTOS;
 
     }
 

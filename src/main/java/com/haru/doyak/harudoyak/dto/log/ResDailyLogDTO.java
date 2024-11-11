@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @Setter
 @Getter
-public class ResLogDetailDTO {
+public class ResDailyLogDTO {
 
     private Long logId;        // 도약기록 아이디
     private LocalDateTime logCreationDate; // 도약기록 작성일
