@@ -22,6 +22,27 @@ public class ShareDoyakController {
     * */
 
     /*
+    * 댓글 삭제
+    * @param : memberId(Long), commentId(Long)
+    * */
+    @DeleteMapping("comments/{memberId}/{commentId}")
+    public void setCommentDelete(@PathVariable("memberId") Long memberId, @PathVariable("commentId") Long commentId){
+        log.info("댓글 삭제 요청");
+    }
+
+    /*
+    * 서로도약 삭제
+    * @param : memberId(Long), shareDoyakId(Long)
+    * */
+    @DeleteMapping("{memberId}/{shareDoyakId}")
+    public ResponseEntity<String> setShareDoyakDelete(@PathVariable("memberId") Long memberId, @PathVariable Long shareDoyakId) {
+        long shareDoyakDeleteResult = shareDoyakService.setShareDoyakDelete(memberId, shareDoyakId);
+        if(shareDoyakDeleteResult == 1) {
+            return ResponseEntity.ok("서로도약 삭제가 완료되었습니다.");
+        }
+        return ResponseEntity.notFound().build();
+    }
+    /*
     * 댓글 수정
     * @param : memberId(Long), commentId(Long)
     * */

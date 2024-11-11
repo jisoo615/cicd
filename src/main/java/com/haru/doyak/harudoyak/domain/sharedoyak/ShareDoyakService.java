@@ -28,6 +28,33 @@ public class ShareDoyakService {
     private final DoyakCustomRepository doyakCustomRepository;
 
     /*
+     * 서로도약 삭제
+     * @param : memberId(Long), shareDoyakId(Long)
+     * */
+    @Transactional
+    public long setShareDoyakDelete(Long memberId, Long shareDoyakId) {
+
+        // 서로도약 작성자가 맞는지
+        long shareDoyakAuthorId = 0;
+        try{
+
+            ShareDoyak selectShareDoyak = shareDoyakRepository.findShaereDoyakByMemeberId(memberId, shareDoyakId);
+            shareDoyakAuthorId = selectShareDoyak.getMember().getMemberId();
+        }catch (NullPointerException nullPointerException){
+            throw new NullPointerException("해당 글의 작성자가 아닙니다.");
+        }
+
+        // 해당 서로도약 글의 작성자가 맞다면
+        long shareDoyakDeleteResult = 0;
+        if(shareDoyakAuthorId == memberId) {
+            shareDoyakDeleteResult = shareDoyakRepository.ShaereDoyakDelete(shareDoyakId);
+            return shareDoyakDeleteResult;
+        }
+        // 아니라면
+        return 0;
+    }
+
+    /*
      * 댓글 수정
      * @param : memberId(Long), commentId(Long)
      * */
