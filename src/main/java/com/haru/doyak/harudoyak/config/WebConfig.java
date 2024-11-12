@@ -8,7 +8,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-    @Configuration
+@Configuration
     public class WebConfig /*implements WebMvcConfigurer*/ {
 
         @Value("${serverbBaseUrl}")
@@ -17,12 +17,11 @@ import org.springframework.web.filter.CorsFilter;
         @Bean
         public FilterRegistrationBean<CorsFilter> corsFilter() {
             CorsConfiguration config = new CorsConfiguration();
-            config.setAllowCredentials(true); // 쿠키 및 인증 정보 허용
-            config.addAllowedOriginPattern("http://localhost:3000/*");// 허용할 출처
-            config.addAllowedOriginPattern("https://www.harudoyak.site/*");
-            config.addAllowedHeader("*"); // 모든 헤더 허용
-            config.addAllowedMethod("*"); // 모든 HTTP 메서드 허용 (GET, POST, PUT, PATCH, DELETE, OPTIONS 등)
-            config.addExposedHeader("*"); //
+//            config.setAllowCredentials(true); // 쿠키 및 인증 정보 허용
+            config.addAllowedOrigin("*");// 허용할 출처
+            /*config.addAllowedHeader("*");*/ // 모든 헤더 허용  // 모든 HTTP 메서드 허용 (GET, POST, PUT, PATCH, DELETE, OPTIONS 등)
+            config.addAllowedMethod("*");
+//            config.addExposedHeader("*"); //
             config.setMaxAge(3600L); // preflight 요청의 캐시 시간 설정 (초 단위)
 
             UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
