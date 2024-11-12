@@ -82,11 +82,12 @@ public class LogService {
      * res : 200 ok 400 등
      * */
     @Transactional
-    public void setLogAdd(ReqLogDTO reqLogDTO, Long memberId) {
+    public ResLogDTO setLogAdd(ReqLogDTO reqLogDTO, Long memberId) {
 
         // 도약기록 insert 전 회원 존재하는지 isExists 확인
          boolean isExistsMember = memberRepository.existsByMemberId(memberId);
 
+         ResLogDTO resLogDTO = new ResLogDTO();
          // 회원이 존재한다면
          if (isExistsMember){
 
@@ -122,10 +123,13 @@ public class LogService {
              level.updateWhenPostLog();
              levelRepository.save(level);
 
+             resLogDTO.setLogId(log.getLogId());
+             resLogDTO.setMemberId(selectByMember.getMemberId());
+             resLogDTO.setLogContent("기록도약 게시글 작성을 완료했습니다.");
          }
 
          // 회원이 존재하지 않다면
-
+        return resLogDTO;
     }
 
     /*

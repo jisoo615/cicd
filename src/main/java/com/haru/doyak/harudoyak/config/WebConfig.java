@@ -18,7 +18,8 @@ import org.springframework.web.filter.CorsFilter;
         public FilterRegistrationBean<CorsFilter> corsFilter() {
             CorsConfiguration config = new CorsConfiguration();
             config.setAllowCredentials(true); // 쿠키 및 인증 정보 허용
-            config.addAllowedOriginPattern("http://localhost:3000/*"); // 허용할 출처
+            config.addAllowedOriginPattern("http://localhost:3000/*");// 허용할 출처
+            config.addAllowedOriginPattern("https://www.harudoyak.site/*");
             config.addAllowedHeader("*"); // 모든 헤더 허용
             config.addAllowedMethod("*"); // 모든 HTTP 메서드 허용 (GET, POST, PUT, PATCH, DELETE, OPTIONS 등)
             config.addExposedHeader("*"); //

@@ -72,9 +72,9 @@ public class LogController {
      * res : 200 ok 400 등
      * */
     @PostMapping("{memberId}")
-    public ResponseEntity<String> setLogAdd(@PathVariable("memberId") Long memberId, @RequestBody ReqLogDTO reqLogDTO) {
-        logService.setLogAdd(reqLogDTO, memberId);
-        return ResponseEntity.ok().body("기록도약 게시글 작성을 완료했습니다.");
+    public ResponseEntity<ResLogDTO> setLogAdd(@PathVariable("memberId") Long memberId, @RequestBody ReqLogDTO reqLogDTO) {
+        ResLogDTO resLogDTO = logService.setLogAdd(reqLogDTO, memberId);
+        return ResponseEntity.ok().body(resLogDTO);
     }
 
 }
