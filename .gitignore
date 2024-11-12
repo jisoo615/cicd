@@ -4,7 +4,7 @@ HELP.md
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-build/libs/harudoyak-0.0.1-SNAPSHOT.jar app.jar
+build/libs/*
 !build.gradle
 # dependencies
 /node_modules
