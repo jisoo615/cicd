@@ -27,6 +27,7 @@ public class Level {
     private Long shareDoyakCount;  // share doyak count
     @CreationTimestamp
     private LocalDate firstDate;
+    private LocalDate logLastDate;
 
     @PrePersist
     public void prePersist() {
@@ -34,5 +35,24 @@ public class Level {
         if(recentContinuity == null) this.recentContinuity = 0L;
         if(logCount == null) this.logCount = 0L;
         if(shareDoyakCount == null) this.shareDoyakCount = 0L;
+    }
+
+    public void updateWhenPostLog() {
+        // log count+1, 포인트, 최근연속일, 최대연속일, 최신 작성일
+        this.logCount += 1;
+        this.point += 10;
+        if(this.logLastDate.isEqual(LocalDate.now().minusDays(1))) {
+            this.recentContinuity += 1;
+            this.maxContinuity = Math.max(maxContinuity, recentContinuity);
+        }else {
+            this.recentContinuity = 0L;
+        }
+        this.logLastDate = LocalDate.now();
+    }
+
+    public void updateWhenPostShareDoyak() {
+        // share count+1, 포인트
+        this.shareDoyakCount += 1;
+        this.point += 5;
     }
 }

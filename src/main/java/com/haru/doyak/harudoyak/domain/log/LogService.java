@@ -7,6 +7,7 @@ import com.haru.doyak.harudoyak.dto.log.ResDailyLogDTO;
 import com.haru.doyak.harudoyak.dto.log.TagDTO;
 import com.haru.doyak.harudoyak.entity.*;
 import com.haru.doyak.harudoyak.repository.FileRepository;
+import com.haru.doyak.harudoyak.repository.LevelRepository;
 import com.haru.doyak.harudoyak.repository.LogRepository;
 import com.haru.doyak.harudoyak.repository.MemberRepository;
 import jakarta.persistence.EntityManager;
@@ -25,6 +26,7 @@ public class LogService {
     private final EntityManager entityManager;
     private final MemberRepository memberRepository;
     private final FileRepository fileRepository;
+    private final LevelRepository levelRepository;
 
     /*
      * 일간 도약기록 조회
@@ -115,7 +117,10 @@ public class LogService {
                  setLogTag(log, tag);
              }
 
-             // 레벨 insert
+             // 레벨 update
+             Level level = levelRepository.findLevelByMemberId(memberId).orElseThrow();
+             level.updateWhenPostLog();
+             levelRepository.save(level);
 
          }
 

@@ -6,6 +6,7 @@ import com.haru.doyak.harudoyak.dto.sharedoyak.ResReplyCommentDTO;
 import com.haru.doyak.harudoyak.dto.sharedoyak.ResShareDoyakDTO;
 import com.haru.doyak.harudoyak.entity.*;
 import com.haru.doyak.harudoyak.repository.FileRepository;
+import com.haru.doyak.harudoyak.repository.LevelRepository;
 import com.haru.doyak.harudoyak.repository.MemberRepository;
 import com.haru.doyak.harudoyak.repository.ShareDoyakRepository;
 import com.haru.doyak.harudoyak.repository.querydsl.DoyakCustomRepository;
@@ -26,6 +27,8 @@ public class ShareDoyakService {
     private final MemberRepository memberRepository;
     private final FileRepository fileRepository;
     private final DoyakCustomRepository doyakCustomRepository;
+    private final LevelRepository levelRepository;
+
 
     /*
      * 댓글 삭제
@@ -278,8 +281,10 @@ public class ShareDoyakService {
                     .build();
             entityManager.persist(shareDoyak);
 
-            // 레벨 insert
-
+            // 레벨 update
+            Level level = levelRepository.findLevelByMemberId(memberId).orElseThrow();
+            level.updateWhenPostShareDoyak();
+            levelRepository.save(level);
         }
 
 
