@@ -56,6 +56,7 @@ public class SecurityConfig {
         configuration.setAllowedOriginPatterns(Arrays.asList("*")); // 모든 도메인 및 포트 허용
         configuration.addAllowedMethod("*"); // 모든 HTTP 메서드 허용
         configuration.addAllowedHeader("*"); // 모든 헤더 허용
+        configuration.setExposedHeaders(Arrays.asList("Authorization"));
         configuration.setAllowCredentials(false); // 자격 증명 포함 필요 시 true로 설정
         configuration.setMaxAge(3600L); // 캐싱 시간 설정 (단위: 초)
 
