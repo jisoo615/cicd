@@ -1,11 +1,11 @@
 ### dev-back git ignore ###
 HELP.md
 .gradle
+build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-build/libs/*
-!build.gradle
+
 # dependencies
 /node_modules
 /.pnp
@@ -55,7 +55,7 @@ out/
 /dist/
 /nbdist/
 /.nb-gradle/
-#build/
+build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
@@ -145,7 +145,7 @@ local.properties
 .mtj.tmp/
 
 # Package Files #
-#*.jar
+*.jar
 *.war
 *.nar
 *.ear
@@ -202,4 +202,3 @@ $RECYCLE.BIN/
 application-secret.yaml
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,eclipse,java,web
-/src/main/generated/com/haru/doyak/harudoyak/entity/*
