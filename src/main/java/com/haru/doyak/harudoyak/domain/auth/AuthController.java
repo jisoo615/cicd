@@ -20,7 +20,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "api/auth/*", method = RequestMethod.OPTIONS)
+@RequestMapping("api/auth")
 public class AuthController {
     private final OAuthService oAuthService;
     private final AuthService authService;

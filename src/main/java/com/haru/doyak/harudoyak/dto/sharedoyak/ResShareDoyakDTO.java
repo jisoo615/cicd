@@ -8,8 +8,8 @@ import lombok.Setter;
 public class ResShareDoyakDTO {
 
     private String shareAuthorNickname;
-    private String goalName;
     private Long shareDoyakId;
+    private String goalName;
     private String shareContent;
     private String shareImageUrl;
     private Long commentCount;

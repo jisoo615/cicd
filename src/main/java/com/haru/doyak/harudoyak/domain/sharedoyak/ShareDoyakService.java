@@ -1,9 +1,6 @@
 package com.haru.doyak.harudoyak.domain.sharedoyak;
 
-import com.haru.doyak.harudoyak.dto.sharedoyak.ReqCommentDTO;
-import com.haru.doyak.harudoyak.dto.sharedoyak.ReqShareDoyakDTO;
-import com.haru.doyak.harudoyak.dto.sharedoyak.ResReplyCommentDTO;
-import com.haru.doyak.harudoyak.dto.sharedoyak.ResShareDoyakDTO;
+import com.haru.doyak.harudoyak.dto.sharedoyak.*;
 import com.haru.doyak.harudoyak.entity.*;
 import com.haru.doyak.harudoyak.repository.FileRepository;
 import com.haru.doyak.harudoyak.repository.LevelRepository;
@@ -29,7 +26,23 @@ public class ShareDoyakService {
     private final DoyakCustomRepository doyakCustomRepository;
     private final LevelRepository levelRepository;
 
+    /*
+     * 회원의 댓글 모아보기
+     * @param : membaerId(Long)
+     * */
+    public List<ResCommentDTO> getMemberCommentList(Long memberId){
+        List<ResCommentDTO> resCommentDTOS = shareDoyakRepository.findMemberCommentAll(memberId);
+         return resCommentDTOS;
+    }
 
+    /*
+     * 회원의 서로도약 글 모아보기
+     * @param : membaerId(Long)
+     * */
+    public List<ResShareDoyakDTO> getMemberShareDoyakList(Long memberId){
+        List<ResShareDoyakDTO> resShareDoyakDTOS = shareDoyakRepository.findMemberShareDoyakAll(memberId);
+        return resShareDoyakDTOS;
+    }
     /*
      * 댓글 삭제
      * @param : memberId(Long), commentId(Long)
@@ -78,7 +91,7 @@ public class ShareDoyakService {
         // 해당 서로도약 글의 작성자가 맞다면
         long shareDoyakDeleteResult = 0;
         if(shareDoyakAuthorId == memberId) {
-            shareDoyakDeleteResult = shareDoyakRepository.shaereDoyakDelete(shareDoyakId);
+            shareDoyakDeleteResult = shareDoyakRepository.shareDoyakDelete(shareDoyakId);
             return shareDoyakDeleteResult;
         }
         // 아니라면

@@ -1,9 +1,6 @@
 package com.haru.doyak.harudoyak.repository.querydsl;
 
-import com.haru.doyak.harudoyak.dto.sharedoyak.ReqCommentDTO;
-import com.haru.doyak.harudoyak.dto.sharedoyak.ReqShareDoyakDTO;
-import com.haru.doyak.harudoyak.dto.sharedoyak.ResReplyCommentDTO;
-import com.haru.doyak.harudoyak.dto.sharedoyak.ResShareDoyakDTO;
+import com.haru.doyak.harudoyak.dto.sharedoyak.*;
 import com.haru.doyak.harudoyak.entity.Comment;
 import com.haru.doyak.harudoyak.entity.ShareDoyak;
 
@@ -11,9 +8,13 @@ import java.util.List;
 
 public interface ShareDoyakCustomRepository {
 
+    List<ResCommentDTO> findMemberCommentAll(Long memberId);
+
+    List<ResShareDoyakDTO> findMemberShareDoyakAll(Long memberId);
+
     long commentDelete(Long commentId);
 
-    long shaereDoyakDelete(Long shareDoyakId);
+    long shareDoyakDelete(Long shareDoyakId);
 
     long commentContentUpdate(Long commentId, ReqCommentDTO reqCommentDTO);
 

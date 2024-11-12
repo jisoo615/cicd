@@ -1,9 +1,6 @@
 package com.haru.doyak.harudoyak.repository.querydsl.impl;
 
-import com.haru.doyak.harudoyak.dto.sharedoyak.ReqCommentDTO;
-import com.haru.doyak.harudoyak.dto.sharedoyak.ReqShareDoyakDTO;
-import com.haru.doyak.harudoyak.dto.sharedoyak.ResReplyCommentDTO;
-import com.haru.doyak.harudoyak.dto.sharedoyak.ResShareDoyakDTO;
+import com.haru.doyak.harudoyak.dto.sharedoyak.*;
 import com.haru.doyak.harudoyak.entity.Comment;
 import com.haru.doyak.harudoyak.entity.ShareDoyak;
 import com.haru.doyak.harudoyak.repository.querydsl.ShareDoyakCustomRepository;
@@ -28,6 +25,44 @@ public class ShareDoyakCustomRepositoryImpl implements ShareDoyakCustomRepositor
     private final JPAQueryFactory jpaQueryFactory;
 
     /*
+    * 회원 댓글 목록 select
+    * */
+    @Override
+    public List<ResCommentDTO> findMemberCommentAll(Long memberId){
+        List<ResCommentDTO> resCommentDTOS = jpaQueryFactory
+                .select(Projections.bean(
+                        ResCommentDTO.class,
+                        comment.shareDoyak.shareDoyakId.as("commentShareDoyakId"),
+                        comment.commentId,
+                        member.memberId.as("commentAuthorId"),
+                        member.nickname.as("commentAuthorNickname")
+                ))
+                .from(comment)
+                .leftJoin(member).on(comment.member.memberId.eq(member.memberId))
+                .where(comment.member.memberId.eq(memberId))
+                .fetch();
+        return resCommentDTOS;
+    }
+
+    /*
+    * 회원 서로도약 목록 select
+    * */
+    @Override
+    public List<ResShareDoyakDTO> findMemberShareDoyakAll(Long memberId){
+        List<ResShareDoyakDTO> resShareDoyakDTOS = jpaQueryFactory
+                .select(Projections.bean(
+                        ResShareDoyakDTO.class,
+                        shareDoyak.shareDoyakId,
+                        member.nickname.as("shareAuthorNickname")
+                ))
+                .from(shareDoyak)
+                .leftJoin(member).on(shareDoyak.member.memberId.eq(member.memberId))
+                .where(shareDoyak.member.memberId.eq(memberId))
+                .fetch();
+        return resShareDoyakDTOS;
+    }
+
+    /*
     * 댓글 delete
     * */
     @Override
@@ -42,7 +77,7 @@ public class ShareDoyakCustomRepositoryImpl implements ShareDoyakCustomRepositor
     * 서로도약 delete
     * */
     @Override
-    public long shaereDoyakDelete(Long shareDoyakId) {
+    public long shareDoyakDelete(Long shareDoyakId) {
         return jpaQueryFactory
                 .delete(shareDoyak)
                 .where(shareDoyak.shareDoyakId.eq(shareDoyakId))
