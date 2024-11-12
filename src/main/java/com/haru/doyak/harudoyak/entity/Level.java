@@ -31,6 +31,7 @@ public class Level {
 
     @PrePersist
     public void prePersist() {
+        if(point == null) this.point = 0L;
         if(maxContinuity == null) this.maxContinuity = 0L;
         if(recentContinuity == null) this.recentContinuity = 0L;
         if(logCount == null) this.logCount = 0L;
@@ -41,11 +42,11 @@ public class Level {
         // log count+1, 포인트, 최근연속일, 최대연속일, 최신 작성일
         this.logCount += 1;
         this.point += 10;
-        if(this.logLastDate.isEqual(LocalDate.now().minusDays(1))) {
+        if(this.logLastDate!=null && this.logLastDate.isEqual(LocalDate.now().minusDays(1))) {
             this.recentContinuity += 1;
             this.maxContinuity = Math.max(maxContinuity, recentContinuity);
         }else {
-            this.recentContinuity = 0L;
+            this.recentContinuity = 1L;// 최근 첫 작성
         }
         this.logLastDate = LocalDate.now();
     }
