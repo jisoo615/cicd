@@ -86,7 +86,7 @@ public class LogCustomRepositoryImpl implements LogCustomRepository {
         List<ResLogDTO> resLogDTOs = jpaQueryFactory
                 .select(Projections.bean(ResLogDTO.class,
                         log.logId,
-                        log.creationDate.as("logCreationDate")
+                        log.creationDate
                 ))
                 .from(log)
                 .where(log.member.memberId.eq(memberId))
