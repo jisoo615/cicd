@@ -28,10 +28,10 @@ import org.springframework.web.filter.CorsFilter;
             config.addAllowedMethod("*");
 //            config.addExposedHeader("*"); //
             config.setMaxAge(3600L); // preflight 요청의 캐시 시간 설정 (초 단위)
+            config.addExposedHeader("Authorization");
 
             UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
             source.registerCorsConfiguration("/**", config); // 모든 경로에 CORS 설정 적용
-
             FilterRegistrationBean<CorsFilter> corsFilterBean = new FilterRegistrationBean<>(new CorsFilter(source));
             corsFilterBean.setOrder(0); // 가장 먼저 실행되도록 설정
 
