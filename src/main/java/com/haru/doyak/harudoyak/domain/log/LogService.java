@@ -115,6 +115,7 @@ public class LogService {
                  setLogTag(log, tag);
              }
 
+             // 레벨 insert
 
          }
 

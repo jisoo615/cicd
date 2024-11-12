@@ -11,7 +11,9 @@ import java.util.List;
 
 public interface ShareDoyakCustomRepository {
 
-    long ShaereDoyakDelete(Long shareDoyakId);
+    long commentDelete(Long commentId);
+
+    long shaereDoyakDelete(Long shareDoyakId);
 
     long commentContentUpdate(Long commentId, ReqCommentDTO reqCommentDTO);
 

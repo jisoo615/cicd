@@ -28,6 +28,34 @@ public class ShareDoyakService {
     private final DoyakCustomRepository doyakCustomRepository;
 
     /*
+     * 댓글 삭제
+     * @param : memberId(Long), commentId(Long)
+     * */
+    @Transactional
+    public long setCommentDelete(Long memberId, Long commentId){
+
+        // 댓글의 작성자가 맞는지
+        long commentAuthorId = 0;
+        try{
+            Comment selectComment = shareDoyakRepository.findCommentByMemberId(memberId, commentId);
+            commentAuthorId = selectComment.getMember().getMemberId();
+        } catch (NullPointerException nullPointerException) {
+            throw new NullPointerException("해당 댓글의 작성자가 아닙니다.");
+        }
+
+        // 댓글의 작성자가 맞다면
+        long commentDeleteResult = 0;
+        if(commentAuthorId == memberId){
+            commentDeleteResult = shareDoyakRepository.commentDelete(commentId);
+            return commentDeleteResult;
+        }
+
+        // 아니라면
+        return 0;
+
+    }
+
+    /*
      * 서로도약 삭제
      * @param : memberId(Long), shareDoyakId(Long)
      * */
@@ -47,7 +75,7 @@ public class ShareDoyakService {
         // 해당 서로도약 글의 작성자가 맞다면
         long shareDoyakDeleteResult = 0;
         if(shareDoyakAuthorId == memberId) {
-            shareDoyakDeleteResult = shareDoyakRepository.ShaereDoyakDelete(shareDoyakId);
+            shareDoyakDeleteResult = shareDoyakRepository.shaereDoyakDelete(shareDoyakId);
             return shareDoyakDeleteResult;
         }
         // 아니라면
@@ -249,6 +277,8 @@ public class ShareDoyakService {
                     .file(selectFile)
                     .build();
             entityManager.persist(shareDoyak);
+
+            // 레벨 insert
 
         }
 

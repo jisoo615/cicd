@@ -28,10 +28,21 @@ public class ShareDoyakCustomRepositoryImpl implements ShareDoyakCustomRepositor
     private final JPAQueryFactory jpaQueryFactory;
 
     /*
+    * 댓글 delete
+    * */
+    @Override
+    public long commentDelete(Long commentId) {
+        return jpaQueryFactory
+                .delete(comment)
+                .where(comment.commentId.eq(commentId))
+                .execute();
+    }
+
+    /*
     * 서로도약 delete
     * */
     @Override
-    public long ShaereDoyakDelete(Long shareDoyakId) {
+    public long shaereDoyakDelete(Long shareDoyakId) {
         return jpaQueryFactory
                 .delete(shareDoyak)
                 .where(shareDoyak.shareDoyakId.eq(shareDoyakId))

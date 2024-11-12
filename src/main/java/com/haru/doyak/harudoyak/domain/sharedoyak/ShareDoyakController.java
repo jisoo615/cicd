@@ -26,8 +26,12 @@ public class ShareDoyakController {
     * @param : memberId(Long), commentId(Long)
     * */
     @DeleteMapping("comments/{memberId}/{commentId}")
-    public void setCommentDelete(@PathVariable("memberId") Long memberId, @PathVariable("commentId") Long commentId){
-        log.info("댓글 삭제 요청");
+    public ResponseEntity<String> setCommentDelete(@PathVariable("memberId") Long memberId, @PathVariable("commentId") Long commentId){
+       long commentDeleteResult = shareDoyakService.setCommentDelete(memberId, commentId);
+       if(commentDeleteResult == 1){
+           return ResponseEntity.ok("댓글 삭제가 완료되었습니다.");
+       }
+       return ResponseEntity.notFound().build();
     }
 
     /*
