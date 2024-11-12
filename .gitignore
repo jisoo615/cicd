@@ -1,10 +1,10 @@
 ### dev-back git ignore ###
 HELP.md
 .gradle
-build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+!build/libs/harudoyak-0.0.1-SNAPSHOT.jar app.jar
 
 # dependencies
 /node_modules
@@ -15,7 +15,7 @@ build/
 /coverage
 
 # production
-/build
+#/build
 
 # misc
 .DS_Store
@@ -55,7 +55,7 @@ out/
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
+#build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
@@ -145,7 +145,7 @@ local.properties
 .mtj.tmp/
 
 # Package Files #
-*.jar
+#*.jar
 *.war
 *.nar
 *.ear
