@@ -47,6 +47,7 @@ public class Level {
             this.maxContinuity = Math.max(maxContinuity, recentContinuity);
         }else {
             this.recentContinuity = 1L;// 최근 첫 작성
+            this.maxContinuity = Math.max(maxContinuity, recentContinuity);
         }
         this.logLastDate = LocalDate.now();
     }
