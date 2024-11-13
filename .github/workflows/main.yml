@@ -16,10 +16,10 @@ jobs:
 
     # 2. Set up JDK (Java 17 설치)
     - name: Set up JDK 17
-      uses: actions/setup-java@v2
+      uses: actions/setup-java@v4
       with:
         java-version: '17'
-        distribution: 'adoptopenjdk'
+        distribution: 'temurin'
 
     # 3. application-secret.yaml 생성
     - name: Generate application-secret.yaml with secrets
