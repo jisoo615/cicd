@@ -49,11 +49,16 @@ jobs:
       run: docker push ${{ secrets.DOCKER_USERNAME }}/backend:latest
 
     # 9. EC2에서 도커를 실행
-    - name: Deploy Docker container on EC2
+    - name: Create pem key in github runner
       run: |
-        ssh -o StrictHostKeyChecking=no -i $EC2_SSH_KEY ubuntu@${{ secrets.EC2_IP }}
-        docker pull ${{ secrets.DOCKER_USERNAME }}/backend:latest &&
-#        docker run -d -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/backend:latest"
+        echo "$EC2_SSH_KEY" >> ~/key.pem
+        chmod 600 ~/key.pem
       env:
         EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+    - name: Deploy Docker container on EC2
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ~/key.pem ubuntu@${{ secrets.EC2_IP }}
+        docker pull ${{ secrets.DOCKER_USERNAME }}/backend:latest
+#        &&
+#        docker run -d -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/backend:latest
 
