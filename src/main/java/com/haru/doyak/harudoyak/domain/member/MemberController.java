@@ -18,6 +18,7 @@ import java.util.List;
 public class MemberController {
     private final MemberService memberService;
     private final ShareDoyakService shareDoyakService;
+//  깃허브 액션 테스트 1
 
     /*
      * 회원의 댓글 모아보기
