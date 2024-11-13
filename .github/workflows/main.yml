@@ -51,7 +51,7 @@ jobs:
     # 9. EC2에서 도커를 실행
     - name: Deploy Docker container on EC2
       run: |
-        ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_KEY }} ec2-user@${{ secrets.EC2_IP }} "
+        ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_KEY }} ubuntu@${{ secrets.EC2_IP }}
         docker pull ${{ secrets.DOCKER_USERNAME }}/backend:latest &&
 #        docker run -d -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/backend:latest"
       env:
